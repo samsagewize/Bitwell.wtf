@@ -9,6 +9,7 @@
             font-family: 'Architects Daughter', cursive;
             text-align: center;
             overflow: hidden;
+            background-color: #000000; /* Set background color to black */
         }
         
         .space {
@@ -55,6 +56,23 @@
             font-size: 16px;
             margin-top: 20px;
         }
+        
+        .circle {
+            position: absolute;
+            font-size: 20px;
+            color: orange;
+            animation: fall linear;
+            z-index: -1;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
     </style>
 </head>
 <body>
@@ -67,21 +85,29 @@
     <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
     <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
 
-    <script>
-        const space = document.querySelector('.space');
+<script>
+      // Function to create a new coin element
+      function createCoin() {
+        const coin = document.createElement("div");
+        coin.className = "coin";
+        coin.innerHTML = "&#x1F4B0"; // Unicode for coin symbol
+        coin.style.left = Math.random() * 90 + "vw";
+        coin.style.animationDuration = Math.random() * 2 + 1 + "s";
+        document.body.appendChild(coin);
 
-        function getRandomColor() {
-          const green = Math.floor(Math.random() * 256);
-          const black = Math.floor(Math.random() * 256);
-          return `rgb(${0}, ${green}, ${0}), rgb(${0}, ${black}, ${0})`;
-        }
+        // Remove the coin element when it reaches the bottom
+        coin.addEventListener("animationend", () => {
+          coin.parentNode.removeChild(coin);
+        });
+      }
 
-        function changeBackground() {
-          const color = getRandomColor();
-          space.style.background = `linear-gradient(to bottom, ${color})`;
-        }
+      // Create coins at regular intervals
+      setInterval(createCoin, 1000);
 
-        setInterval(changeBackground, 5000); // Change background color every 5 seconds
+      // Disable scrolling on mobile devices
+      document.ontouchmove = function (event) {
+        event.preventDefault();
+      };
     </script>
-</body>
+  </body>
 </html>
