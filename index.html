@@ -76,6 +76,7 @@
             transition: background-color 0.3s ease;
             margin-top: 20px;
             margin-right: 10px;
+            cursor: pointer; /* Add cursor style */
         }
 
         .button:hover {
@@ -118,10 +119,10 @@
         <p class="note">The dev is cooking!</p>
         <p class="note">Pay close attention to the wishes</p>
 
-        <a class="button" href="https://www.ord.io/14612390" target="_blank">Bitwell 1.1</a>
-        <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1" target="_blank">Inscribe</a>
-        <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a>
-        <a class="button" href="https://well-2.gitbook.io/bitwell/.well" target="_blank">Gitbook</a>
+        <a class="button" href="https://www.ord.io/14612390">Bitwell 1.1</a>
+        <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1">Inscribe</a>
+        <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
+        <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
     </div>
 
     <script>
@@ -157,6 +158,15 @@
             // Show the content container
             const contentContainer = document.querySelector(".content-container");
             contentContainer.classList.add("visible");
+
+            // Handle button clicks
+            const buttons = document.querySelectorAll(".button");
+            buttons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const url = button.getAttribute("href");
+                    window.location.href = url; // Navigate to the URL
+                });
+            });
         });
 
         // Change background color based on mouse movement
@@ -175,4 +185,3 @@
     </script>
 </body>
 </html>
-
