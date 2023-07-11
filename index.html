@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Welcome to Bitwell</title>
@@ -85,8 +85,9 @@
     <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1">Inscribe</a>
     <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
     <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
+    <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
 
-<script>
+    <script>
       // Function to create a new coin element
       function createCoin() {
         const coin = document.createElement("div");
@@ -110,39 +111,39 @@
         event.preventDefault();
       };
 
-// Wait for the page to load
-        window.addEventListener("load", function () {
-            // Hide the loading container
-            const loadingContainer = document.querySelector(".loading-container");
-            loadingContainer.style.opacity = "0";
+      // Wait for the page to load
+      window.addEventListener("load", function () {
+        // Hide the loading container
+        const loadingContainer = document.querySelector(".loading-container");
+        loadingContainer.style.opacity = "0";
 
-            // Show the content container
-            const contentContainer = document.querySelector(".content-container");
-            contentContainer.classList.add("visible");
+        // Show the content container
+        const contentContainer = document.querySelector(".content-container");
+        contentContainer.classList.add("visible");
 
-            // Handle button clicks
-            const buttons = document.querySelectorAll(".button");
-            buttons.forEach(function (button) {
-                button.addEventListener("click", function () {
-                    const url = button.getAttribute("href");
-                    window.location.href = url; // Navigate to the URL
-                });
-            });
+        // Handle button clicks
+        const buttons = document.querySelectorAll(".button");
+        buttons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const url = button.getAttribute("href");
+            window.location.href = url; // Navigate to the URL
+          });
         });
+      });
 
-        // Change background color based on mouse movement
-        document.addEventListener("mousemove", function (event) {
-            const xPos = Math.round((event.clientX / window.innerWidth) * 255);
-            const yPos = Math.round((event.clientY / window.innerHeight) * 255);
-            const background = document.querySelector("body");
-            background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
-        });
+      // Change background color based on mouse movement
+      document.addEventListener("mousemove", function (event) {
+        const xPos = Math.round((event.clientX / window.innerWidth) * 255);
+        const yPos = Math.round((event.clientY / window.innerHeight) * 255);
+        const background = document.querySelector("body");
+        background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
+      });
 
-        // Reset background color when mouse leaves the page
-        document.addEventListener("mouseleave", function () {
-            const background = document.querySelector("body");
-            background.style.backgroundImage = "none";
-        });
+      // Reset background color when mouse leaves the page
+      document.addEventListener("mouseleave", function () {
+        const background = document.querySelector("body");
+        background.style.backgroundImage = "none";
+      });
     </script>
 </body>
 </html>
