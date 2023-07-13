@@ -1,144 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bitwell 1.2</title>
-  <style>
-    textarea {
-      width: 100%;
-      height: 200px;
-    }
-  </style>
+    <title>Welcome to Bitwell</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+        
+        body {
+            font-family: 'Architects Daughter', cursive;
+            text-align: center;
+            overflow: hidden;
+            background-color: #000000; /* Set background color to black */
+        }
+        
+        .space {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 72px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            position: relative;
+            margin-top: 200px;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            font-weight: bold;
+            font-style: italic;
+            font-family: 'Architects Daughter', cursive;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+        
+        .button:hover {
+            background-color: #2980b9;
+        }
+        
+        .note {
+            color: #fff;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        .circle {
+            position: absolute;
+            font-size: 20px;
+            color: orange;
+            animation: fall linear;
+            z-index: -1;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Bitwell 1.2</h1>
-  <form onsubmit="handleSubmit(event)">
-    <label for="text-input">Enter Text:</label>
-    <input type="text" id="text-input">
-    <label for="encryption-key-input">Encryption Key:</label>
-    <input type="number" id="encryption-key-input" min="0" max="255" value="0">
-    <button type="submit">Convert</button>
-  </form>
-  <textarea id="binary-art-output" readonly></textarea>
-  <a id="download-button" style="display: none;">Download Encrypted Binary Art</a>
+    <div class="space"></div>
+    <h1>Welcome to Bitwell</h1>
+    <p class="note">The dev is cooking!</p>
+    <p class="note">Pay close attention to the wishes</p>
+    
+    <a class="button" href="https://www.ord.io/14612390">Bitwell 1.1</a>
+    <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1">Inscribe</a>
+    <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
+    <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
+    <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
+    <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
 
-  <h1>Decrypt Binary Art</h1>
-  <form onsubmit="handleDecrypt(event)">
-    <label for="binary-art-input">Enter Binary Art:</label>
-    <textarea id="binary-art-input"></textarea>
-    <label for="decryption-key-input">Decryption Key:</label>
-    <input type="number" id="decryption-key-input" min="0" max="255" value="0">
-    <button type="submit">Decrypt</button>
-  </form>
-  <textarea id="decrypted-text-output" readonly></textarea>
 
-  <script>
-    function convertTextToBinaryArt(text) {
-      const binaryArt = [];
+    <script>
+      // Function to create a new coin element
+      function createCoin() {
+        const coin = document.createElement("div");
+        coin.className = "coin";
+        coin.innerHTML = "&#x1F4B0"; // Unicode for coin symbol
+        coin.style.left = Math.random() * 90 + "vw";
+        coin.style.animationDuration = Math.random() * 2 + 1 + "s";
+        document.body.appendChild(coin);
 
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i);
-        const charCode = char.charCodeAt(0);
-        let binary = charCode.toString(2).padStart(8, '0');
-
-        binary = binary.replace(/0/g, '⬛'); // Replace '0' with black square symbol
-        binary = binary.replace(/1/g, '⬜'); // Replace '1' with white square symbol
-
-        binaryArt.push(binary);
+        // Remove the coin element when it reaches the bottom
+        coin.addEventListener("animationend", () => {
+          coin.parentNode.removeChild(coin);
+        });
       }
 
-      return binaryArt.join('\n');
-    }
+      // Create coins at regular intervals
+      setInterval(createCoin, 1000);
 
-    function convertBinaryArtToText(binaryArt) {
-      const lines = binaryArt.split('\n');
-      let text = '';
+      // Disable scrolling on mobile devices
+      document.ontouchmove = function (event) {
+        event.preventDefault();
+      };
 
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const binaryChars = line.split(' ');
-        for (let j = 0; j < binaryChars.length; j++) {
-          const binaryChar = binaryChars[j];
-          const binaryCode = binaryChar.replace(/⬛/g, '0').replace(/⬜/g, '1');
-          const charCode = parseInt(binaryCode, 2);
-          const char = String.fromCharCode(charCode);
-          text += char;
-        }
-      }
+      // Wait for the page to load
+      window.addEventListener("load", function () {
+        // Hide the loading container
+        const loadingContainer = document.querySelector(".loading-container");
+        loadingContainer.style.opacity = "0";
 
-      return text;
-    }
+        // Show the content container
+        const contentContainer = document.querySelector(".content-container");
+        contentContainer.classList.add("visible");
 
-    function handleSubmit(event) {
-      event.preventDefault();
-      const textInput = document.getElementById('text-input');
-      const binaryArtOutput = document.getElementById('binary-art-output');
-      const downloadButton = document.getElementById('download-button');
-      const encryptionKeyInput = document.getElementById('encryption-key-input');
+        // Handle button clicks
+        const buttons = document.querySelectorAll(".button");
+        buttons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const url = button.getAttribute("href");
+            window.location.href = url; // Navigate to the URL
+          });
+        });
+      });
 
-      const text = textInput.value;
-      const encryptionKey = parseInt(encryptionKeyInput.value);
-      const encryptedText = encryptText(text, encryptionKey);
-      const binaryArt = convertTextToBinaryArt(encryptedText);
+      // Change background color based on mouse movement
+      document.addEventListener("mousemove", function (event) {
+        const xPos = Math.round((event.clientX / window.innerWidth) * 255);
+        const yPos = Math.round((event.clientY / window.innerHeight) * 255);
+        const background = document.querySelector("body");
+        background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
+      });
 
-      binaryArtOutput.value = binaryArt;
-
-      const encryptedHTML = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Encrypted Binary Art</title>
-        </head>
-        <body>
-          <pre>${binaryArt}</pre>
-        </body>
-        </html>
-      `;
-
-      const blob = new Blob([encryptedHTML], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      downloadButton.href = url;
-      downloadButton.download = 'encrypted_binary_art.html';
-    }
-
-    function encryptText(text, encryptionKey) {
-      let encryptedText = '';
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i);
-        const charCode = char.charCodeAt(0);
-        const encryptedCharCode = (charCode + encryptionKey) % 256;
-        encryptedText += String.fromCharCode(encryptedCharCode);
-      }
-      return encryptedText;
-    }
-
-    function decryptText(text, encryptionKey) {
-      let decryptedText = '';
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i);
-        const charCode = char.charCodeAt(0);
-        const decryptedCharCode = (charCode - encryptionKey + 256) % 256;
-        decryptedText += String.fromCharCode(decryptedCharCode);
-      }
-      return decryptedText;
-    }
-
-    function handleDecrypt(event) {
-      event.preventDefault();
-      const binaryArtInput = document.getElementById('binary-art-input');
-      const decryptedTextOutput = document.getElementById('decrypted-text-output');
-      const encryptionKeyInput = document.getElementById('decryption-key-input');
-
-      const binaryArt = binaryArtInput.value;
-      const encryptionKey = parseInt(encryptionKeyInput.value);
-      const decryptedBinaryArt = convertBinaryArtToText(binaryArt);
-      const decryptedText = decryptText(decryptedBinaryArt, encryptionKey);
-
-      decryptedTextOutput.value = decryptedText;
-    }
-  </script>
-</body>
-</html>
-
+      // Reset background color when mouse leaves the page
+      document.addEventListener("mouseleave", function () {
+        const background = document.querySelector("body");
+        background.style.backgroundImage = "none";
+      });
     </script>
 </body>
 </html>
