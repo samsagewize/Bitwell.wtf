@@ -88,134 +88,64 @@
     <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
     <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
 
-    <h1>Bitwell 1.2</h1>
-    <form onsubmit="handleSubmit(event)">
-      <label for="text-input">Enter Text:</label>
-      <input type="text" id="text-input">
-      <label for="encryption-key-input">Encryption Key:</label>
-      <input type="number" id="encryption-key-input" min="0" max="255" value="0">
-      <button type="submit">Convert</button>
-    </form>
-    <textarea id="binary-art-output" readonly></textarea>
-    <a id="download-button" style="display: none;">Download Encrypted Binary Art</a>
-
-    <h1>Decrypt Binary Art</h1>
-    <form onsubmit="handleDecrypt(event)">
-      <label for="binary-art-input">Enter Binary Art:</label>
-      <textarea id="binary-art-input"></textarea>
-      <label for="decryption-key-input">Decryption Key:</label>
-      <input type="number" id="decryption-key-input" min="0" max="255" value="0">
-      <button type="submit">Decrypt</button>
-    </form>
-    <textarea id="decrypted-text-output" readonly></textarea>
 
     <script>
-      function convertTextToBinaryArt(text) {
-        const binaryArt = [];
+      // Function to create a new coin element
+      function createCoin() {
+        const coin = document.createElement("div");
+        coin.className = "coin";
+        coin.innerHTML = "&#x1F4B0"; // Unicode for coin symbol
+        coin.style.left = Math.random() * 90 + "vw";
+        coin.style.animationDuration = Math.random() * 2 + 1 + "s";
+        document.body.appendChild(coin);
 
-        for (let i = 0; i < text.length; i++) {
-          const char = text.charAt(i);
-          const charCode = char.charCodeAt(0);
-          let binary = charCode.toString(2).padStart(8, '0');
-
-          binary = binary.replace(/0/g, '⬛'); // Replace '0' with black square symbol
-          binary = binary.replace(/1/g, '⬜'); // Replace '1' with white square symbol
-
-          binaryArt.push(binary);
-        }
-
-        return binaryArt.join('\n');
+        // Remove the coin element when it reaches the bottom
+        coin.addEventListener("animationend", () => {
+          coin.parentNode.removeChild(coin);
+        });
       }
 
-      function convertBinaryArtToText(binaryArt) {
-        const lines = binaryArt.split('\n');
-        let text = '';
+      // Create coins at regular intervals
+      setInterval(createCoin, 1000);
 
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-          const binaryChars = line.split(' ');
-          for (let j = 0; j < binaryChars.length; j++) {
-            const binaryChar = binaryChars[j];
-            const binaryCode = binaryChar.replace(/⬛/g, '0').replace(/⬜/g, '1');
-            const charCode = parseInt(binaryCode, 2);
-            const char = String.fromCharCode(charCode);
-            text += char;
-          }
-        }
-
-        return text;
-      }
-
-      function handleSubmit(event) {
+      // Disable scrolling on mobile devices
+      document.ontouchmove = function (event) {
         event.preventDefault();
-        const textInput = document.getElementById('text-input');
-        const binaryArtOutput = document.getElementById('binary-art-output');
-        const downloadButton = document.getElementById('download-button');
-        const encryptionKeyInput = document.getElementById('encryption-key-input');
+      };
 
-        const text = textInput.value;
-        const encryptionKey = parseInt(encryptionKeyInput.value);
-        const encryptedText = encryptText(text, encryptionKey);
-        const binaryArt = convertTextToBinaryArt(encryptedText);
+      // Wait for the page to load
+      window.addEventListener("load", function () {
+        // Hide the loading container
+        const loadingContainer = document.querySelector(".loading-container");
+        loadingContainer.style.opacity = "0";
 
-        binaryArtOutput.value = binaryArt;
+        // Show the content container
+        const contentContainer = document.querySelector(".content-container");
+        contentContainer.classList.add("visible");
 
-        const encryptedHTML = `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>Encrypted Binary Art</title>
-          </head>
-          <body>
-            <pre>${binaryArt}</pre>
-          </body>
-          </html>
-        `;
+        // Handle button clicks
+        const buttons = document.querySelectorAll(".button");
+        buttons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const url = button.getAttribute("href");
+            window.location.href = url; // Navigate to the URL
+          });
+        });
+      });
 
-        const blob = new Blob([encryptedHTML], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        downloadButton.href = url;
-        downloadButton.download = 'encrypted_binary_art.html';
-      }
+      // Change background color based on mouse movement
+      document.addEventListener("mousemove", function (event) {
+        const xPos = Math.round((event.clientX / window.innerWidth) * 255);
+        const yPos = Math.round((event.clientY / window.innerHeight) * 255);
+        const background = document.querySelector("body");
+        background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
+      });
 
-      function encryptText(text, encryptionKey) {
-        let encryptedText = '';
-        for (let i = 0; i < text.length; i++) {
-          const char = text.charAt(i);
-          const charCode = char.charCodeAt(0);
-          const encryptedCharCode = (charCode + encryptionKey) % 256;
-          encryptedText += String.fromCharCode(encryptedCharCode);
-        }
-        return encryptedText;
-      }
-
-      function decryptText(text, encryptionKey) {
-        let decryptedText = '';
-        for (let i = 0; i < text.length; i++) {
-          const char = text.charAt(i);
-          const charCode = char.charCodeAt(0);
-          const decryptedCharCode = (charCode - encryptionKey + 256) % 256;
-          decryptedText += String.fromCharCode(decryptedCharCode);
-        }
-        return decryptedText;
-      }
-
-      function handleDecrypt(event) {
-        event.preventDefault();
-        const binaryArtInput = document.getElementById('binary-art-input');
-        const decryptedTextOutput = document.getElementById('decrypted-text-output');
-        const encryptionKeyInput = document.getElementById('decryption-key-input');
-
-        const binaryArt = binaryArtInput.value;
-        const encryptionKey = parseInt(encryptionKeyInput.value);
-        const decryptedBinaryArt = convertBinaryArtToText(binaryArt);
-        const decryptedText = decryptText(decryptedBinaryArt, encryptionKey);
-
-        decryptedTextOutput.value = decryptedText;
-      }
-    </script>
-</body>
-</html>
+      // Reset background color when mouse leaves the page
+      document.addEventListener("mouseleave", function () {
+        const background = document.querySelector("body");
+        background.style.backgroundImage = "none";
+      });
     </script>
 </body>
 </html>
