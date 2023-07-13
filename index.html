@@ -95,9 +95,14 @@
         
         .output-container {
             margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
         }
         
         .output-container textarea {
+            width: calc(50% - 10px);
             height: 300px;
         }
     </style>
@@ -128,19 +133,21 @@
             <br>
             <button type="submit">Convert</button>
         </form>
-        <textarea id="binary-art-output" readonly></textarea>
-        <span id="unique-id-display"></span>
+        <div class="output-container">
+            <textarea id="binary-art-output" readonly></textarea>
+            <span id="unique-id-display"></span>
+        </div>
         <a id="download-button" style="display: none;">Download Encrypted Binary Art</a>
     </div>
 
     <div class="form-container">
-        <h2>Decrypt Binary Art</h2>
+        <h2>Bitwell 1.2</h2>
         <form onsubmit="handleDecrypt(event)">
-            <label for="binary-art-input">Enter Binary Art:</label>
+            <label for="binary-art-input">Make a Wish:</label>
             <br>
             <textarea id="binary-art-input" required></textarea>
             <br>
-            <label for="decryption-key-input">Decryption Key:</label>
+            <label for="decryption-key-input">Decrypt Wish:</label>
             <br>
             <input type="number" id="decryption-key-input" min="0" max="255" value="0" required>
             <br>
