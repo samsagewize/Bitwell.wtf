@@ -83,6 +83,13 @@
     <p class="note">The dev is cooking!</p>
     <p class="note">Pay close attention to the wishes</p>
     
+<div class="well">
+  <button id="enter" onclick="displayWalletInfo()">Enter</button>
+  <div id="accountAddress"></div>
+  <div id="inscriptionsContainer"></div>
+</div>
+
+
     <a class="button" href="https://www.ord.io/14612390">Bitwell 1.1</a>
     <a class="button" href="https://www.ord.io/16835826'">Bitwell 1.2</button>
     <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1">Inscribe</a>
@@ -91,7 +98,7 @@
     <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
     <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
     <a class="button" href="https://www.ord.io/19235550">Be WaterWorld</a>
-    <button onclick="connectWallet()">Connect Wallet</button>
+    
     
     <script>
         // Function to create a new coin element
@@ -108,6 +115,27 @@
                 coin.parentNode.removeChild(coin);
             });
         }
+
+
+async function displayWalletInfo() {
+  // Display the account address
+  let accountAddress = await window.unisat.getAccounts();
+  document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
+
+  // List of inscription IDs that we are interested in
+  let allowedIds = json_data.map(data => data.id);
+
+  // Display inscriptions
+  let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+  let filteredInscriptions = inscriptionsData.list.filter(inscription => allowedIds.includes(inscription.inscriptionId));
+      
+  let inscriptionImages = filteredInscriptions.map(inscription => {
+    let data = json_data.find(item => item.id === inscription.inscriptionId);
+    return data ? `<div class="item draggable"><img src="${data.meta.image}" alt="${data.meta.name}"></div>` : `<p class="item">${inscription.inscriptionId}</p>`;
+  });
+
+  document.getElementById("inscriptionsContainer").innerHTML = inscriptionImages.join('');
+}
 
         // Create coins at regular intervals
         setInterval(createCoin, 1000);
