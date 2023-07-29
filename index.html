@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no"/>
-    <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>Welcome to Bitwell</title>
-    <link rel="stylesheet" href="css/styles.1.0.1.css">
-    <script src="js/lib/indexeddb.js"></script>
-    <script src="js/lib/wif.js"></script>
-    <script src="js/lib/buffer.6.0.3.js"></script>
-    <script src="js/lib/tapscript.1.2.7.js"></script>
-    <script src="js/lib/crypto-utils.1.5.11.js"></script>
-    <script src="js/lib/bech32.2.0.0.js"></script>
-    <script src="js/lib/qrcode.js"></script>
-    <script src="https://unisat.io/_next/data/FJqw_KN_hpI4xI4tITJV9/search.json"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
         
@@ -88,16 +75,6 @@
         }
     </style>
 </head>
-
-<div class="app-wrapper">
-    <!-- ... (other content) ... -->
-
-    <div class="well">
-        <button id="enter" onclick="connectToWallet()">Enter</button>
-        <div id="accountAddress"></div>
-        <div id="inscriptionsContainer"></div>
-    </div>
-
 <body>
     <!-- Add the canvas element for the background animation -->
     <canvas id="c" class="space"></canvas>
@@ -118,21 +95,6 @@
     
     
     <script>
-
-    async function connectToWallet() {
-        try {
-            // Call the function to connect to the Unisat wallet
-            await window.unisat.connectWallet();
-
-            // Show a success message
-            document.getElementById("accountAddress").textContent = "Connected to Unisat Wallet";
-        } catch (error) {
-            // Handle any errors that may occur during connection
-            console.error("Error connecting to wallet:", error);
-            document.getElementById("accountAddress").textContent = "Failed to connect to wallet";
-        }
-    }
-
         // Function to create a new coin element
         function createCoin() {
             const coin = document.createElement("div");
@@ -147,33 +109,6 @@
                 coin.parentNode.removeChild(coin);
             });
         }
-
-
-async function connectToWallet() {
-            try {
-                // Call the function to connect to the Unisat wallet
-                await window.unisat.connectWallet();
-
-                // Show a success message
-                document.getElementById("accountAddress").textContent = "Connected to Unisat Wallet";
-            } catch (error) {
-                // Handle any errors that may occur during connection
-                console.error("Error connecting to wallet:", error);
-                document.getElementById("accountAddress").textContent = "Failed to connect to wallet";
-            }
-        }
-
-  // Display inscriptions
-  let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-  let filteredInscriptions = inscriptionsData.list.filter(inscription => allowedIds.includes(inscription.inscriptionId));
-      
-  let inscriptionImages = filteredInscriptions.map(inscription => {
-    let data = json_data.find(item => item.id === inscription.inscriptionId);
-    return data ? `<div class="item draggable"><img src="${data.meta.image}" alt="${data.meta.name}"></div>` : `<p class="item">${inscription.inscriptionId}</p>`;
-  });
-
-  document.getElementById("inscriptionsContainer").innerHTML = inscriptionImages.join('');
-}
 
         // Create coins at regular intervals
         setInterval(createCoin, 1000);
