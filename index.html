@@ -112,14 +112,19 @@
             }
         }
 
-        async function displayWalletInfo() {
-            let accountAddress = await window.unisat.getAccounts();
-            document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
+async function displayWalletInfo() {
+    let accountAddress = await window.unisat.getAccounts();
+    document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
 
-            let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-            let inscriptionImages = inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
-            document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
-        }
+    let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+    let inscriptionImages = inscriptionsData.list.map(inscription => `
+        <p class="item">
+            Inscription ID: ${inscription.inscriptionId}<br>
+            Inscription Name: ${inscription.inscriptionName}
+        </p>
+    `);
+    document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
+}
 
   function v(b, c) {
     b <<= 0;
