@@ -1,9 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Wallet Connection</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+    <title>Welcome to Bitwell</title>
+    <style>
+        
+@import
+ url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+        body {
+            font-family: 'Architects Daughter', cursive;
+            text-align: center;
+            overflow: hidden;
+            background-color: #000000; /* Set background color to black */
+        }
+
+        .space {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 72px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            position: relative;
+            margin-top: 200px;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            font-weight: bold;
+            font-style: italic;
+            font-family: 'Architects Daughter', cursive;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .note {
+            color: #fff;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .circle {
+            position: absolute;
+            font-size: 20px;
+            color: orange;
+            animation: fall linear;
+            z-index: -1;
+        }
+
+        /* New styles for the Unisat Connect button */
+        .unisat-connect-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 25px;
+            background-color: #ff6a00; /* Orange color */
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .unisat-connect-button:hover {
+            background-color: #ff9000; /* Slightly darker orange on hover */
+        }
+
+        .unisat-connect-button:active {
+            transform: scale(0.95); /* Slightly reduce size when button is pressed */
+        }
+    </style>
 <body>
     <button onclick="connectWallet()">Connect Wallet</button>
     <p id="accountAddress"></p>
@@ -29,6 +115,33 @@
             let inscriptionImages = inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
             document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
         }
+</head>
+<body>
+    <!-- Add the canvas element for the background animation -->
+    <canvas class="space" id="c"></canvas>
+    <h1>Welcome to Bitwell</h1>
+    <p class="note">The dev is cooking!</p>
+    <p class="note">Pay close attention to the wishes</p>
+    <a class="button" href="https://ord.io/14612390">Bitwell 1.1</a>
+    <a class="button" href="https://ord.io/16835826'">Bitwell 1.2</a>
+    <a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1">Inscribe</a>
+    <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
+    <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
+    <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
+    <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
+    <a class="button" href="https://ord.io/19235550">Be WaterWorld</a>
+
+    <!-- Add the Unisat Connect button -->
+    <button class="unisat-connect-button" onclick="connectWallet()">Unisat Connect</button>
+
+    <p id="accountAddress"></p>
+    <div id="inscriptions"></div>
+
+    <script>
+        // ... (existing scripts) ...
+    </script>
+    <script>
+        // ... (existing scripts) ...
     </script>
 </body>
 </html>
