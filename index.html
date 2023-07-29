@@ -117,13 +117,30 @@ async function displayWalletInfo() {
     document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
 
     let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-    let inscriptionImages = inscriptionsData.list.map(inscription => `
-        <p class="item">
-            Inscription ID: ${inscription.inscriptionId}<br>
-            Inscription Name: ${inscription.inscriptionName}
-        </p>
-    `);
-    document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
+
+    let inscriptionElements = await Promise.all(inscriptionsData.list.map(async (inscription) => {
+        // Fetch the JSON data from the file corresponding to the inscription ID
+        const response = await fetch(`${inscription.inscriptionId}.json`);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch JSON data for inscription ID ${inscription.inscriptionId}`);
+        }
+
+        const jsonData = await response.json();
+
+        // Assuming the JSON data contains an "inscriptionName" property
+        let inscriptionName = jsonData.inscriptionName;
+
+        // Return the HTML representation for each inscription
+        return `
+            <p class="item">
+                Inscription ID: ${inscription.inscriptionId}<br>
+                Inscription Name: ${inscriptionName}
+            </p>
+        `;
+    }));
+
+    document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
 }
 
   function v(b, c) {
