@@ -119,6 +119,24 @@
             let inscriptionImages = inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
             document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
         }
+
+// Display inscriptions
+      let inscriptionsData = await window.unisat.getInscriptions(0,1000);
+      let filteredInscriptions = inscriptionsData.list.filter(inscription => allowedIds.includes(inscription.inscriptionId));
+      
+      let inscriptionImages = filteredInscriptions.map(inscription => {
+        let data = json_data.find(item => item.id === inscription.inscriptionId);
+        return data ? `<div class="item draggable"><img src="${data.meta.image}" alt="${data.meta.name}"></div>` : `<p class="item">${inscription.inscriptionId}</p>`;
+      });
+      document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
+      
+      // Initialize all the .draggable elements to be disabled initially
+      $( ".draggable" ).draggable({ disabled: true });
+
+      // Hide the middle image
+      document.getElementById("middle-image").style.display = "none";
+    }
+
   function v(b, c) {
     b <<= 0;
     c <<= 0;
