@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Welcome to Bitwell</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+ <head>
+  <title>
+   Welcome to Bitwell
+  </title>
+  <style>
+   
+@import
+
+ url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
         
         body {
             font-family: 'Architects Daughter', cursive;
@@ -64,8 +69,10 @@
             animation: fall linear;
             z-index: -1;
         }
-        
-        @keyframes fall {
+
+@keyframes
+
+ fall {
             0% {
                 transform: translateY(-100vh);
             }
@@ -73,35 +80,76 @@
                 transform: translateY(100vh);
             }
         }
-    </style>
-</head>
-<body>
-    <!-- Add the canvas element for the background animation -->
-    <canvas id="c" class="space"></canvas>
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+  </script>
+  <script type="text/javascript">
+   async function connectWallet() {
+        try {
+            const accounts = await window.unisat.requestAccounts();
+            console.log('connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+            displayWalletInfo();
+        } catch (e) {
+            console.log('connect failed', e);
+            alert('Failed to connect wallet');
+        }
+    }
 
-    <h1>Welcome to Bitwell</h1>
-    <p class="note">The dev is cooking!</p>
-    <p class="note">Pay close attention to the wishes</p>
+    async function displayWalletInfo() {
+        let accountAddress = await window.unisat.getAccounts();
+        document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
 
-
-    <a class="button" href="https://www.ord.io/14612390">Bitwell 1.1</a>
-    <a class="button" href="https://www.ord.io/16835826'">Bitwell 1.2</button>
-    <a class="button" href="https://unisat.io/search?q=.well&type=text&p=1">Inscribe</a>
-    <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
-    <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
-    <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
-    <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
-    <a class="button" href="https://www.ord.io/19235550">Be WaterWorld</a>
-    
-    
-    <script>
-        // Function to create a new coin element
+        let inscriptionsData = await window.unisat.getInscriptions(0,1000);
+        let inscriptionImages = http://inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
+        document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
+    }
+  </script>
+ </head>
+ <body>
+  <!-- Add the canvas element for the background animation -->
+  <canvas class="space" id="c">
+  </canvas>
+  <h1>
+   Welcome to Bitwell
+  </h1>
+  <p class="note">
+   The dev is cooking!
+  </p>
+  <p class="note">
+   Pay close attention to the wishes
+  </p>
+  <a class="button" href="https://ord.io/14612390">
+   Bitwell 1.1
+  </a>
+  <a class="button" href="https://ord.io/16835826'">
+   Bitwell 1.2
+   <a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1">
+    Inscribe
+   </a>
+   <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">
+    Medium Article
+   </a>
+   <a class="button" href="https://well-2.gitbook.io/bitwell/.well">
+    Gitbook
+   </a>
+   <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">
+    Wishes From the Well
+   </a>
+   <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">
+    BitPidgey's
+   </a>
+   <a class="button" href="https://ord.io/19235550">
+    Be WaterWorld
+   </a>
+   <script>
+    // Function to create a new coin element
         function createCoin() {
             const coin = document.createElement("div");
             coin.className = "coin";
             coin.innerHTML = "&#x1F4B0"; // Unicode for coin symbol
-            coin.style.left = Math.random() * 90 + "vw";
-            coin.style.animationDuration = Math.random() * 2 + 1 + "s";
+            http://coin.style.left = Math.random() * 90 + "vw";
+            http://coin.style.animationDuration = Math.random() * 2 + 1 + "s";
             document.body.appendChild(coin);
 
             // Remove the coin element when it reaches the bottom
@@ -122,7 +170,7 @@
         window.addEventListener("load", function () {
             // Hide the loading container
             const loadingContainer = document.querySelector(".loading-container");
-            loadingContainer.style.opacity = "0";
+            http://loadingContainer.style.opacity = "0";
 
             // Show the content container
             const contentContainer = document.querySelector(".content-container");
@@ -143,18 +191,17 @@
             const xPos = Math.round((event.clientX / window.innerWidth) * 255);
             const yPos = Math.round((event.clientY / window.innerHeight) * 255);
             const background = document.querySelector("body");
-            background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
+            http://background.style.backgroundImage = `radial-gradient(circle, rgba(${xPos}, ${yPos}, 100, 0.8), rgba(0, 0, 0, 0))`;
         });
 
         // Reset background color when mouse leaves the page
         document.addEventListener("mouseleave", function () {
             const background = document.querySelector("body");
-            background.style.backgroundImage = "none";
+            http://background.style.backgroundImage = "none";
         });
-    </script>
-
-    <script>
-  function v(b, c) {
+   </script>
+   <script>
+    function v(b, c) {
     b <<= 0;
     c <<= 0;
     for (var a = c - i; a < c + i; a++) {
@@ -213,7 +260,7 @@ setInterval(function () {
     b = 0;
     o = j;
 
-    for (var e = d, g = m, h = o, y = n, r = q.data, s = x.data, t = 0; t < 400; t++) {
+    for (var e = d, g = m, h = o, y = n, r = http://q.data, s = http://x.data, t = 0; t < 400; t++) {
         for (var u = 0; u < e; u++) {
             a = g[h - e] + g[h + e] + g[h - 1] + g[h + 1] >> 1;
             a -= g[y + b];
@@ -248,7 +295,14 @@ var z = Math.random;
 setInterval(function () {
     v(z() * d, z() * 400);
 }, 700);
-
-    </script>
-</body>
+   </script>
+  </a>
+  <button onclick="connectWallet()">
+   Connect Wallet
+  </button>
+  <p id="accountAddress">
+  </p>
+  <div id="inscriptions">
+  </div>
+ </body>
 </html>
