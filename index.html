@@ -117,13 +117,14 @@ async function displayWalletInfo() {
     document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
 
     let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-    let inscriptionImages = inscriptionsData.list.map(inscription => `
-        <p class="item">
-            Inscription ID: ${inscription.inscriptionId}<br>
-            Inscription Name: ${inscription.inscriptionName}
-        </p>
+    let inscriptionElements = inscriptionsData.list.map(inscription => `
+        <div class="item">
+            <p>Inscription ID: ${inscription.inscriptionId}</p>
+            <p>Inscription Name: ${inscription.inscriptionName}</p>
+            <img src="${inscription.imageData}" alt="Inscription Image" />
+        </div>
     `);
-    document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionImages.join('');
+    document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
 }
 
 
