@@ -75,6 +75,13 @@
         }
     </style>
 </head>
+
+<div class="well">
+    <button id="enter" onclick="connectToWallet()">Enter</button>
+    <div id="accountAddress"></div>
+    <div id="inscriptionsContainer"></div>
+</div>
+
 <body>
     <!-- Add the canvas element for the background animation -->
     <canvas id="c" class="space"></canvas>
@@ -101,6 +108,21 @@
     
     
     <script>
+
+    async function connectToWallet() {
+        try {
+            // Call the function to connect to the Unisat wallet
+            await window.unisat.connectWallet();
+
+            // Show a success message
+            document.getElementById("accountAddress").textContent = "Connected to Unisat Wallet";
+        } catch (error) {
+            // Handle any errors that may occur during connection
+            console.error("Error connecting to wallet:", error);
+            document.getElementById("accountAddress").textContent = "Failed to connect to wallet";
+        }
+    }
+
         // Function to create a new coin element
         function createCoin() {
             const coin = document.createElement("div");
