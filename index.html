@@ -117,14 +117,60 @@ async function displayWalletInfo() {
     document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
 
     let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-    let inscriptionElements = inscriptionsData.list.map(inscription => `
-        <div class="item">
-            <p>Inscription ID: ${inscription.inscriptionId}</p>
-            <p>Inscription Name: ${inscription.inscriptionName}</p>
-            <img src="${inscription.imageData}" alt="Inscription Image" />
-        </div>
-    `);
+    let inscriptionElements = await Promise.all(inscriptionsData.list.map(async inscription => {
+        let imageData = await loadImageData(inscription.inscriptionId);
+
+        if (imageData) {
+            // Display the image if it exists
+            return `
+                <div class="item">
+                    <p>Inscription ID: ${inscription.inscriptionId}</p>
+                    <p>Inscription Name: ${inscription.inscriptionName}</p>
+                    <img src="${imageData}" alt="Inscription Image" />
+                </div>
+            `;
+        } else {
+            // Display the text file content if the image doesn't exist
+            let textData = await loadTextData(inscription.inscriptionId);
+            return `
+                <div class="item">
+                    <p>Inscription ID: ${inscription.inscriptionId}</p>
+                    <p>Inscription Name: ${inscription.inscriptionName}</p>
+                    <p>Text Data: ${textData}</p>
+                </div>
+            `;
+        }
+    }));
+
     document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
+}
+
+async function loadImageData(inscriptionId) {
+    // Fetch the image data for the given inscription ID, return null if the image doesn't exist
+    try {
+        const response = await fetch(`${inscriptionId}.png`);
+        if (!response.ok) {
+            return null;
+        }
+        const imageData = await response.text(); // Use appropriate method based on image data format
+        return imageData;
+    } catch (error) {
+        return null;
+    }
+}
+
+async function loadTextData(inscriptionId) {
+    // Fetch the text file data for the given inscription ID
+    try {
+        const response = await fetch(`${inscriptionId}.txt`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch text data for inscription ID ${inscriptionId}`);
+        }
+        const textData = await response.text();
+        return textData;
+    } catch (error) {
+        return "Text data not available.";
+    }
 }
 
 
