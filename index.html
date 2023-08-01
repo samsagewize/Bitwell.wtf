@@ -103,8 +103,14 @@
         .bitwell-list, .info-list {
             list-style-type: none;
             padding: 0;
-            display: inline-block;
-            vertical-align: top;
+            float: left;
+            width: 50%; /* Each list will take 50% of the container width */
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
     </style>
 </head>
