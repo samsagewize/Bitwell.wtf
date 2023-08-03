@@ -96,18 +96,6 @@
             cursor: pointer;
         }
 
- { padding: 0; margin: 0 }
-#unity-container { position: absolute }
-#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
-#unity-container.unity-mobile { width: 100%; height: 100% }
-#unity-canvas { background: #231F20 }
-.unity-mobile #unity-canvas { width: 100%; height: 100% }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
-#bitmap-loading { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) }
-.loading-block { width: 18px; height: 18px; }
-
         /* Add hover effect if desired */
         .unisat-connect-button:hover {
             background: linear-gradient(to right, #00ff00, #00cc00);
@@ -131,12 +119,12 @@
         <li><a class="button" href="https://ord.io/16835826'">Bitwell 1.2</a></li>
         <li><a class="button" href="https://www.ord.io/19973665'">Bitwell 1.3</a></li>
     </ul>
-    <a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1">Inscribe</a>
-    <a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3">Medium Article</a>
-    <a class="button" href="https://well-2.gitbook.io/bitwell/.well">Gitbook</a>
-    <a class="button" href="https://magiceden.io/ordinals/marketplace/wfw">Wishes From the Well</a>
-    <a class="button" href="https://magiceden.io/ordinals/marketplace/bitp">BitPidgey's</a>
-    <a class="button" href="https://ord.io/19235550">Be WaterWorld</a>
+<li><a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1" target="_blank">Inscribe</a></li>
+        <li><a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a></li>
+        <li><a class="button" href="https://well-2.gitbook.io/bitwell/.well" target="_blank">Gitbook</a></li>
+        <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well</a></li>
+        <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's</a></li>
+        <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld</a></li>
 
     <!-- Add the Unisat Connect button -->
     <button class="unisat-connect-button" onclick="connectWallet()">Unisat Connect</button>
