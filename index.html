@@ -169,10 +169,6 @@
 <input class="username-input" type="text" id="username" placeholder="Enter your username">
      <textarea class="chat-box" id="chat" placeholder="Type your message here..."></textarea>
     </div>
- <div>
-        <input type="text" id="message-input" placeholder="Type your message here...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
         <h1>Welcome to Bitwell</h1>
         <p class="note">The First Public Wishing Well On Bitcoin</p>
         <p class="note">Inscribe your wish on-chain</p>
@@ -193,6 +189,10 @@
 
         <div id="username-container"></div>
 
+    <div>
+        <input type="text" id="message-input" placeholder="Type your message here...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
 
     <div>
         <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
@@ -246,11 +246,7 @@
             // You can also add code here to post the message with the timestamp to a backend server or blockchain.
         }
     }
-                // Append the message to the chatData object
-                const newMessage = `${timestamp} - You: ${message}`;
-                chatData.channels[0].last_message_bmap[timestamp] = newMessage;
-            }
-        }
+
     // Call the displayMessages and displayUnisatAddress functions when the page loads
     window.onload = function() {
         displayMessages(chatData);
@@ -473,8 +469,6 @@ var chatData = {
         };
 
     </script>
-</body>
-</html>
 </body>
 </html>
 
