@@ -194,6 +194,14 @@
         <button onclick="sendMessage()">Send</button>
     </div>
 
+        <!-- Add the "Post" button to post messages -->
+        <button onclick="postMessage()">Post</button>
+    </div>
+
+   <div>
+        <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
+    </div>
+
     <div>
         <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
     </div>
@@ -224,6 +232,18 @@
         } catch (e) {
             console.log('connect failed', e);
             alert('Failed to connect wallet');
+        }
+    }
+
+// Function to post messages (for demonstration purposes, it will just alert the message)
+    function postMessage() {
+        const chatBox = document.getElementById("chat");
+        const message = chatBox.value.trim();
+        if (message !== "") {
+            // In a real application, you can send the message to a backend server or blockchain.
+            alert("Message posted:\n" + message);
+        } else {
+            alert("Please type a message before posting.");
         }
     }
 
