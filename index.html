@@ -189,6 +189,15 @@
 
         <div id="username-container"></div>
 
+    <div>
+        <input type="text" id="message-input" placeholder="Type your message here...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div>
+        <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
+    </div>
+
         <p id="accountAddress"></p>
         <div id="inscriptions"></div>
     </div>
@@ -217,6 +226,32 @@
             alert('Failed to connect wallet');
         }
     }
+
+ // Function to send messages
+    function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
+
+        if (message !== "") {
+            // Get the current timestamp
+            const timestamp = new Date().toLocaleString();
+
+            // Append the user's message with the timestamp to the chat box
+            const chatBox = document.getElementById("chat");
+            chatBox.value += `${timestamp} - You: ${message}\n`;
+
+            // Clear the message input
+            messageInput.value = "";
+
+            // You can also add code here to post the message with the timestamp to a backend server or blockchain.
+        }
+    }
+
+    // Call the displayMessages and displayUnisatAddress functions when the page loads
+    window.onload = function() {
+        displayMessages(chatData);
+        displayUnisatAddress();
+    };
 
 // Function to display the Unisat address as the username
     function displayUnisatAddress() {
