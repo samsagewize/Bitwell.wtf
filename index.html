@@ -184,22 +184,14 @@
         <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's</a></li>
         <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld</a></li>
 
-    <!-- Add the Unisat Connect button -->
-    <button class="unisat-connect-button" onclick="connectWallet()">Unisat Connect</button>
+        <!-- Add the Unisat Connect button -->
+        <button class="unisat-connect-button" onclick="connectWallet()">Unisat Connect</button>
 
-    <!-- Add a container to display the Unisat address as the username -->
-    <div id="username-container"></div>
+        <div id="username-container"></div>
 
-    <!-- Add the textbox to send messages -->
     <div>
         <input type="text" id="message-input" placeholder="Type your message here...">
         <button onclick="sendMessage()">Send</button>
-        <button onclick="postMessage()">Post</button>
-    </div>
-
-    <!-- Add the textbox to display messages -->
-    <div>
-        <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
     </div>
 
     <div>
@@ -232,18 +224,6 @@
         } catch (e) {
             console.log('connect failed', e);
             alert('Failed to connect wallet');
-        }
-    }
-
-// Function to post messages (for demonstration purposes, it will just alert the message)
-    function postMessage() {
-        const chatBox = document.getElementById("chat");
-        const message = chatBox.value.trim();
-        if (message !== "") {
-            // In a real application, you can send the message to a backend server or blockchain.
-            alert("Message posted:\n" + message);
-        } else {
-            alert("Please type a message before posting.");
         }
     }
 
@@ -489,6 +469,8 @@ var chatData = {
         };
 
     </script>
+</body>
+</html>
 </body>
 </html>
 
