@@ -148,11 +148,25 @@
             resize: none;
             overflow-y: auto;
         }
+
+        .username-input {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+            padding: 5px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <canvas class="space" id="c"></canvas>
     <div class="bitwell-container">
+<input class="username-input" type="text" id="username" placeholder="Enter your username">
      <textarea class="chat-box" id="chat" placeholder="Type your message here..."></textarea>
     </div>
         <h1>Welcome to Bitwell</h1>
@@ -351,6 +365,45 @@ var z = Math.random;
 setInterval(function () {
     v(z() * d, z() * 400);
 }, 700);
+
+var chatData = {
+            "channels": [
+                {
+                    "channel": "string",
+                    "last_message_bmap": {},
+                    "last_message_timestamp": "2023-08-06"
+                }
+            ]
+        };
+
+        // Function to display messages in the chat box
+        function displayMessages(data) {
+            var chatBox = document.getElementById("chat");
+            var messages = data.channels[0].last_message_bmap;
+            var messageText = "";
+
+            for (var key in messages) {
+                messageText += messages[key] + "\n";
+            }
+
+            chatBox.value = messageText;
+        }
+
+        // Function to handle username input
+        function handleUsernameInput() {
+            var usernameInput = document.getElementById("username");
+            var username = usernameInput.value.trim();
+
+            if (username !== "") {
+                var chatBox = document.getElementById("chat");
+                chatBox.value += "You are now known as: " + username + "\n";
+            }
+        }
+
+        // Call the displayMessages function when the page loads
+        window.onload = function() {
+            displayMessages(chatData);
+        };
 
     </script>
 </body>
