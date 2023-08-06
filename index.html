@@ -134,11 +134,27 @@
             height: 400px;
             overflow-y: auto;
         }
+ .chat-box {
+            width: 100%;
+            height: 150px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 14px;
+            padding: 10px;
+            margin-top: 20px;
+            resize: none;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
     <canvas class="space" id="c"></canvas>
     <div class="bitwell-container">
+     <textarea class="chat-box" id="chat" placeholder="Type your message here..."></textarea>
+    </div>
         <h1>Welcome to Bitwell</h1>
         <p class="note">The First Public Wishing Well On Bitcoin</p>
         <p class="note">Inscribe your wish on-chain</p>
