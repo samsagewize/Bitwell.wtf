@@ -83,12 +83,6 @@
     padding: 8px 15px;
 }
 
-.chat-box {
-    height: 100px; /* Adjust the height of the textbox */
-    font-size: 12px; /* Adjust the font size of the textbox */
-    margin-top: 10px;
-}
-
 /* Media query for mobile view */
 @media screen and (max-width: 600px) {
     /* Add your mobile-specific CSS here if needed */
@@ -106,15 +100,6 @@
         font-size: 10px; /* Adjust the font size of the textbox for mobile view */
     }
 }
-        /* Styles for the box and taskbar */
-        .bitwell-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 2px solid #fff;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
 
         .taskbar {
             padding: 10px;
@@ -123,18 +108,6 @@
             border-radius: 5px;
             margin-top: 20px;
             text-align: center;
-        }
-
-        .bitwell-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 2px solid #fff;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            /* Add height and make it scrollable */
-            height: 400px;
-            overflow-y: auto;
         }
 
 
@@ -172,23 +145,10 @@
         <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well</a></li>
         <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's</a></li>
         <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld</a></li>
-  <div class="bitwell-container">
-        <input class="username-input" type="text" id="username" placeholder="Enter your username">
-        <textarea class="chat-box" id="chat" placeholder="Type your message here..."></textarea>
-    </div>
+
     <!-- Add the Unisat Connect button -->
     <button class="unisat-connect-button" onclick="connectWallet()">Unisat Connect</button>
 
-    <div id="username-container"></div>
-
-    <div>
-        <input type="text" id="message-input" placeholder="Type your message here...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-
-    <div>
-        <textarea class="chat-box" id="chat" placeholder="Type your message here..." readonly></textarea>
-    </div>
 
     <p id="accountAddress"></p>
     <div id="inscriptions"></div>
