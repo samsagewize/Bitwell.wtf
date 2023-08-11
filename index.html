@@ -3,6 +3,73 @@
 <head>
     <title>Welcome to Bitwell</title>
     <style>
+
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #d6e9f7;
+  }
+
+  .well-container {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    perspective: 1000px;
+  }
+
+  .well {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    animation: spin 10s infinite linear;
+  }
+
+  .well > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    transform-origin: bottom center;
+    opacity: 0.8;
+  }
+
+  /* Walls */
+  .well .wall {
+    position: absolute;
+    width: 100%;
+    height: 20px; /* Height of the well walls */
+    background-color: #00a8e0; /* Blue color for walls */
+    transform-origin: bottom center;
+  }
+
+  /* Coin */
+  .coin {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: orange;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    animation: moveCoin 4s infinite linear;
+  }
+
+  @keyframes spin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+
+  @keyframes moveCoin {
+    0%, 100% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(0) rotate(180deg); opacity: 0; }
+  }
         body {
             font-family: 'Architects Daughter', cursive;
             text-align: center;
@@ -104,10 +171,32 @@
     </style>
 </head>
 <body>
-    <canvas class="space" id="c"></canvas>
-    <div class="bitwell-container">
-<input class="username-input" type="text" id="username" placeholder="Enter your username">
-     <textarea class="chat-box" id="chat" placeholder="Type your message here..."></textarea>
+<div class="well-container">
+  <div class="well">
+    <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
+    <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
+  </div>
+  <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(72deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(108deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(144deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(180deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(216deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(252deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
+  <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
+</div>
     </div>
         <h1>Welcome to Bitwell</h1>
         <p class="note">The First Public Wishing Well On Bitcoin</p>
@@ -233,173 +322,6 @@ async function displayWalletInfo() {
     document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
 }
 
-async function loadImageData(inscriptionId) {
-    // Fetch the image data for the given inscription ID, return null if the image doesn't exist
-    try {
-        const response = await fetch(`${inscriptionId}.png`);
-        if (!response.ok) {
-            return null;
-        }
-        const imageData = await response.text(); // Use appropriate method based on image data format
-        return imageData;
-    } catch (error) {
-        return null;
-    }
-}
-
-async function loadTextData(inscriptionId) {
-    // Fetch the text file data for the given inscription ID
-    try {
-        const response = await fetch(`${inscriptionId}.txt`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch text data for inscription ID ${inscriptionId}`);
-        }
-        const textData = await response.text();
-        return textData;
-    } catch (error) {
-        return "Text data not available.";
-    }
-}
-
-    // Call the displayMessages and displayUnisatAddress functions when the page loads
-    window.onload = function() {
-        displayMessages(chatData);
-        displayUnisatAddress();
-    };
-
-  function v(b, c) {
-    b <<= 0;
-    c <<= 0;
-    for (var a = c - i; a < c + i; a++) {
-        for (var e = b - i; e < b + i; e++) {
-            m[j + a * d + e] += 512;
-        }
-    }
-}
-
-var k = document.getElementById("c"),
-    l = k.getContext("2d"),
-    d = 400,
-    w = d >> 1,
-    A = d * 402 * 2,
-    j = d,
-    n = d * 403,
-    i = 3,
-    o,
-    m = [],
-    p = [],
-    q,
-    x;
-
-k.width = d;
-k.height = 400;
-
-with (l) {
-    fillStyle = "orange"; // Change the color to orange
-    fillRect(0, 0, d, 400);
-    fillStyle = "#a2ddf8"; // Restore the blue color for the water effect
-    save();
-    rotate(-0.785);
-
-    // Draw orange squares instead of stripes
-    for (var f = 0; f < 20; f++) {
-        for (var s = 0; s < 20; s++) {
-            fillRect(f * 40, s * 40, 20, 20);
-        }
-    }
-    restore();
-}
-
-x = l.getImageData(0, 0, d, 400);
-q = l.getImageData(0, 0, d, 400);
-for (var f = 0; f < A; f++) p[f] = m[f] = 0;
-
-k.onmousemove = function (b) {
-    v(b.offsetX || b.layerX, b.offsetY || b.layerY);
-};
-
-setInterval(function () {
-    var b, c, a;
-    b = j;
-    j = n;
-    n = b;
-    b = 0;
-    o = j;
-
-    for (var e = d, g = m, h = o, y = n, r = q.data, s = x.data, t = 0; t < 400; t++) {
-        for (var u = 0; u < e; u++) {
-            a = g[h - e] + g[h + e] + g[h - 1] + g[h + 1] >> 1;
-            a -= g[y + b];
-            a -= a >> 5;
-            g[y + b] = a;
-            a = 1024 - a;
-            c = p[b];
-            p[b] = a;
-            if (c != a) {
-                c = ((u - w) * a / 1024 << 0) + w;
-                a = ((t - 200) * a / 1024 << 0) + 200;
-                if (c >= e) c = e - 1;
-                if (c < 0) c = 0;
-                if (a >= 400) a = 399;
-                if (a < 0) a = 0;
-                a = (c + a * e) * 4;
-                c = b * 4;
-                r[c] = s[a];
-                r[c + 1] = s[a + 1];
-                r[c + 2] = s[a + 2];
-            }
-            ++h;
-            ++b;
-        }
-    }
-
-    o = h;
-    l.putImageData(q, 0, 0);
-}, 30);
-
-var z = Math.random;
-setInterval(function () {
-    v(z() * d, z() * 400);
-}, 700);
-
-var chatData = {
-            "channels": [
-                {
-                    "channel": "string",
-                    "last_message_bmap": {},
-                    "last_message_timestamp": "2023-08-06"
-                }
-            ]
-        };
-
-        // Function to display messages in the chat box
-        function displayMessages(data) {
-            var chatBox = document.getElementById("chat");
-            var messages = data.channels[0].last_message_bmap;
-            var messageText = "";
-
-            for (var key in messages) {
-                messageText += messages[key] + "\n";
-            }
-
-            chatBox.value = messageText;
-        }
-
-        // Function to handle username input
-        function handleUsernameInput() {
-            var usernameInput = document.getElementById("username");
-            var username = usernameInput.value.trim();
-
-            if (username !== "") {
-                var chatBox = document.getElementById("chat");
-                chatBox.value += "You are now known as: " + username + "\n";
-            }
-        }
-
-        // Call the displayMessages function when the page loads
-        window.onload = function() {
-            displayMessages(chatData);
-        };
 
     </script>
 </body>
