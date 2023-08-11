@@ -6,7 +6,10 @@ import { useRef, useEffect, useState } from 'react';
 
 import { instantiateBackground } from '../utils/background.js';
 import { b64encodedUrl } from '../utils/html.js';
-import { SectionHeader } from '../components/sections.jsx';
+import { Section } from '../components/section.jsx';
+import { InscriptionPicker, IMAGE_TYPE, IFRAME_TYPE } from '../components/picker.jsx';
+import { BACKGROUND_INSCRIPTIONS } from '../config/backgrounds.js';
+import { PUNK_INSCRIPTIONS } from '../config/punks.js';
 
 const CANVAS_DIM = 400;
 const PREVIEW = false;
@@ -44,20 +47,20 @@ export default function Home() {
         <canvas ref={canvasRef} className="w-full h-full" width={CANVAS_DIM} height={CANVAS_DIM}></canvas>
       </div>
       <div className="absolute top-0 left-0 w-screen h-screen" style={{zIndex: 200}}>
-        <pre className="flex justify-center font-mono font-wrap text-start text-xs md:text-md lg:text-xl font-bold p-4">
+        <pre className="flex justify-center font-mono font-wrap text-start text-xs md:text-md lg:text-xl font-bold">
           {bitwellPunksHeader()}
         </pre>
-        <div className="flex flex-wrap justify-center gap-4 w-screen">
-          <div className="border-x-2 border-x-bitwell-blue w-fit min-w-[50%]">
-            <SectionHeader isExpanded={currentExpanded == BACKGROUND_STAGE} onClick={() => setCurrentExpanded(BACKGROUND_STAGE)}>
-              Step 1: Choose Your Background
-            </SectionHeader>
-            <SectionHeader isExpanded={currentExpanded == PUNK_STAGE} onClick={() => setCurrentExpanded(PUNK_STAGE)}>
-              Step 2: Choose Your Punk
-            </SectionHeader>
-            <SectionHeader isExpanded={currentExpanded == WISH_STAGE} onClick={() => setCurrentExpanded(WISH_STAGE)}>
-              Step 3: Write Your Wish
-            </SectionHeader>
+        <div className="flex flex-wrap justify-center gap-4 w-screen p-4">
+          <div className="border-x-2 border-x-bitwell-blue md:w-[60%] min-w-[50%]">
+            <Section isExpanded={currentExpanded == BACKGROUND_STAGE} onClick={() => setCurrentExpanded(BACKGROUND_STAGE)} label="Step 1: Choose Your Background">
+              <InscriptionPicker type={IFRAME_TYPE} selectedAttribute={background} setSelectedAttribute={setBackground} inscriptions={BACKGROUND_INSCRIPTIONS} />
+            </Section>
+            <Section isExpanded={currentExpanded == PUNK_STAGE} onClick={() => setCurrentExpanded(PUNK_STAGE)} label="Step 2: Choose Your Punk">
+              <InscriptionPicker type={IMAGE_TYPE} selectedAttribute={punk} setSelectedAttribute={setPunk} inscriptions={PUNK_INSCRIPTIONS} />
+            </Section>
+            <Section isExpanded={currentExpanded == WISH_STAGE} onClick={() => setCurrentExpanded(WISH_STAGE)} label="Step 3: Write Your Wish">
+              Wish writing...
+            </Section>
           </div>
           <div className="border-2 border-bitwell-blue w-fit min-w-[33%]">
             <iframe className="max-w-full h-full" sandbox="allow-scripts" src={b64encodedUrl(buildPunksHtml(background, punk, wish, PREVIEW))} />
