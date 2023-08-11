@@ -12,6 +12,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'bitwell-blue': '#a2ddf8',
+        'bitwell-orange': 'orange',
+      },
+    },
+    fontFamily: {
+      'main': ['Architects Daughter', 'cursive']
     },
   },
   plugins: [],
