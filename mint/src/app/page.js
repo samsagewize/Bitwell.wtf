@@ -15,6 +15,15 @@ function buildPunksHtml(background, punk, wish, preview) {
   return ``
 }
 
+function bitwellPunksHeader() {
+  return `
+ ___ _ _              _ _   ___           _
+| _ |_) |___ __ _____| | | | _ \\_  _ _ _ | |__ ___
+| _ \\ |  _\\ V  V / -_) | | |  _/ || | ' \\| / /(_-<
+|___/_|\\__|\\_/\\_/\\___|_|_| |_|  \\_,_|_||_|_\\_\\/__/
+  `;
+}
+
 export default function Home() {
   const canvasRef = useRef();
 
@@ -35,9 +44,9 @@ export default function Home() {
         <canvas ref={canvasRef} className="w-full h-full" width={CANVAS_DIM} height={CANVAS_DIM}></canvas>
       </div>
       <div className="absolute top-0 left-0 w-screen h-screen" style={{zIndex: 200}}>
-        <div className="flex justify-center text-center text-4xl font-main font-bold p-4">
-          Welcome to Bitwell Punks
-        </div>
+        <pre className="flex justify-center font-mono font-wrap text-start text-xs md:text-md lg:text-xl font-bold p-4">
+          {bitwellPunksHeader()}
+        </pre>
         <div className="flex flex-wrap justify-center gap-4 w-screen">
           <div className="border-x-2 border-x-bitwell-blue w-fit min-w-[50%]">
             <SectionHeader isExpanded={currentExpanded == BACKGROUND_STAGE} onClick={() => setCurrentExpanded(BACKGROUND_STAGE)}>
