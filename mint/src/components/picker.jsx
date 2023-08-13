@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-const INSCRIPTION_BASE = 'https://ordinals.com/content';
+import { INSCRIPTION_CDN } from '../config/ordinals.js';
 
 export const IMAGE_TYPE = 'image';
 export const IFRAME_TYPE = 'iframe';
@@ -25,7 +25,7 @@ export function InscriptionPicker({ type, inscriptions, selectedAttribute, setSe
     const isSelected = (selectedAttribute === key);
     inscriptionsDoms.push(
       <div key={key} className={`p-2 cursor-pointer border-2 ${isSelected ? 'border-bitwell-blue' : 'border-transparent'}`} onClick={() => setSelectedAttribute(key)}>
-        {componentFor(type, key, `${INSCRIPTION_BASE}/${inscriptions[key]}`)}
+        {componentFor(type, key, `${INSCRIPTION_CDN}/${inscriptions[key]}`)}
         <div className={`mt-2 ${isSelected ? 'font-bold' : ''}`}>
           {key}
         </div>
