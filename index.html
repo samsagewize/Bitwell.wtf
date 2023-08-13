@@ -175,11 +175,30 @@
       color: #fff;
       text-shadow: 2px 2px 2px #129
     }
-  </style><audio controls id=sound src=""></audio><button onclick=PlaySound() id=make-wish-btn url=/content/4feed72372252993c6885a51036a4152fd4346baae18722bca9d45f52cb60b63i0>Play</button>
+  <body>
+  <audio controls id="sound" src=""></audio>
+  <button onclick="PlaySound()" id="make-wish-btn" url="/content/4feed72372252993c6885a51036a4152fd4346baae18722bca9d45f52cb60b63i0">Play</button>
   <h1>Bitwell 1.4</h1>
-  <h2>Wishes from the Well</h2><button onclick=setRandomGradientBackground() class="btn btn-random"></button> <label for=text-input></label> <input id=text-input placeholder="Enter text here"> <button onclick=convertTextToBinary() id=make-wish-btn>Make A Wish</button> <label for=binary-output>Binary Output:</label> <textarea id=binary-output rows=4 readonly></textarea> <button onclick=copyBinaryOutput() id=copy-btn>Copy Wish</button> <label for=decryption-input>Enter Binary to Decrypt:</label> <textarea id=decryption-input rows=4 placeholder="Enter binary to decrypt"></textarea> <button onclick=decryptBinary() id=decrypt-btn>Decrypt Wish</button> <label for=decrypted-output>Decrypted Wish:</label> <textarea id=decrypted-output rows=4 placeholder="Decrypted wish will appear here"></textarea>
-  <div id=water-container style=font-size:24px></div><label for=binary-from-emoji></label>
-  <div id=binary-from-emoji></div>
+  <h2>Wishes from the Well</h2>
+  <button onclick="setRandomGradientBackground()" class="btn btn-random"></button>
+  <label for="text-input"></label>
+  <input id="text-input" placeholder="Enter text here">
+  <button onclick="convertTextToBinary()" id="make-wish-btn">Make A Wish</button>
+  <label for="binary-output">Binary Output:</label>
+  <textarea id="binary-output" rows="4" readonly></textarea>
+  <button onclick="copyBinaryOutput()" id="copy-btn">Copy Wish</button>
+  <label for="decryption-input">Enter Binary to Decrypt:</label>
+  <textarea id="decryption-input" rows="4" placeholder="Enter binary to decrypt"></textarea>
+  <button onclick="decryptBinary()" id="decrypt-btn">Decrypt Wish</button>
+  <label for="decrypted-output">Decrypted Wish:</label>
+  <textarea id="decrypted-output" rows="4" placeholder="Decrypted wish will appear here"></textarea>
+  <div id="water-container" style="font-size: 24px"></div>
+  <label for="binary-from-emoji"></label>
+  <div id="binary-from-emoji"></div>
+  <div class="falling-container"></div>
+  <div class="well-container">
+    <div class="well"></div>
+  </div>
   <script>
     function convertTextToBinary() {
       var textInput = document.getElementById('text-input');
