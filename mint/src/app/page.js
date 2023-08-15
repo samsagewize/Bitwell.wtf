@@ -15,6 +15,8 @@ import { PUNK_INSCRIPTIONS } from '../config/punks.js';
 const CANVAS_DIM = 400;
 const PREVIEW = true;
 
+const JQUERY_INSCRIPTION = '773e4865bcf3084e6d6ee5d49136fb5f7071d4c050ec4aeeaeb9c6d24fea5fc1i0';
+
 function buildPunksHtml(name, background, punk, wish, preview) {
   return `
   <html lang="en">
@@ -25,8 +27,18 @@ function buildPunksHtml(name, background, punk, wish, preview) {
       ${preview ? `<base href=${(typeof window !== "undefined") ? window.location : null}>` : ''}
     </head>
     <body style="margin: 0px;">
-      <iframe src="${preview ? INSCRIPTION_CDN : ''}/${background}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
-      <img src="${preview ? INSCRIPTION_CDN : ''}/${punk}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:20;image-rendering:pixelated" />
+      <iframe src="${preview ? INSCRIPTION_CDN : '/content'}/${background}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
+      <img src="${preview ? INSCRIPTION_CDN : '/content'}/${punk}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:20;image-rendering:pixelated" />
+      <div id="wish" style="font-size:1.5rem;position:absolute;text-align:center;width:100%;height:auto;top:10;font-weight:bold;z-index:20;color:white;">
+        ${wish}
+      </div>
+      <script type="module">
+        const JQUERY_INSCRIPTION = '${JQUERY_INSCRIPTION}';
+        const jqueryResponse = await fetch(\`${preview ? INSCRIPTION_CDN : '/content'}/\${JQUERY_INSCRIPTION}\`);
+        eval(await jqueryResponse.text());
+        $('body').click(() => $('#wish').show(0, () => setTimeout(() => $('#wish').fadeOut(3000), 5000)));
+        $('#wish').fadeOut(3000);
+      </script>
     </body>
   </html>`;
 }
@@ -72,11 +84,11 @@ export default function Home() {
               <InscriptionPicker type={IMAGE_TYPE} selectedAttribute={punk} setSelectedAttribute={setPunk} inscriptions={PUNK_INSCRIPTIONS} />
             </Section>
             <Section isExpanded={currentExpanded == WISH_STAGE} onClick={() => setCurrentExpanded(WISH_STAGE)} label="Step 3: Write Your Wish">
-              Wish writing...
+              <input type="text" value={wish} onInput={e => setWish(e.target.value)} class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
             </Section>
           </div>
-          <div className="border-2 border-bitwell-blue w-fit min-w-[33%]">
-            <iframe className="w-full h-full" sandbox="allow-scripts" src={b64encodedUrl(buildPunksHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, PREVIEW))} />
+          <div className="w-fit min-w-[33%]">
+            <iframe className="mx-auto h-full aspect-square border-2 border-bitwell-blue" sandbox="allow-scripts" src={b64encodedUrl(buildPunksHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, PREVIEW))} />
           </div>
         </div>
       </div>
