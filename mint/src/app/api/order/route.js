@@ -36,11 +36,20 @@ export async function POST(req) {
       return NextResponse.json("failure", {status: 400, statusText: "Invalid payment address"});
     }
 
-    // Check if the punk has already been taken
+    // Validate that the user has good parameters
     const name = reservationRequest.punk;
     const punk = PUNK_INSCRIPTIONS[name];
-    const background = BACKGROUND_INSCRIPTIONS[reservationRequest.background];
+    const backgroundName = reservationRequest.background;
+    const background = BACKGROUND_INSCRIPTIONS[backgroundName];
     const wish = reservationRequest.wish;
+    if (!punk) {
+      return NextResponse.json("failure", {status: 400, statusText: `Could not find Bitwell '${name}'`});
+    }
+    if (!background) {
+      return NextResponse.json("failure", {status: 400, statusText: `Could not find '${backgroundName}'`});
+    }
+
+    // Check if the punk has already been taken
     const isActivePredicate = {
       OR: [
         { minted: true },
