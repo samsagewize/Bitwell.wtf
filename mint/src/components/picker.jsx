@@ -23,7 +23,7 @@ function componentFor(type, label, src) {
   }
 }
 
-export function InscriptionPicker({ type, inscriptions, selectedAttribute, setSelectedAttribute }) {
+export function InscriptionPicker({ type, inscriptions, inactive, selectedAttribute, setSelectedAttribute }) {
   const [page, setPage] = useState(1);
 
   const inscriptionNames = Object.keys(inscriptions);
@@ -32,9 +32,10 @@ export function InscriptionPicker({ type, inscriptions, selectedAttribute, setSe
   const currentMax = page * INSCRIPTIONS_PER_PAGE;
   const inscriptionsDoms = [];
   for (const key of inscriptionNames.slice(currentMin, currentMax)) {
+    const isInactive = inactive.includes(key);
     const isSelected = (selectedAttribute === key);
     inscriptionsDoms.push(
-      <div key={key} className={`p-2 cursor-pointer border-2 ${isSelected ? 'border-bitwell-blue' : 'border-transparent'}`} onClick={() => setSelectedAttribute(key)}>
+      <div key={key} className={`p-2 border-2 ${isSelected ? 'border-bitwell-blue' : 'border-transparent'} ${isInactive ? 'opacity-40 grayscale' : 'cursor-pointer'}`} onClick={() => !isInactive && setSelectedAttribute(key)}>
         {componentFor(type, key, `${INSCRIPTION_CDN}/${inscriptions[key]}`)}
         <div className={`mt-2 ${isSelected ? 'font-bold' : ''}`}>
           {key}
