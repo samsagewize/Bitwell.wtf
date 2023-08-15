@@ -55,9 +55,17 @@ async function performMintTxn(background, punk, wish, wallet, setStatusMessage) 
   }
 }
 
+function getDefaultPunk(punkInscriptions, inactivePunks) {
+  for (const punkInscription of Object.keys(punkInscriptions)) {
+    if (!inactivePunks.includes(punkInscription)) {
+      return punkInscription;
+    }
+  }
+}
+
 export function Minter({ inactivePunks }) {
   const [background, setBackground] = useState(Object.keys(BACKGROUND_INSCRIPTIONS)[0]);
-  const [punk, setPunk] = useState('');
+  const [punk, setPunk] = useState(getDefaultPunk(PUNK_INSCRIPTIONS, inactivePunks));
   const [wish, setWish] = useState('');
 
   const [wallet, setWallet] = useState(Wallets.XVERSE_WALLET);
