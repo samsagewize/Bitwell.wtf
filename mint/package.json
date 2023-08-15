@@ -18,7 +18,7 @@
   "dependencies": {
     "autoprefixer": "10.4.14",
     "bitcoin-address-validation": "2.2.1",
-    "btc-dapp-js": "0.1.0",
+    "btc-dapp-js": "0.1.2",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "next": "13.4.13",

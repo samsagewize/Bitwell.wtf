@@ -22,7 +22,7 @@ const SATS_TO_BTC = 100000000;
 async function performMintTxn(background, punk, wish, wallet, setStatusMessage) {
   try {
     const ordinalsAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
-    const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
+    const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.PAYMENT_TYPE);
     const orderResponse = await fetch('/api/order', {
       method: 'POST',
       headers: {
@@ -48,7 +48,7 @@ async function performMintTxn(background, punk, wish, wallet, setStatusMessage) 
 
     const btcAmount = parseInt(orderInfo.amount) / SATS_TO_BTC;
     setStatusMessage(`Awaiting payment of ${btcAmount}BTC to '${orderInfo.address}' to complete order...`);
-    await Wallets.sendBtc(wallet, orderInfo.address, orderInfo.amount);
+    await Wallets.sendBtc(wallet, orderInfo.address, orderInfo.amount, paymentAddr);
     setStatusMessage(`Sent ${btcAmount}BTC to '${orderInfo.address}'! Your inscription should arrive shortly.`);
   } catch (err) {
     setStatusMessage(`An error occurred: ${JSON.stringify(err)}`);
