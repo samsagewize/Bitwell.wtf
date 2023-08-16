@@ -16,6 +16,7 @@ module.exports = {
         'bitwell-blue': '#a2ddf8',
         'bitwell-light-blue': '#d6e9f7',
         'bitwell-orange': 'orange',
+        'bitwell-purple': '#342e4f'
       },
     },
     fontFamily: {

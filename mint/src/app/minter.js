@@ -77,7 +77,7 @@ export function Minter({ inactivePunks }) {
 
   return (
     <div className="flex flex-wrap justify-center gap-4 w-screen p-4">
-      <div className="border-x-2 border-x-bitwell-blue md:w-[60%] min-w-[50%]">
+      <div className="border-x-2 border-x-white md:w-[60%] min-w-[50%]">
         <Section isExpanded={currentExpanded == BACKGROUND_STAGE} onClick={() => setCurrentExpanded(BACKGROUND_STAGE)} label="Step 1: Choose Your Background">
           <InscriptionPicker type={IFRAME_TYPE} selectedAttribute={background} setSelectedAttribute={setBackground} inscriptions={BACKGROUND_INSCRIPTIONS} inactive={[]}/>
         </Section>
@@ -91,7 +91,7 @@ export function Minter({ inactivePunks }) {
             </div>
             <div className="flex justify-between mb-2">
               <div>
-                <p class="text-sm text-gray-500">Select your wallet provider</p>
+                <p className="text-sm text-gray-400">Select your wallet provider</p>
                 <div className="flex gap-3">
                   <CheckboxWithLabel name="wallet" label={Wallets.HIRO_WALLET} checked={wallet === Wallets.HIRO_WALLET} onChange={() => setWallet(Wallets.HIRO_WALLET)} />
                   <CheckboxWithLabel name="wallet" label={Wallets.UNISAT_WALLET} checked={wallet === Wallets.UNISAT_WALLET} onChange={() => setWallet(Wallets.UNISAT_WALLET)} />
@@ -107,14 +107,14 @@ export function Minter({ inactivePunks }) {
                   }
               }} />
             </div>
-            <div className="text-sm text-gray-500 italic">
+            <div className="text-sm text-gray-400 italic">
               {statusMessage}
             </div>
           </div>
         </Section>
       </div>
       <div className="w-fit min-w-[33%]">
-        <iframe className="mx-auto h-full aspect-square border-2 border-bitwell-blue" sandbox="allow-scripts" src={b64encodedUrl(buildBitwellHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, PREVIEW))} />
+        <iframe className="mx-auto h-full aspect-square border-2 border-white" sandbox="allow-scripts" src={b64encodedUrl(buildBitwellHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, PREVIEW))} />
       </div>
     </div>
   );

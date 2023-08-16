@@ -35,7 +35,7 @@ export function InscriptionPicker({ type, inscriptions, inactive, selectedAttrib
     const isInactive = inactive.includes(key);
     const isSelected = (selectedAttribute === key);
     inscriptionsDoms.push(
-      <div key={key} className={`p-2 border-2 ${isSelected ? 'border-bitwell-blue' : 'border-transparent'} ${isInactive ? 'opacity-40 grayscale' : 'cursor-pointer'}`} onClick={() => !isInactive && setSelectedAttribute(key)}>
+      <div key={key} className={`p-2 border-2 ${isSelected ? 'border-white' : 'border-transparent'} ${isInactive ? 'opacity-40 grayscale' : 'cursor-pointer'}`} onClick={() => !isInactive && setSelectedAttribute(key)}>
         {componentFor(type, key, `${INSCRIPTION_CDN}/${inscriptions[key]}`)}
         <div className={`mt-2 ${isSelected ? 'font-bold' : ''}`}>
           {key}
