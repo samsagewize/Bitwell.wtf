@@ -14,6 +14,7 @@ module.exports = {
       },
       colors: {
         'bitwell-blue': '#a2ddf8',
+        'bitwell-light-blue': '#d6e9f7',
         'bitwell-orange': 'orange',
       },
     },

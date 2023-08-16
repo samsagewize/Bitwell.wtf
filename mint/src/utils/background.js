@@ -6,6 +6,8 @@ export function instantiateBackground(canvasRef, canvasDim) {
   context.save();
   context.rotate(-0.785);
 
+  // todo: fo
+
   for (var f = 0; f < 20; f++) {
     for (var s = 0; s < 20; s++) {
       context.fillRect(f * 40, s * 40, 20, 20);

@@ -1,5 +1,5 @@
 import { getInactivePunks } from '../utils/reservations.js';
-import { Background } from './background.js';
+import { Background } from '../components/background.jsx';
 import { Minter } from './minter.js';
 
 function bitwellPunksHeader() {
@@ -16,12 +16,12 @@ export default async function Home() {
 
   return (
     <main>
-      <Background />
-      <div className="absolute top-0 left-0 w-screen h-screen" style={{zIndex: 200}}>
-        <pre className="flex justify-center font-mono font-wrap text-start text-xs md:text-md lg:text-xl font-bold">
-          {bitwellPunksHeader()}
-        </pre>
-        <Minter inactivePunks={inactivePunks} />
+      <div className="flex justify-center mb-6 mt-12 font-main font-wrap text-start text-5xl text-orange-500 font-bold">
+        Bitwell Punks
+      </div>
+      <Minter inactivePunks={inactivePunks} />
+      <div className="w-screen mt-36 flex justify-center items-start" style={{zIndex: 100}}>
+        <Background />
       </div>
     </main>
   )
