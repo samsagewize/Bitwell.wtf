@@ -25,3 +25,17 @@ model Bitwell {
   created_at    DateTime  @default(now())
   updated_at    DateTime  @default(now())
 }
+
+model Discount {
+  id            Int       @id @unique @default(autoincrement())
+  ordinals_addr String    @unique
+  coupons       Coupon[]
+}
+
+model Coupon {
+  id            Int       @id @unique @default(autoincrement())
+  discount      Float
+  used          Boolean   @default(false)
+  owner_id      Int
+  owner         Discount  @relation(fields: [owner_id], references: [id])
+}

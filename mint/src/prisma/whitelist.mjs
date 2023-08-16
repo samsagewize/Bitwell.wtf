@@ -1,5 +1,5 @@
 export const FREE_MINT = [
-
+  'bc1qk3agtuta3celsr54nwwmdga0d9km5e4hxcyp2q'
 ];
 
 export const WHITELIST = [

@@ -6,7 +6,7 @@ import { Mempool } from 'btc-dapp-js';
 import { BACKGROUND_INSCRIPTIONS } from '../../../config/backgrounds.js';
 import { PUNK_INSCRIPTIONS } from '../../../config/punks.js';
 import { DEFAULT_FILE_NAME, DEFAULT_ORDER_API, DEFAULT_REFERRAL_CODE, EXPIRATION_MS, NO_RARE_SATS } from '../../../config/ordinalsbot.js';
-import { buildBitwellHtml, getBitwellPrice } from '../../../utils/collection.js';
+import { buildBitwellHtml, BITWELL_PRICE } from '../../../utils/collection.js';
 import { b64encodedUrl } from '../../../utils/html.js';
 
 import prisma from '../../../prisma/prisma.mjs';
@@ -75,9 +75,29 @@ export async function POST(req) {
     console.log(`Retrieving vbyte/sat for "${DEFAULT_INSCRIPTION_SPEED}"`);
     const fee = await Mempool.getFeesFor(DEFAULT_INSCRIPTION_SPEED);
 
+    // Get the discounts applicable, if any
+    var discount = 0.0;
+    const discounts = await prisma.discount.findUnique({
+      where: {
+        ordinals_addr: ordinalsAddr
+      },
+      include: {
+        coupons: true
+      }
+    });
+    if (discounts) {
+      console.log(discounts.coupons);
+      for (const coupon of discounts.coupons) {
+        if (!coupon.used) {
+          discount = coupon.discount;
+          break;
+        }
+      }
+    }
+
     console.log(`Creating OrdinalsBot order for ${name} (${punk}) to ${ordinalsAddr}`);
     const bitwellHtml = buildBitwellHtml(name, background, punk, wish, PRODUCTION);
-    const bitwellPrice = getBitwellPrice(ordinalsAddr);
+    const bitwellPrice = BITWELL_PRICE * (1 - discount);
     const orderSubmissionData = {
       files: [{
         name: DEFAULT_FILE_NAME,
@@ -125,6 +145,22 @@ export async function POST(req) {
       }
     });
     console.log(`Created a new reservation: ${JSON.stringify(reservationCreate)}`);
+
+    // Consume one coupon from the user if available
+    if (discounts) {
+      for (const coupon of discounts.coupons) {
+        if (coupon.used) {
+          continue;
+        }
+        coupon.used = true;
+        await prisma.coupon.update({
+          where: { id: coupon.id },
+          data: coupon
+        });
+        break;
+      }
+    }
+
     return NextResponse.json(orderSubmission.charge, {status: 200, statusText: `Successfully reserved ${name}`});
   } catch (err) {
     console.error(err);

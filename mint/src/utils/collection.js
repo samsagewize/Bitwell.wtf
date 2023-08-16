@@ -1,5 +1,6 @@
 import { INSCRIPTION_CDN } from '../config/ordinals.js';
-import { FREE_MINT, WHITELIST } from '../config/whitelist.js';
+
+export const BITWELL_PRICE = 66666;
 
 const JQUERY_INSCRIPTION = '773e4865bcf3084e6d6ee5d49136fb5f7071d4c050ec4aeeaeb9c6d24fea5fc1i0';
 const LOGO_FONT = '483d576448a1134efbe0a5e83a7c7a44ad8b3e7a552771033dba9d07674aa145i0';
@@ -40,14 +41,4 @@ export function buildBitwellHtml(name, background, punk, wish, preview) {
       </script>
     </body>
   </html>`;
-}
-
-export function getBitwellPrice(ordinalsAddr) {
-  if (FREE_MINT.includes(ordinalsAddr)) {
-    return 0;
-  }
-  if (WHITELIST.includes(ordinalsAddr)) {
-    return 33333;
-  }
-  return 66666;
 }
