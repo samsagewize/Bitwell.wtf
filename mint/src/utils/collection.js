@@ -26,11 +26,8 @@ export function buildBitwellHtml(name, background, punk, wish, preview) {
     <body style="margin: 0px;">
       <iframe src="${preview ? INSCRIPTION_CDN : '/content'}/${background}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
       <img src="${preview ? INSCRIPTION_CDN : '/content'}/${punk}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:20;image-rendering:pixelated" />
-      <div id="wish" style="font-family:'Architects Daughter';font-size:1.5rem;position:absolute;text-align:center;width:100%;height:auto;top:10;z-index:20;color:white;">
+      <div id="wish" style="text-shadow: black 0px 0px 5px;font-family:'Architects Daughter';font-size:2rem;position:absolute;text-align:center;width:100%;height:auto;top:10;z-index:20;color:white;">
         ${wish}
-      </div>
-      <div id="logo" style="font-family:'Architects Daughter';font-size:1.25rem;position:absolute;left:10;bottom:0;z-index:20;color:orange;">
-        &#8383;itwell Punks
       </div>
       <script type="module">
         const JQUERY_INSCRIPTION = '${JQUERY_INSCRIPTION}';
