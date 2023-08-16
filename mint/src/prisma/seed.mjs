@@ -23,6 +23,8 @@ async function main() {
   }
   for (const address of WHITELIST) {
     addDiscountTo(address, addresses, 0.5);
+    addDiscountTo(address, addresses, 0.5);
+    addDiscountTo(address, addresses, 0.5);
   }
   for (const address in addresses) {
     await prisma.discount.create({ data: addresses[address] });
