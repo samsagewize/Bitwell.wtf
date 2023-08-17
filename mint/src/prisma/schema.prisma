@@ -13,6 +13,7 @@ datasource db {
 model Bitwell {
   id            Int       @id @unique @default(autoincrement())
   order_id      String    @unique
+  inscription   String    @default("")
   status        String
   payment_addr  String
   ordinals_addr String

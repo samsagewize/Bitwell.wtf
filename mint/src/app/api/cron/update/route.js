@@ -34,11 +34,13 @@ export async function GET() {
       if (newOrderStatus === UNPAID) {
         continue;
       }
+      const inscription = unpaidOrderStatus.files[0].tx.inscription;
       const updatedOrders = await prisma.bitwell.update({
         where: { id: unpaidOrder.id },
         data: {
           minted: true,
           status: newOrderStatus,
+          inscription: inscription,
           updated_at: new Date()
        }
       });
