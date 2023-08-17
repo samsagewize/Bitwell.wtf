@@ -1,11 +1,14 @@
+import * as CryptoJS from 'crypto-js';
+
 import { INSCRIPTION_CDN } from '../config/ordinals.js';
 
 export const BITWELL_PRICE = 66666;
 
+const CRYPTOJS_INSCRIPTION = '66979aec90e592bc5be7fddcef23daeff982662b7225e7804c1b271f1b0d267ai0';
 const JQUERY_INSCRIPTION = '773e4865bcf3084e6d6ee5d49136fb5f7071d4c050ec4aeeaeb9c6d24fea5fc1i0';
 const LOGO_FONT = '483d576448a1134efbe0a5e83a7c7a44ad8b3e7a552771033dba9d07674aa145i0';
 
-export function buildBitwellHtml(name, background, punk, wish, preview) {
+export function buildBitwellHtml(name, background, punk, wish, password, preview) {
   return `
   <html lang="en">
     <head>
@@ -23,18 +26,34 @@ export function buildBitwellHtml(name, background, punk, wish, preview) {
         }
       </style>
     </head>
-    <body style="margin: 0px;">
+    <body style="margin: 0px;font-family:'Architects Daughter';">
       <iframe src="${preview ? INSCRIPTION_CDN : '/content'}/${background}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
       <img src="${preview ? INSCRIPTION_CDN : '/content'}/${punk}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:20;image-rendering:pixelated" />
-      <div id="wish" style="text-shadow: black 0px 0px 5px;font-family:'Architects Daughter';font-size:2rem;position:absolute;text-align:center;width:100%;height:auto;top:10;z-index:20;color:white;">
-        ${wish}
+      <div id="wish" style="text-shadow: black 0px 0px 5px;font-size:2rem;position:absolute;text-align:center;width:100%;height:auto;top:10;z-index:20;color:white;">
+        ${password ? '' : wish}
       </div>
+      ${password ? (`
+        <div id="lock" style="display: flex; gap: 12px; justify-content: center; align-items: center;width:100%;height:fit-content;font-size:1rem;position:absolute;text-align:center; bottom:0px;top:10;z-index:20;color:white;padding:5px">
+          <input type="text" id="password" placeholder="enter password..." />
+          <button type="button" id="decrypt">Decrypt</button>
+        </div>
+      `): ''}
       <script type="module">
-        const JQUERY_INSCRIPTION = '${JQUERY_INSCRIPTION}';
-        const jqueryResponse = await fetch(\`${preview ? INSCRIPTION_CDN : '/content'}/\${JQUERY_INSCRIPTION}\`);
-        eval(await jqueryResponse.text());
+        for (const lib of ['${CRYPTOJS_INSCRIPTION}', '${JQUERY_INSCRIPTION}']) {
+          const response = await fetch(\`${preview ? INSCRIPTION_CDN : '/content'}/\${lib}\`);
+          const script = document.createElement("script");
+          script.innerHTML = await response.text();
+          document.body.append(script);
+        }
         $('body').click(() => $('#wish').show(0, () => setTimeout(() => $('#wish').fadeOut(3000), 5000)));
         $('#wish').fadeOut(3000);
+        ${password ? (`
+        const encryptedWish = '${CryptoJS.AES.encrypt(wish, password)}';
+        $('#decrypt').click(() => {
+          const bytes = CryptoJS.AES.decrypt(encryptedWish, $('#password').val());
+          $('#wish').text(bytes.toString(CryptoJS.enc.Utf8));
+          $('#lock').hide();
+        });`) : ''}
       </script>
     </body>
   </html>`;

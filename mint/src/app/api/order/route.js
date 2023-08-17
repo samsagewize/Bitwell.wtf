@@ -42,6 +42,7 @@ export async function POST(req) {
     const backgroundName = reservationRequest.background;
     const background = BACKGROUND_INSCRIPTIONS[backgroundName];
     const wish = reservationRequest.wish;
+    const password = reservationRequest.password;
     if (!punk) {
       return NextResponse.json("failure", {status: 400, statusText: `Could not find Bitwell '${name}'`});
     }
@@ -96,7 +97,7 @@ export async function POST(req) {
     }
 
     console.log(`Creating OrdinalsBot order for ${name} (${punk}) to ${ordinalsAddr}`);
-    const bitwellHtml = buildBitwellHtml(name, background, punk, wish, PRODUCTION);
+    const bitwellHtml = buildBitwellHtml(name, background, punk, wish, password, PRODUCTION);
     const bitwellPrice = BITWELL_PRICE * (1 - discount);
     const orderSubmissionData = {
       files: [{
@@ -141,7 +142,7 @@ export async function POST(req) {
         name: name,
         background: background,
         punk: punk,
-        wish: wish
+        wish: (password ? 'REDACTED': wish)
       }
     });
     console.log(`Created a new reservation: ${JSON.stringify(reservationCreate)}`);

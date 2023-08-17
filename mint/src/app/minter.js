@@ -19,7 +19,7 @@ const PREVIEW = true;
 
 const SATS_TO_BTC = 100000000;
 
-async function performMintTxn(background, punk, wish, wallet, setStatusMessage) {
+async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage) {
   try {
     const ordinalsAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
     const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.PAYMENT_TYPE);
@@ -33,6 +33,7 @@ async function performMintTxn(background, punk, wish, wallet, setStatusMessage) 
         paymentAddr: paymentAddr,
         background: background,
         punk: punk,
+        password: password,
         wish: wish
       })
     });
@@ -67,6 +68,7 @@ export function Minter({ inactivePunks }) {
   const [background, setBackground] = useState(Object.keys(BACKGROUND_INSCRIPTIONS)[0]);
   const [punk, setPunk] = useState(getDefaultPunk(PUNK_INSCRIPTIONS, inactivePunks));
   const [wish, setWish] = useState('');
+  const [password, setPassword] = useState('');
 
   const [wallet, setWallet] = useState(Wallets.XVERSE_WALLET);
   const [isMinting, setIsMinting] = useState(false);
@@ -88,6 +90,7 @@ export function Minter({ inactivePunks }) {
           <div className="block w-full">
             <div className="mb-4">
               <input type="text" value={wish} onInput={e => setWish(e.target.value)} className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
+              <input type="text" value={password} onInput={e => setPassword(e.target.value)} className="block w-full mt-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Want to keep it a secret? Enter a password here..." />
             </div>
             <div className="flex justify-between mb-2">
               <div>
@@ -101,7 +104,7 @@ export function Minter({ inactivePunks }) {
               <SimpleButton label="MINT NOW" disabled={isMinting} onClick={async () => {
                   setIsMinting(true);
                   try {
-                    await performMintTxn(background, punk, wish, wallet, setStatusMessage);
+                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage);
                   } finally {
                     setIsMinting(false);
                   }
@@ -114,7 +117,7 @@ export function Minter({ inactivePunks }) {
         </Section>
       </div>
       <div className="w-fit min-w-[33%]">
-        <iframe className="mx-auto h-full aspect-square border-2 border-white" sandbox="allow-scripts" src={b64encodedUrl(buildBitwellHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, PREVIEW))} />
+        <iframe className="mx-auto h-full aspect-square border-2 border-white" sandbox="allow-scripts" src={b64encodedUrl(buildBitwellHtml(punk, BACKGROUND_INSCRIPTIONS[background], PUNK_INSCRIPTIONS[punk], wish, password, PREVIEW))} />
       </div>
     </div>
   );
