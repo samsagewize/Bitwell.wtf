@@ -30,8 +30,7 @@ export async function GET() {
         continue;
       }
       const unpaidOrderStatus = await unpaidOrderStatusReq.json();
-      const newOrderStatus = unpaidOrderStatus.charge.status;
-      if (newOrderStatus === UNPAID) {
+      if (unpaidOrderStatus.inscribedCount !== 1) {
         continue;
       }
       const inscription = unpaidOrderStatus.files[0].tx.inscription;
@@ -39,7 +38,7 @@ export async function GET() {
         where: { id: unpaidOrder.id },
         data: {
           minted: true,
-          status: newOrderStatus,
+          status: PAID,
           inscription: inscription,
           updated_at: new Date()
        }
@@ -48,10 +47,7 @@ export async function GET() {
         console.error(`Could not update order status for order #${unpaidOrder.id}`);
       }
       updatedOrderStatus++;
-      console.log(`Updated status of order #${unpaidOrder.id} from "${UNPAID}" to "${newOrderStatus}"`);
-      if (newOrderStatus !== UNPAID) {
-        console.log(`Unknown status of "${newOrderStatus}" found for order #${unpaidOrder.id}`);
-      }
+      console.log(`Minted order #${unpaidOrder.id} with inscription "${inscription}"`);
     }
 
     console.log(`Successfully updated ${updatedOrders} orders`);
