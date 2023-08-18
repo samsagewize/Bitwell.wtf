@@ -30,10 +30,10 @@ export async function POST(req) {
     // Quickly validate the addresses again, rejecting if invalid
     const ordinalsAddr = reservationRequest.ordinalsAddr;
     if (!validateBtcAddress(ordinalsAddr)) {
-      return NextResponse.json("failure", {status: 400, statusText: "Invalid Ordinals address"});
+      throw "Invalid Ordinals address";
     }
     if (!validateBtcAddress(reservationRequest.paymentAddr)) {
-      return NextResponse.json("failure", {status: 400, statusText: "Invalid payment address"});
+      throw "Invalid payment address";
     }
 
     // Validate that the user has good parameters
@@ -44,10 +44,10 @@ export async function POST(req) {
     const wish = reservationRequest.wish;
     const password = reservationRequest.password;
     if (!punk) {
-      return NextResponse.json("failure", {status: 400, statusText: `Could not find Bitwell '${name}'`});
+      throw `Could not find Bitwell '${name}'`;
     }
     if (!background) {
-      return NextResponse.json("failure", {status: 400, statusText: `Could not find '${backgroundName}'`});
+      throw `Could not find '${backgroundName}'`;
     }
 
     // Check if the punk has already been taken
@@ -68,6 +68,7 @@ export async function POST(req) {
         ]
       }
     });
+    console.log(JSON.stringify(validOrders));
     if (validOrders.length > 0) {
       throw `Sorry, ${name} has already been reserved`;
     }
@@ -162,9 +163,9 @@ export async function POST(req) {
       }
     }
 
-    return NextResponse.json(orderSubmission.charge, {status: 200, statusText: `Successfully reserved ${name}`});
+    return NextResponse.json(orderSubmission.charge, {status: 200});
   } catch (err) {
     console.error(err);
-    return NextResponse.json(err, {status: 500, statusText: `An error occurred: ${JSON.stringify(err)}`});
+    return NextResponse.json({error: err}, {status: 500});
   }
 }

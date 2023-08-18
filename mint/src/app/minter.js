@@ -39,7 +39,7 @@ async function performMintTxn(background, punk, wish, password, wallet, setStatu
     });
 
     if (orderResponse.status !== 200) {
-      throw {error: orderResponse.statusText};
+      throw (await orderResponse.json());
     }
 
     const orderInfo = await orderResponse.json();
@@ -52,7 +52,8 @@ async function performMintTxn(background, punk, wish, password, wallet, setStatu
     await Wallets.sendBtc(wallet, orderInfo.address, orderInfo.amount, paymentAddr);
     setStatusMessage(`Sent ${btcAmount}BTC to '${orderInfo.address}'! Your inscription should arrive shortly.`);
   } catch (err) {
-    setStatusMessage(`An error occurred: ${JSON.stringify(err)}`);
+    const message = ('error' in err) ? err.error : `An error occurred: ${JSON.stringify(err)}`;
+    setStatusMessage(message);
   }
 }
 
