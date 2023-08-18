@@ -27,7 +27,7 @@ export function buildBitwellHtml(name, background, punk, wish, password, preview
       </style>
     </head>
     <body style="margin: 0px;font-family:'Architects Daughter';">
-      <iframe src="${preview ? INSCRIPTION_CDN : '/content'}/${background}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
+      <iframe src="${preview ? INSCRIPTION_CDN : '/content'}/${background}" style="border:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:10"></iframe>
       <img src="${preview ? INSCRIPTION_CDN : '/content'}/${punk}" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:20;image-rendering:pixelated" />
       <div id="wish" style="text-shadow: black 0px 0px 5px;font-size:2rem;position:absolute;text-align:center;width:100%;height:auto;top:10;z-index:20;color:white;">
         ${password ? '' : wish}
