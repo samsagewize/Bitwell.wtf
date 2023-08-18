@@ -20,7 +20,7 @@ export async function GET() {
       }
     });
 
-    var updatedOrders = 0;
+    var updatedOrderNum = 0;
     for (const unpaidOrder of unpaidOrders) {
       await sleep(HALF_SEC_MS);
       const unpaidOrderStatusReq = await fetch(`${DEFAULT_ORDER_API}?id=${unpaidOrder.order_id}`);
@@ -43,15 +43,16 @@ export async function GET() {
           updated_at: new Date()
        }
       });
-      if (updatedOrders !== 1) {
+      console.log(JSON.stringify(updatedOrders));
+      if (updatedOrders.length !== 1) {
         console.error(`Could not update order status for order #${unpaidOrder.id}`);
       }
-      updatedOrderStatus++;
+      updatedOrderNum++;
       console.log(`Minted order #${unpaidOrder.id} with inscription "${inscription}"`);
     }
 
-    console.log(`Successfully updated ${updatedOrders} orders`);
-    return NextResponse.json({updatedOrders: updatedOrders}, {status: 200, statusText: `Successfully updated ${updatedOrders} orders`});
+    console.log(`Successfully updated ${updatedOrderNum} orders`);
+    return NextResponse.json({updatedOrders: updatedOrderNum}, {status: 200, statusText: `Successfully updated ${updatedOrderNum} orders`});
   } catch (err) {
     console.error(JSON.stringify(err));
     return NextResponse.json(err, {status: 500, statusText: err});
