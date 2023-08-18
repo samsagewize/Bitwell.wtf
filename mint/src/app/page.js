@@ -2,6 +2,8 @@ import { getInactivePunks } from '../utils/reservations.js';
 import { Background } from '../components/background.jsx';
 import { Minter } from './minter.js';
 
+export const revalidate = 0;
+
 function bitwellPunksHeader() {
   return `
  ___ _ _              _ _   ___           _
