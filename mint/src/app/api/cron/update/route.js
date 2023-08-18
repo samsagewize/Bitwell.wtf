@@ -4,6 +4,8 @@ import prisma from '../../../../prisma/prisma.mjs';
 
 import { DEFAULT_ORDER_API, EXPIRATION_MS, UNPAID, PAID } from '../../../../config/ordinalsbot.js';
 
+export const revalidate = 0;
+
 const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 
 const HALF_SEC_MS = 500;

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 import prisma from '../../../prisma/prisma.mjs';
 
+export const revalidate = 60;
+
 export async function GET() {
   try {
     const inscriptions = await prisma.bitwell.findMany({
