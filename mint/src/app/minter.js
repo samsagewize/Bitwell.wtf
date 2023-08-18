@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Wallets } from 'btc-dapp-js';
 
 import { b64encodedUrl } from '../utils/html.js';
@@ -64,6 +64,16 @@ function getDefaultPunk(punkInscriptions, inactivePunks) {
   }
 }
 
+function setInputDelayed(inputRef, setInput, existingUpdate, setExistingUpdate) {
+  if (existingUpdate) {
+    clearTimeout(existingUpdate);
+  }
+  setExistingUpdate(setTimeout(() => {
+    setInput(inputRef.current.value);
+    setExistingUpdate(undefined)
+  }, 500));
+}
+
 export function Minter({ inactivePunks }) {
   const [background, setBackground] = useState(Object.keys(BACKGROUND_INSCRIPTIONS)[0]);
   const [punk, setPunk] = useState(getDefaultPunk(PUNK_INSCRIPTIONS, inactivePunks));
@@ -77,6 +87,12 @@ export function Minter({ inactivePunks }) {
   const [BACKGROUND_STAGE, PUNK_STAGE, WISH_STAGE] = [1, 2, 3];
   const [currentExpanded, setCurrentExpanded] = useState(BACKGROUND_STAGE);
 
+  const [wishUpdate, setWishUpdate] = useState(undefined);
+  const wishRef = useRef();
+
+  const [passwordUpdate, setPasswordUpdate] = useState(undefined);
+  const passwordRef = useRef();
+
   return (
     <div className="flex flex-wrap justify-center gap-4 w-screen p-4">
       <div className="border-x-2 border-x-white md:w-[60%] min-w-[50%]">
@@ -89,8 +105,8 @@ export function Minter({ inactivePunks }) {
         <Section isExpanded={currentExpanded == WISH_STAGE} onClick={() => setCurrentExpanded(WISH_STAGE)} label="Step 3: Write Your Wish">
           <div className="block w-full">
             <div className="mb-4">
-              <input type="text" value={wish} onInput={e => setWish(e.target.value)} className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
-              <input type="text" value={password} onInput={e => setPassword(e.target.value)} className="block w-full mt-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Want to keep it a secret? Enter a password here..." />
+              <input type="text" onChange={e => setInputDelayed(wishRef, setWish, wishUpdate, setWishUpdate)} ref={wishRef} className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
+              <input type="text" onChange={e => setInputDelayed(passwordRef, setPassword, passwordUpdate, setPasswordUpdate)} ref={passwordRef} className="block w-full mt-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Want to keep it a secret? Enter a password here..." />
             </div>
             <div className="flex justify-between mb-2">
               <div>
