@@ -10,6 +10,12 @@ const nextConfig = {
         hostname: 'ordinals.com',
         port: '',
         pathname: '/content/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ord.io',
+        port: '',
+        pathname: '/content/**',
       }
     ],
   },

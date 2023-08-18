@@ -1,6 +1,6 @@
 import * as CryptoJS from 'crypto-js';
 
-import { INSCRIPTION_CDN } from '../config/ordinals.js';
+import { INSCRIPTION_CDN, RAW_CDN } from '../config/ordinals.js';
 
 export const BITWELL_PRICE = 66666;
 
@@ -22,7 +22,7 @@ export function buildBitwellHtml(name, background, punk, wish, password, preview
           font-style: normal;
           font-weight: 400;
           font-display: swap;
-          src: url('${preview ? INSCRIPTION_CDN : '/content'}/${LOGO_FONT}') format('woff2');
+          src: url('${preview ? RAW_CDN : '/content'}/${LOGO_FONT}') format('woff2');
         }
       </style>
     </head>
@@ -40,7 +40,7 @@ export function buildBitwellHtml(name, background, punk, wish, password, preview
       `): ''}
       <script type="module">
         for (const lib of ['${CRYPTOJS_INSCRIPTION}', '${JQUERY_INSCRIPTION}']) {
-          const response = await fetch(\`${preview ? INSCRIPTION_CDN : '/content'}/\${lib}\`);
+          const response = await fetch(\`${preview ? RAW_CDN : '/content'}/\${lib}\`);
           const script = document.createElement("script");
           script.innerHTML = await response.text();
           document.body.append(script);
