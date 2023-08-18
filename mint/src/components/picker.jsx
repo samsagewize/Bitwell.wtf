@@ -9,7 +9,7 @@ import { INSCRIPTION_CDN } from '../config/ordinals.js';
 export const IMAGE_TYPE = 'image';
 export const IFRAME_TYPE = 'iframe';
 
-const INSCRIPTIONS_PER_PAGE = 500;
+const INSCRIPTIONS_PER_PAGE = 100;
 
 function componentFor(type, label, src) {
   if (type === IMAGE_TYPE) {
@@ -50,12 +50,12 @@ export function InscriptionPicker({ type, inscriptions, inactive, selectedAttrib
         {inscriptionsDoms}
       </div>
       {maxPages > 1 ? (
-        <div className="flex justify-center gap-8 mt-2">
+        <div className="flex justify-center items-center gap-8 mt-2">
           <div className={`${page > 1 ? 'text-black' : 'text-gray-400'} select-none cursor-pointer`} onClick={() => setPage(Math.max(1, page - 1))}>
             &lt;
           </div>
           <div>
-            {page}
+            <input className="text-center rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 py-2 w-10" type="text" value={page} onInput={e => setPage(Math.min(maxPages, Math.max(1, e.target.value)))} />
           </div>
           <div className={`${page < maxPages ? 'text-black' : 'text-gray-400'} select-none cursor-pointer`} onClick={() => setPage(Math.min(maxPages, page + 1))}>
             &gt;
