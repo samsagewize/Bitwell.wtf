@@ -6,7 +6,8 @@ import { Mempool } from 'btc-dapp-js';
 import { BACKGROUND_INSCRIPTIONS } from '../../../config/backgrounds.js';
 import { PUNK_INSCRIPTIONS } from '../../../config/punks.js';
 import { DEFAULT_FILE_NAME, DEFAULT_ORDER_API, DEFAULT_REFERRAL_CODE, EXPIRATION_MS, NO_RARE_SATS } from '../../../config/ordinalsbot.js';
-import { buildBitwellHtml, BITWELL_PRICE } from '../../../utils/collection.js';
+import { WHITELIST } from '../../../prisma/whitelist.mjs';
+import { buildBitwellHtml, BITWELL_PRICE, BITWELL_WL_PRICE } from '../../../utils/collection.js';
 import { b64encodedUrl } from '../../../utils/html.js';
 
 import prisma from '../../../prisma/prisma.mjs';
@@ -90,7 +91,7 @@ export async function POST(req) {
     if (discounts) {
       console.log(discounts.coupons);
       for (const coupon of discounts.coupons) {
-        if (!coupon.used) {
+        if (coupon.discount == 1 && !coupon.used) {
           discount = coupon.discount;
           break;
         }
@@ -99,7 +100,8 @@ export async function POST(req) {
 
     console.log(`Creating OrdinalsBot order for ${name} (${punk}) to ${ordinalsAddr}`);
     const bitwellHtml = buildBitwellHtml(name, background, punk, wish, password, PRODUCTION);
-    const bitwellPrice = BITWELL_PRICE * (1 - discount);
+    const bitwellPriceWl = WHITELIST.includes(ordinalsAddr) ? BITWELL_WL_PRICE : BITWELL_PRICE;
+    const bitwellPrice = bitwellPriceWl * (1 - discount);
     const orderSubmissionData = {
       files: [{
         name: DEFAULT_FILE_NAME,
@@ -151,7 +153,7 @@ export async function POST(req) {
     // Consume one coupon from the user if available
     if (discounts) {
       for (const coupon of discounts.coupons) {
-        if (coupon.used) {
+        if (coupon.used || coupon.discount != 1) {
           continue;
         }
         coupon.used = true;

@@ -2,7 +2,8 @@ import * as CryptoJS from 'crypto-js';
 
 import { INSCRIPTION_CDN, RAW_CDN } from '../config/ordinals.js';
 
-export const BITWELL_PRICE = 66666;
+export const BITWELL_PRICE = 10000;
+export const BITWELL_WL_PRICE = 6000;
 
 const CRYPTOJS_INSCRIPTION = 'fd5dd81af761cfd751a599327ccfa7415afa3a9da7c38c075de95c00c2bf34e8i0';
 const JQUERY_INSCRIPTION = '773e4865bcf3084e6d6ee5d49136fb5f7071d4c050ec4aeeaeb9c6d24fea5fc1i0';
