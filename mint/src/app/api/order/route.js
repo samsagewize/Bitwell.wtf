@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { validate as btc_validate } from 'bitcoin-address-validation';
 import { Mempool } from 'btc-dapp-js';
+import { minify } from 'html-minifier-terser';
 
 import { BACKGROUND_INSCRIPTIONS } from '../../../config/backgrounds.js';
 import { PUNK_INSCRIPTIONS } from '../../../config/punks.js';
@@ -99,7 +100,14 @@ export async function POST(req) {
     }
 
     console.log(`Creating OrdinalsBot order for ${name} (${punk}) to ${ordinalsAddr}`);
-    const bitwellHtml = buildBitwellHtml(name, background, punk, wish, password, PRODUCTION);
+    const rawHtml = buildBitwellHtml(name, background, punk, wish, password, PRODUCTION);
+    const bitwellHtml = await minify(rawHtml, {
+      caseSensitive: true,
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: true,
+      processScripts: ["module"]
+    });
     const bitwellPriceWl = WHITELIST.includes(ordinalsAddr) ? BITWELL_WL_PRICE : BITWELL_PRICE;
     const bitwellPrice = bitwellPriceWl * (1 - discount);
     const orderSubmissionData = {
