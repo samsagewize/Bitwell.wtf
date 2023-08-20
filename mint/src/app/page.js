@@ -1,5 +1,6 @@
-import { getInactivePunks } from '../utils/reservations.js';
+import { getInactivePunks, getMintedPunks } from '../utils/reservations.js';
 import { Background } from '../components/background.jsx';
+import { LatestMints } from '../components/log.jsx';
 import { Minter } from './minter.js';
 
 export const revalidate = 0;
@@ -15,6 +16,7 @@ function bitwellPunksHeader() {
 
 export default async function Home() {
   const inactivePunks = await getInactivePunks();
+  const mintedPunks = await getMintedPunks();
 
   return (
     <main>
@@ -22,6 +24,9 @@ export default async function Home() {
         Bitwell Punks
       </div>
       <Minter inactivePunks={inactivePunks} />
+      <div className="w-screen flex justify-center items-start" style={{zIndex: 100}}>
+        <LatestMints mintedPunks={mintedPunks} />
+      </div>
       <div className="w-screen mt-36 flex justify-center items-start" style={{zIndex: 100}}>
         <Background />
       </div>

@@ -16,3 +16,23 @@ export async function getInactivePunks() {
   });
   return mintedOrReserved.map(el => el.name);
 }
+
+export async function getMintedPunks() {
+  return await prisma.bitwell.findMany({
+    where: {
+      minted: true
+    },
+    select: {
+      name: true,
+      background: true,
+      punk: true,
+      wish: true,
+      inscription: true,
+      ordinals_addr: true,
+      updated_at: true
+    },
+    orderBy: {
+      updated_at: 'desc'
+    }
+  });
+}
