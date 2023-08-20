@@ -32,16 +32,16 @@ export async function GET() {
         continue;
       }
       const unpaidOrderStatus = await unpaidOrderStatusReq.json();
-      if (unpaidOrderStatus.inscribedCount !== 1) {
+      if (!unpaidOrderStatus.paid) {
         continue;
       }
-      const inscription = unpaidOrderStatus.files[0].tx.inscription;
+      const inscription = unpaidOrderStatus.files[0].tx?.inscription;
       const updatedOrders = await prisma.bitwell.update({
         where: { id: unpaidOrder.id },
         data: {
           minted: true,
           status: PAID,
-          inscription: inscription,
+          inscription: (inscription || ''),
           updated_at: new Date()
        }
       });
