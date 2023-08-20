@@ -24,7 +24,7 @@ export default async function Home() {
         Bitwell Punks
       </div>
       <Minter inactivePunks={inactivePunks} />
-      <div className="w-screen flex justify-center items-start" style={{zIndex: 100}}>
+      <div className="w-screen flex justify-center items-start px-2 md:px-6 lg:px-12" style={{zIndex: 100}}>
         <LatestMints mintedPunks={mintedPunks} />
       </div>
       <div className="w-screen mt-36 flex justify-center items-start" style={{zIndex: 100}}>

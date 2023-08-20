@@ -2,32 +2,38 @@ import { INSCRIPTION_CDN } from '../config/ordinals.js';
 
 export function LatestMints({ mintedPunks }) {
   const latestMints = [];
+  let isFirst = true;
   for (const mintedPunk of mintedPunks) {
     latestMints.push(
-      <div key={mintedPunk.inscription} className="flex justify-between text-black gap-4 items-center align-center py-2 border-b-2 border-gray-300">
-        <div className="w-1/12">
+      <div key={mintedPunk.inscription} className={`mx-auto flex truncate justify-center w-fit max-w-full text-black items-center align-center py-4 gap-8 border-t-2 ${isFirst ? 'border-black' : 'border-gray-300'}`}>
+        <div className="w-fit max-w-[5rem]">
           <iframe className="border-none w-full aspect-square" src={`${INSCRIPTION_CDN}/${mintedPunk.inscription}`} />
         </div>
-        <div className="text-xl font-bold">
+        <div className="w-fit text-xl font-bold" style={{textWrap: 'wrap'}}>
           Bitwell {mintedPunk.name}
         </div>
-        <div className="break-all">
-          <div className="text-lg">
-            {mintedPunk.inscription}
+        <div className="w-min text-start truncate">
+          <div className="truncate text-sm md:text-lg">
+            <a href={`https://ord.io/${mintedPunk.inscription}`}>
+              {mintedPunk.inscription}
+            </a>
           </div>
-          <div className="text-gray-400 text-sm italic">
-            {mintedPunk.ordinals_addr}
+          <div className="truncate text-gray-400 text-sm italic">
+            <a href={`https://ord.io/${mintedPunk.ordinals_addr}`}>
+              {mintedPunk.ordinals_addr}
+            </a>
           </div>
         </div>
-        <div className="text-sm">
+        <div className="w-min text-sm" style={{textWrap: 'wrap'}}>
           {mintedPunk.updated_at.toLocaleString()}
         </div>
       </div>
     );
+    isFirst = false;
   }
   return (
-    <div className="px-2">
-      <div className="font-main font-wrap text-center text-3xl text-black border-black border-b-2 py-2">
+    <div className="text-center w-full">
+      <div className="font-main font-wrap text-center text-3xl text-black py-2">
         Latest Mints
       </div>
       {latestMints}
