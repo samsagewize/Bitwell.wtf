@@ -14,12 +14,12 @@ export function LatestMints({ mintedPunks }) {
         </div>
         <div className="w-min text-start truncate">
           <div className="truncate text-sm md:text-lg">
-            <a href={`https://ord.io/${mintedPunk.inscription}`}>
+            <a href={`https://ord.io/${mintedPunk.inscription}`} target="_blank">
               {mintedPunk.inscription}
             </a>
           </div>
           <div className="truncate text-gray-400 text-sm italic">
-            <a href={`https://ord.io/${mintedPunk.ordinals_addr}`}>
+            <a href={`https://ord.io/${mintedPunk.ordinals_addr}`} target="_blank">
               {mintedPunk.ordinals_addr}
             </a>
           </div>
