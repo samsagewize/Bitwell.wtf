@@ -13,6 +13,7 @@ import { b64encodedUrl } from '../../../utils/html.js';
 
 import prisma from '../../../prisma/prisma.mjs';
 
+const EPSILON = 1;
 const NETWORK = 'mainnet';
 const DEFAULT_INSCRIPTION_SPEED = 'halfHourFee';
 const PRODUCTION = false;
@@ -77,7 +78,7 @@ export async function POST(req) {
 
     // Put together an OrdinalsBot order and return the information for the user to send BTC to
     console.log(`Retrieving vbyte/sat for "${DEFAULT_INSCRIPTION_SPEED}"`);
-    const fee = await Mempool.getFeesFor(DEFAULT_INSCRIPTION_SPEED);
+    const fee = await Mempool.getFeesFor(DEFAULT_INSCRIPTION_SPEED) + EPSILON;
 
     // Get the discounts applicable, if any
     var discount = 0.0;
