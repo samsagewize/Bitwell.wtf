@@ -17,7 +17,7 @@ export async function getInactivePunks() {
   return mintedOrReserved.map(el => el.name);
 }
 
-export async function getMintedPunks() {
+export async function getMintedPunks(limit) {
   return await prisma.bitwell.findMany({
     where: {
       minted: true
@@ -33,6 +33,15 @@ export async function getMintedPunks() {
     },
     orderBy: {
       updated_at: 'desc'
-    }
+    },
+    take: limit
   });
+}
+
+export async function getMintedCount() {
+  return await prisma.bitwell.count({
+    where: {
+      minted: true
+    }
+  })
 }

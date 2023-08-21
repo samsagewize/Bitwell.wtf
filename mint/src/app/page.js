@@ -1,9 +1,12 @@
-import { getInactivePunks, getMintedPunks } from '../utils/reservations.js';
+import { getInactivePunks, getMintedPunks, getMintedCount } from '../utils/reservations.js';
 import { Background } from '../components/background.jsx';
 import { LatestMints } from '../components/log.jsx';
 import { Minter } from './minter.js';
 
 export const revalidate = 0;
+
+const TOTAL_PUNKS = 10000;
+const RECENT_PUNKS = 25;
 
 function bitwellPunksHeader() {
   return `
@@ -16,12 +19,16 @@ function bitwellPunksHeader() {
 
 export default async function Home() {
   const inactivePunks = await getInactivePunks();
-  const mintedPunks = await getMintedPunks();
+  const mintedPunks = await getMintedPunks(RECENT_PUNKS);
+  const totalMinted = await getMintedCount();
 
   return (
     <main>
       <div className="flex justify-center mb-6 mt-12 font-main font-wrap text-start text-5xl text-orange-500 font-bold">
         Bitwell Punks
+      </div>
+      <div className="flex justify-center italic mb-2 mt-1 font-main font-wrap text-start text-md text-black">
+        {totalMinted.toLocaleString()} minted X {(TOTAL_PUNKS - totalMinted).toLocaleString()} available
       </div>
       <Minter inactivePunks={inactivePunks} />
       <div className="w-screen flex justify-center items-start px-2 md:px-6 lg:px-12" style={{zIndex: 100}}>
