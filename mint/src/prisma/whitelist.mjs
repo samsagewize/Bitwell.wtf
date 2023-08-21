@@ -168,4 +168,7 @@ export const WHITELIST = [
   'bc1qtt0ytcf7v70ytzjr6hs5fe90ckepp805jvg64h',
   'bc1qw8l9r5v3dw03ersneag4n7kz2nxdrg5z86gatg',
   'bc1qzhsdyeca28xzvkpslmumcfy06e6j9ekh37f627',
+  // Additions
+  'bc1p4qwtdzq2u6008nmx09rw2r03rqdemg2w9deuxe2xun3q8rdllanslnelar',
+  'bc1pu7e2sz86a9dwtkfm28xq3dawc3fx8ansecqt2jm088g3pq6y5h0qnlxyjs'
 ];
