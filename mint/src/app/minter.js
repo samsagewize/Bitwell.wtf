@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+import Confetti from 'react-dom-confetti';
+
 import { useState, useRef, useEffect } from 'react';
 import { Wallets } from 'btc-dapp-js';
 
@@ -19,7 +21,7 @@ const PREVIEW = true;
 
 const SATS_TO_BTC = 100000000;
 
-async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage) {
+async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setIsExploding) {
   try {
     const ordinalsAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
     const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.PAYMENT_TYPE);
@@ -50,7 +52,9 @@ async function performMintTxn(background, punk, wish, password, wallet, setStatu
     const btcAmount = parseInt(orderInfo.amount) / SATS_TO_BTC;
     setStatusMessage(`Awaiting payment of ${btcAmount}BTC to '${orderInfo.address}' to complete order...`);
     await Wallets.sendBtc(wallet, orderInfo.address, orderInfo.amount, paymentAddr);
-    setStatusMessage(`Sent ${btcAmount}BTC to '${orderInfo.address}'! Your inscription should arrive shortly.`);
+    setStatusMessage(`Sent ${btcAmount}BTC to '${orderInfo.address}'! Please allow 24 hours for your inscription to arrive`);
+    setIsExploding(true);
+    setTimeout(() => setIsExploding(false), 1000);
   } catch (err) {
     const message = ('error' in err) ? err.error : `An error occurred: ${JSON.stringify(err)}`;
     setStatusMessage(message);
@@ -84,6 +88,7 @@ export function Minter({ inactivePunks }) {
   const [wallet, setWallet] = useState(Wallets.XVERSE_WALLET);
   const [isMinting, setIsMinting] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [isExploding, setIsExploding] = useState(false);
 
   const [BACKGROUND_STAGE, PUNK_STAGE, WISH_STAGE] = [1, 2, 3];
   const [currentExpanded, setCurrentExpanded] = useState(BACKGROUND_STAGE);
@@ -109,8 +114,8 @@ export function Minter({ inactivePunks }) {
               <input type="text" onChange={e => setInputDelayed(wishRef, setWish, wishUpdate, setWishUpdate)} ref={wishRef} className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
               <input type="text" onChange={e => setInputDelayed(passwordRef, setPassword, passwordUpdate, setPasswordUpdate)} ref={passwordRef} className="block w-full mt-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Want to keep it a secret? Enter a password here..." />
             </div>
-            <div className="flex justify-between mb-2">
-              <div>
+            <div className="flex justify-start mb-2">
+              <div className="grow">
                 <p className="text-sm text-gray-400">Select your wallet provider</p>
                 <div className="flex gap-3">
                   <CheckboxWithLabel name="wallet" label={Wallets.HIRO_WALLET} checked={wallet === Wallets.HIRO_WALLET} onChange={() => setWallet(Wallets.HIRO_WALLET)} />
@@ -118,14 +123,17 @@ export function Minter({ inactivePunks }) {
                   <CheckboxWithLabel name="wallet" label={Wallets.XVERSE_WALLET} checked={wallet === Wallets.XVERSE_WALLET} onChange={() => setWallet(Wallets.XVERSE_WALLET)} />
                 </div>
               </div>
-              <SimpleButton label="MINT NOW" disabled={isMinting} onClick={async () => {
+              <SimpleButton className="grow-0" label="MINT NOW" disabled={isMinting} onClick={async () => {
                   setIsMinting(true);
                   try {
-                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage);
+                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setIsExploding);
                   } finally {
                     setIsMinting(false);
                   }
               }} />
+              <div className="w-0">
+                <Confetti active={isExploding} config={{elementCount: "300", spread: "360"}}/>
+              </div>
             </div>
             <div className="text-sm text-gray-400 italic">
               {statusMessage}
