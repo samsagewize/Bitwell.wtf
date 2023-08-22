@@ -13,14 +13,17 @@ const BACKOFF_MS = 5 * HALF_SEC_MS;
 
 export async function GET() {
   try {
+    const cutoffTime = new Date(new Date().getTime() - EXPIRATION_MS);
     const unpaidOrders = await prisma.bitwell.findMany({
       where: {
         minted: false,
         created_at: {
-          gt: new Date(new Date().getTime() - EXPIRATION_MS)
+          gt: cutoffTime
         }
       }
     });
+
+    console.log(`Cutoff time is ${cutoffTime}`);
 
     var updatedOrderNum = 0;
     for (const unpaidOrder of unpaidOrders) {
