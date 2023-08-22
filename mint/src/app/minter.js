@@ -21,7 +21,7 @@ const PREVIEW = true;
 
 const SATS_TO_BTC = 100000000;
 
-async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setIsExploding) {
+async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setErrorMessage, setIsExploding) {
   try {
     const ordinalsAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
     const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.PAYMENT_TYPE);
@@ -57,7 +57,7 @@ async function performMintTxn(background, punk, wish, password, wallet, setStatu
     setTimeout(() => setIsExploding(false), 1000);
   } catch (err) {
     const message = ('error' in err) ? err.error : `An error occurred: ${JSON.stringify(err)}`;
-    setStatusMessage(message);
+    setErrorMessage(message);
   }
 }
 
@@ -88,6 +88,7 @@ export function Minter({ inactivePunks }) {
   const [wallet, setWallet] = useState(Wallets.XVERSE_WALLET);
   const [isMinting, setIsMinting] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isExploding, setIsExploding] = useState(false);
 
   const [BACKGROUND_STAGE, PUNK_STAGE, WISH_STAGE] = [1, 2, 3];
@@ -125,8 +126,10 @@ export function Minter({ inactivePunks }) {
               </div>
               <SimpleButton className="grow-0" label="MINT NOW" disabled={isMinting} onClick={async () => {
                   setIsMinting(true);
+                  setStatusMessage('');
+                  setErrorMessage('');
                   try {
-                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setIsExploding);
+                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setErrorMessage, setIsExploding);
                   } finally {
                     setIsMinting(false);
                   }
@@ -137,6 +140,9 @@ export function Minter({ inactivePunks }) {
             </div>
             <div className="text-sm text-gray-400 italic">
               {statusMessage}
+            </div>
+            <div className="text-sm text-red-400 italic">
+              {errorMessage}
             </div>
           </div>
         </Section>
