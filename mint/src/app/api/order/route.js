@@ -5,6 +5,7 @@ import { Mempool } from 'btc-dapp-js';
 import { minify } from 'html-minifier-terser';
 
 import { BACKGROUND_INSCRIPTIONS } from '../../../config/backgrounds.js';
+import { WEBHOOK_URL } from '../../../config/discord.js';
 import { PUNK_INSCRIPTIONS } from '../../../config/punks.js';
 import { DEFAULT_FILE_NAME, DEFAULT_ORDER_API, DEFAULT_REFERRAL_CODE, EXPIRATION_MS, NO_RARE_SATS } from '../../../config/ordinalsbot.js';
 import { WHITELIST } from '../../../prisma/whitelist.mjs';
@@ -173,6 +174,14 @@ export async function POST(req) {
         break;
       }
     }
+
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({content: `Bitwell ${name} just reserved by ${ordinalsAddr}!`})
+    });
 
     return NextResponse.json(orderSubmission.charge, {status: 200});
   } catch (err) {

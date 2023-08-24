@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import prisma from '../../../../prisma/prisma.mjs';
 
+import { WEBHOOK_URL } from '../../../../config/discord.js';
 import { DEFAULT_ORDER_API } from '../../../../config/ordinalsbot.js';
 
 export const revalidate = 0;
@@ -47,6 +48,13 @@ export async function GET() {
       }
       updatedOrderNum++;
       console.log(`Found paid order #${paidOrder.id} has inscription "${inscription}"`);
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({content: `Bitwell ${paidOrder.name} just inscribed to ${inscription}`})
+      });
     }
 
     console.log(`Successfully updated ${updatedOrderNum} orders`);

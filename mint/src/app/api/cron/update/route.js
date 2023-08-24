@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import prisma from '../../../../prisma/prisma.mjs';
 
+import { WEBHOOK_URL } from '../../../../config/discord.js';
 import { DEFAULT_ORDER_API, EXPIRATION_MS, UNPAID, PAID } from '../../../../config/ordinalsbot.js';
 
 export const revalidate = 0;
@@ -54,6 +55,13 @@ export async function GET() {
       }
       updatedOrderNum++;
       console.log(`Minted order #${unpaidOrder.id} with inscription "${inscription}"`);
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({content: `Bitwell ${unpaidOrder.name} just minted by ${unpaidOrder.ordinals_addr}`})
+      });
     }
 
     console.log(`Successfully updated ${updatedOrderNum} orders`);
