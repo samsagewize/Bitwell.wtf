@@ -7,7 +7,7 @@ import { minify } from 'html-minifier-terser';
 import { BACKGROUND_INSCRIPTIONS } from '../../../config/backgrounds.js';
 import { WEBHOOK_URL } from '../../../config/discord.js';
 import { PUNK_INSCRIPTIONS } from '../../../config/punks.js';
-import { DEFAULT_FILE_NAME, DEFAULT_ORDER_API, DEFAULT_REFERRAL_CODE, EXPIRATION_MS, NO_RARE_SATS } from '../../../config/ordinalsbot.js';
+import { DEFAULT_FILE_NAME, DEFAULT_ORDER_API, DEFAULT_REFERRAL_CODE, EXPIRATION_MS } from '../../../config/ordinalsbot.js';
 import { WHITELIST } from '../../../prisma/whitelist.mjs';
 import { buildBitwellHtml, BITWELL_PRICE, BITWELL_WL_PRICE } from '../../../utils/collection.js';
 import { b64encodedUrl } from '../../../utils/html.js';
@@ -47,6 +47,7 @@ export async function POST(req) {
     const background = BACKGROUND_INSCRIPTIONS[backgroundName];
     const wish = reservationRequest.wish;
     const password = reservationRequest.password;
+    const rareSats = reservationRequest.rareSats;
     if (!punk) {
       throw `Could not find Bitwell '${name}'`;
     }
@@ -121,7 +122,7 @@ export async function POST(req) {
       receiveAddress: ordinalsAddr,
       fee: fee,
       lowPostage: true,
-      rareSats: NO_RARE_SATS,
+      rareSats: rareSats,
       referral: DEFAULT_REFERRAL_CODE,
       additionalFee: bitwellPrice
     }

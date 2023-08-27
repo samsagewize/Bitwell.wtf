@@ -21,7 +21,7 @@ const PREVIEW = true;
 
 const SATS_TO_BTC = 100000000;
 
-async function performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setErrorMessage, setIsExploding) {
+async function performMintTxn(background, punk, wish, password, wallet, rareSats, setStatusMessage, setErrorMessage, setIsExploding) {
   try {
     const ordinalsAddr = await Wallets.getWalletAddress(wallet, Wallets.ORDINALS_TYPE);
     const paymentAddr = await Wallets.getWalletAddress(wallet, Wallets.PAYMENT_TYPE);
@@ -36,7 +36,8 @@ async function performMintTxn(background, punk, wish, password, wallet, setStatu
         background: background,
         punk: punk,
         password: password,
-        wish: wish
+        wish: wish,
+        rareSats: rareSats
       })
     });
 
@@ -86,6 +87,7 @@ export function Minter({ inactivePunks }) {
   const [password, setPassword] = useState('');
 
   const [wallet, setWallet] = useState(Wallets.XVERSE_WALLET);
+  const [rareSats, setRareSats] = useState('random');
   const [isMinting, setIsMinting] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -115,6 +117,18 @@ export function Minter({ inactivePunks }) {
               <input type="text" onChange={e => setInputDelayed(wishRef, setWish, wishUpdate, setWishUpdate)} ref={wishRef} className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Enter your wish here..." />
               <input type="text" onChange={e => setInputDelayed(passwordRef, setPassword, passwordUpdate, setPasswordUpdate)} ref={passwordRef} className="block w-full mt-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" placeholder="Want to keep it a secret? Enter a password here..." />
             </div>
+            <div className="mb-2">
+              <p className="text-sm text-gray-400">Rare sats might help your wish come true...</p>
+              <div className="items-center flex-wrap md:flex-nowrap flex gap-3">
+                <CheckboxWithLabel name="rareSats" label="random" checked={rareSats === "random"} onChange={() => setRareSats("random")} />
+                <CheckboxWithLabel name="rareSats" label="2009" checked={rareSats === "2009"} onChange={() => setRareSats("2009")} />
+                <CheckboxWithLabel name="rareSats" label="2010" checked={rareSats === "2010"} onChange={() => setRareSats("2010")} />
+                <CheckboxWithLabel name="rareSats" label="2011" checked={rareSats === "2011"} onChange={() => setRareSats("2011")} />
+                <CheckboxWithLabel name="rareSats" label="block78" checked={rareSats === "block78"} onChange={() => setRareSats("block78")} />
+                <CheckboxWithLabel name="rareSats" label="pizza" checked={rareSats === "pizza"} onChange={() => setRareSats("pizza")} />
+                <CheckboxWithLabel name="rareSats" label="uncommon" checked={rareSats === "uncommon"} onChange={() => setRareSats("uncommon")} />
+              </div>
+            </div>
             <div className="flex justify-start mb-2">
               <div className="grow">
                 <p className="text-sm text-gray-400">Select your wallet provider</p>
@@ -129,7 +143,7 @@ export function Minter({ inactivePunks }) {
                   setStatusMessage('');
                   setErrorMessage('');
                   try {
-                    await performMintTxn(background, punk, wish, password, wallet, setStatusMessage, setErrorMessage, setIsExploding);
+                    await performMintTxn(background, punk, wish, password, wallet, rareSats, setStatusMessage, setErrorMessage, setIsExploding);
                   } finally {
                     setIsMinting(false);
                   }
