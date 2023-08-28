@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { BACKGROUND_LOOKUP } from '../../../config/backgrounds.js';
+
 import prisma from '../../../prisma/prisma.mjs';
 
 export const revalidate = 60;
@@ -26,11 +28,11 @@ export async function GET() {
           attributes: [
             {
               trait_type: 'Background',
-              value: inscription.background
+              value: BACKGROUND_LOOKUP[inscription.background]
             },
             {
               trait_type: 'Wish',
-              value: inscription.wish
+              value: (inscription.wish === 'REDACTED') ? 'Private' : 'Public'
             }
           ]
         }
