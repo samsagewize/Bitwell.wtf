@@ -14,10 +14,29 @@ export async function GET() {
         inscription: true,
         name: true,
         background: true,
-        punk: true
+        punk: true,
+        wish: true
       }
-    })
-    return NextResponse.json(inscriptions, {status: 200, statusText: `Currently inscribed pieces in the collection`});
+    });
+    const metadata = inscriptions.map(inscription => {
+      return {
+        id: inscription.inscription,
+        meta: {
+          name: `Bitwell ${inscription.name}`,
+          attributes: [
+            {
+              trait_type: 'Background',
+              value: inscription.background
+            },
+            {
+              trait_type: 'Wish',
+              value: inscription.wish
+            }
+          ]
+        }
+      }
+    });
+    return NextResponse.json(metadata, {status: 200, statusText: `Currently inscribed pieces in the collection`});
   } catch (err) {
     console.error(err);
     return NextResponse.json(err, {status: 500, statusText: `An error occurred: ${JSON.stringify(err)}`});
