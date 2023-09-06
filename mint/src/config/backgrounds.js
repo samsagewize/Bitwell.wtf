@@ -7,11 +7,12 @@ export const BACKGROUND_INSCRIPTIONS = {
   'Cotton Candy': '2ae3f4ed904a8347f3fbda8cb696652f7abaad386b3cefc13fc46aa17e8df587i0',
   'Green': '04241daa4f84ea6e19ce2c3ba30f5a3d1e38e92cf46595cb1ef86fa423efabbbi0',
   'Grey': 'f95b4c64fb85bd7cf581b38136525756fa08bcff781c006f74ecf4d8c27053a9i0',
+  'Matrix': '79c0e5801c7244b8101c1ea8c47822703073bc75f98a1f94855fa244247fc4f6i0',
   'Pink': '1484e9c361b533a294a500cb4a2c1320f3f836bd474046c4c4ddfcc5d04640fai0',
   'Purple': '5841409eddf1c74bb5215eff925d19168ff2272b4b84f917214e045939ffa319i0',
   'Red': '291886611a617e182241a0d3af43a7a029cd1deee41eb92d0aa25f25f7f7a191i0',
   'Bottom of the Well': 'c3fd984b04eb1d3303038929cef8d807486e2b7e18d067f5d56b827ff6d24901i0',
-  'Top of the Well': 'dc272a60a4d091ef68a472b64c0b574efffd51f9ef2c6e6026e100956e93f3f5i0'
+  'Top of the Well': 'dc272a60a4d091ef68a472b64c0b574efffd51f9ef2c6e6026e100956e93f3f5i0',
 }
 
 export const BACKGROUND_LOOKUP = {
@@ -23,6 +24,7 @@ export const BACKGROUND_LOOKUP = {
   '2ae3f4ed904a8347f3fbda8cb696652f7abaad386b3cefc13fc46aa17e8df587i0': 'Cotton Candy',
   '04241daa4f84ea6e19ce2c3ba30f5a3d1e38e92cf46595cb1ef86fa423efabbbi0': 'Green',
   'f95b4c64fb85bd7cf581b38136525756fa08bcff781c006f74ecf4d8c27053a9i0': 'Grey',
+  '79c0e5801c7244b8101c1ea8c47822703073bc75f98a1f94855fa244247fc4f6i0': 'Matrix',
   '1484e9c361b533a294a500cb4a2c1320f3f836bd474046c4c4ddfcc5d04640fai0': 'Pink',
   '5841409eddf1c74bb5215eff925d19168ff2272b4b84f917214e045939ffa319i0': 'Purple',
   '291886611a617e182241a0d3af43a7a029cd1deee41eb92d0aa25f25f7f7a191i0': 'Red',
