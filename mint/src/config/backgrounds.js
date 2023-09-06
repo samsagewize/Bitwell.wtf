@@ -1,4 +1,6 @@
 export const BACKGROUND_INSCRIPTIONS = {
+  'Bitmap Punk': '7dbd7ee24be13ddc0a0e96e23aed62e58a4eb10665e3e3b40d5f2a6b0f279f03i0',
+  'Bitwell Map': '1cb56e945dbcc0c9acb6620cf331954b12f3bacf282820b8f0a5c160434017bci0',
   'Black': 'f03105e5fe9d68d37cee282e3da370b28aec1ddd80d4dbeb4ac8ee9ecd34487fi0',
   'Blue': 'c51e96606ff155450999c80e0789190d415041203f1845ef2731997c4409e9fei0',
   'Confetti': '374b2a69cf2a354c9ad833c4d9fae68f0eb137ba6cece9adc9851cf6973b4aaei0',
@@ -13,6 +15,8 @@ export const BACKGROUND_INSCRIPTIONS = {
 }
 
 export const BACKGROUND_LOOKUP = {
+  '7dbd7ee24be13ddc0a0e96e23aed62e58a4eb10665e3e3b40d5f2a6b0f279f03i0': 'Bitmap Punk',
+  '1cb56e945dbcc0c9acb6620cf331954b12f3bacf282820b8f0a5c160434017bci0': 'Bitwell Map',
   'f03105e5fe9d68d37cee282e3da370b28aec1ddd80d4dbeb4ac8ee9ecd34487fi0': 'Black',
   'c51e96606ff155450999c80e0789190d415041203f1845ef2731997c4409e9fei0': 'Blue',
   '374b2a69cf2a354c9ad833c4d9fae68f0eb137ba6cece9adc9851cf6973b4aaei0': 'Confetti',
