@@ -233,10 +233,11 @@
 <script type="text/javascript">
     // Global variable to store the Unisat address
     let unisatAddress = "";
+
     async function connectWallet() {
         try {
             const accounts = await window.unisat.requestAccounts();
-            console.log('connect success', accounts);
+            console.log('Connect success', accounts);
             alert('Wallet connected: ' + accounts[0]);
             // Store the Unisat address in the global variable
             unisatAddress = accounts[0];
@@ -296,28 +297,52 @@
 
         let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
         let inscriptionElements = await Promise.all(inscriptionsData.list.map(async inscription => {
-            let imageData = await loadImageData(inscription.inscriptionId);
+            let inscriptionId = inscription.inscriptionId;
+            let inscriptionNumber = parseInt(inscriptionId.replace('.well-', ''));
 
-            if (imageData) {
-                // Display the image if it exists
-                return `
+            let inscriptionInfo = {
+                "code": 0,
+                "msg": "OK",
+                "data": {
+                    "cursor": 0,
+                    "total": 0,
+                    "totalConfirmed": 0,
+                    "totalUnconfirmed": 0,
+                    "totalUnconfirmedSpend": 0,
+                    "utxo": [
+                        {
+                            "address": "string",
+                            "codeType": 0,
+                            "height": 0,
+                            "idx": 0,
+                            "inscriptions": [
+                                {
+                                    "inscriptionId": inscriptionId,
+                                    "inscriptionNumber": inscriptionNumber,
+                                    "isBRC20": true,
+                                    "moved": true,
+                                    "offset": 0
+                                }
+                            ],
+                            "isOpInRBF": false,
+                            "satoshi": 10000, // Update with actual satoshi value
+                            "scriptPk": "string",
+                            "scriptType": "string",
+                            "txid": "string",
+                            "vout": 0
+                        }
+                    ]
+                }
+            };
+
+            let inscriptionJson = JSON.stringify(inscriptionInfo, null, 2);
+
+            return `
                 <div class="item">
-                    <p>Inscription ID: ${inscription.inscriptionId}</p>
-                    <p>Inscription Name: ${inscription.inscriptionName}</p>
-                    <img src="${imageData}" alt="Inscription Image" />
+                    <p>Inscription JSON:</p>
+                    <pre>${inscriptionJson}</pre>
                 </div>
             `;
-            } else {
-                // Display the text file content if the image doesn't exist
-                let textData = await loadTextData(inscription.inscriptionId);
-                return `
-                <div class="item">
-                    <p>Inscription ID: ${inscription.inscriptionId}</p>
-                    <p>Inscription Name: ${inscription.inscriptionName}</p>
-                    <p>Text Data: ${textData}</p>
-                </div>
-            `;
-            }
         }));
 
         document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
