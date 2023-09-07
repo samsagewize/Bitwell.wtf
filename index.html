@@ -1,5 +1,3 @@
-
-<!DOCTYPE html>
 <html>
 <head>
     <title>Welcome to Bitwell</title>
@@ -330,3 +328,83 @@ async function displayWalletInfo() {
     </script>
 </body>
 </html>
+
+ChatGPT
+To make the provided code work with the Unisat function in your HTML code, you need to make several changes and additions to the JavaScript code in your HTML file. I'll provide you with the updated JavaScript code:
+
+html
+Copy code
+<script type="text/javascript">
+    // Global variable to store the Unisat address
+    let unisatAddress = "";
+
+    async function connectWallet() {
+        try {
+            const accounts = await window.unisat.requestAccounts();
+            console.log('connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+            // Store the Unisat address in the global variable
+            unisatAddress = accounts[0];
+
+            // Display the Unisat address as the username
+            displayUnisatAddress();
+            displayWalletInfo();
+        } catch (e) {
+            console.log('connect failed', e);
+            alert('Failed to connect wallet');
+        }
+    }
+
+    // Function to display the Unisat address as the username
+    function displayUnisatAddress() {
+        const usernameContainer = document.getElementById("username-container");
+        const usernameInput = document.getElementById("username");
+
+        // Set the Unisat address as the value of the username input field
+        usernameInput.value = unisatAddress;
+
+        // Display the Unisat address on the page
+        const addressParagraph = document.createElement("p");
+        addressParagraph.textContent = "Your Unisat Address: " + unisatAddress;
+        usernameContainer.appendChild(addressParagraph);
+    }
+
+    async function displayWalletInfo() {
+        let accountAddress = await window.unisat.getAccounts();
+        document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
+
+        let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+        let inscriptionElements = await Promise.all(inscriptionsData.list.map(async inscription => {
+            let imageData = await loadImageData(inscription.inscriptionId);
+
+            if (imageData) {
+                // Display the image if it exists
+                return `
+                    <div class="item">
+                        <p>Inscription ID: ${inscription.inscriptionId}</p>
+                        <p>Inscription Name: ${inscription.inscriptionName}</p>
+                        <img src="${imageData}" alt="Inscription Image" />
+                    </div>
+                `;
+            } else {
+                // Display the text file content if the image doesn't exist
+                let textData = await loadTextData(inscription.inscriptionId);
+                return `
+                    <div class="item">
+                        <p>Inscription ID: ${inscription.inscriptionId}</p>
+                        <p>Inscription Name: ${inscription.inscriptionName}</p>
+                        <p>Text Data: ${textData}</p>
+                    </div>
+                `;
+            }
+        }));
+
+        document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
+    }
+
+    // Add this code to call the connectWallet() function when the "Unisat Connect" button is clicked
+    function connectWallet() {
+        connectWallet();
+    }
+
+</script>
