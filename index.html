@@ -235,14 +235,14 @@
 
 <script>
     // Replace with the actual Unisat API base URL
-    const unisatApiBaseUrl = "https://api.unisat.io";
+    const unisatApiBaseUrl = "https://open-api.unisat.io";
 
     // Initialize the Unisat wallet
     async function initializeWallet() {
         try {
             // Add your logic to connect to the Unisat wallet using their API
             // For example, you can use fetch to make API requests to Unisat
-            const response = await fetch(`${https://open-api.unisat.io/swagger.html}/connect-wallet`, {
+            const response = await fetch(`${unisatApiBaseUrl}/connect-wallet`, {
                 method: 'POST',
                 // Add any required headers and authentication tokens as per Unisat API documentation
                 headers: {
@@ -262,6 +262,9 @@
 
                 // Display the wallet address
                 document.getElementById("accountAddress").textContent = "Account Address: " + walletAddress;
+
+                // Fetch and display TXT inscriptions with ".well"
+                fetchInscriptions(walletAddress);
             } else {
                 // Handle wallet connection error
                 console.error("Failed to connect wallet:", response.statusText);
@@ -271,16 +274,54 @@
         }
     }
 
+    // Fetch and display TXT inscriptions with ".well"
+    async function fetchInscriptions(walletAddress) {
+        try {
+            // Fetch TXT inscriptions for the wallet address
+            const response = await fetch(`${unisatApiBaseUrl}/get-inscriptions?address=${walletAddress}`, {
+                method: 'GET',
+                // Add any required headers and authentication tokens as per Unisat API documentation
+            });
+
+            // Check if the request was successful
+            if (response.ok) {
+                const inscriptions = await response.json();
+                const wellInscriptions = inscriptions.filter(inscription => inscription.text.includes(".well"));
+
+                // Display the inscriptions
+                const inscriptionsDiv = document.getElementById("inscriptions");
+                inscriptionsDiv.innerHTML = "<h2>Inscriptions with '.well':</h2>";
+
+                if (wellInscriptions.length > 0) {
+                    wellInscriptions.forEach(inscription => {
+                        const p = document.createElement("p");
+                        p.textContent = inscription.text;
+                        inscriptionsDiv.appendChild(p);
+                    });
+                } else {
+                    const p = document.createElement("p");
+                    p.textContent = "No inscriptions with '.well' found.";
+                    inscriptionsDiv.appendChild(p);
+                }
+            } else {
+                console.error("Failed to fetch inscriptions:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Failed to fetch inscriptions:", error);
+        }
+    }
+
     // Call the initialization function when the page loads
     window.onload = function () {
         initializeWallet();
     };
 
-    // Function to handle wallet connection
+    // Function to handle wallet connection (if needed)
     function connectWallet() {
         // Add your Unisat wallet connection logic using their API here
         // Make the necessary API requests and handle user interactions
     }
 </script>
+
 </body>
 </html>
