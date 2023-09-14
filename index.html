@@ -229,7 +229,32 @@
 
 <p id="accountAddress"></p>
 <div id="inscriptions"></div>
+<!-- Include the Unisat library/script -->
+<script src="unisat.js"></script>
 
+<script>
+    // Initialize the Unisat wallet
+    async function initializeWallet() {
+        try {
+            // Connect to the Unisat wallet provider (replace with actual code)
+            await Unisat.connect();
+
+            // Get the connected wallet's address
+            const accounts = await Unisat.getAccounts();
+            const walletAddress = accounts[0];
+
+            // Display the wallet address
+            document.getElementById("accountAddress").textContent = "Account Address: " + walletAddress;
+        } catch (error) {
+            console.error("Failed to connect wallet:", error);
+        }
+    }
+
+    // Call the initialization function when the page loads
+    window.onload = function () {
+        initializeWallet();
+    };
+</script>
 <script type="text/javascript">
     // Global variable to store the Unisat address
     let unisatAddress = "";
