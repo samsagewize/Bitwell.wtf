@@ -173,9 +173,18 @@
             margin-top: 20px;
             text-align: center;
         }
+ body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
     </style>
 </head>
 <body>
+  <canvas id="canvas"></canvas>
 <div class="well-container">
     <div class="well">
         <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
@@ -347,7 +356,98 @@
 
         document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
     }
+// Get the canvas element and its context
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Make the canvas full screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Set the background color
+    canvas.style.backgroundColor = "lightsteelblue"; // Change to your preferred background color
+
+    // Coin properties
+    const coins = [];
+
+    // Define the gravity
+    const gravity = 0.1; // Adjusted for slower fall
+
+    // Function to create a falling coin
+    function createCoin() {
+      const size = Math.random() * 30 + 20; // Random size between 20 and 50
+      const x = Math.random() * canvas.width; // Random x position
+      const y = -size; // Start above the canvas
+      const speedY = Math.random() * 0.5 + 0.1; // Random vertical speed (slower)
+      const color = "orange"; // Coin color
+
+      coins.push({ x, y, size, speedY, color });
+    }
+
+    // Function to update and draw the coins
+    function updateCoins() {
+      for (let i = 0; i < coins.length; i++) {
+        const coin = coins[i];
+
+        // Apply gravity
+        coin.speedY += gravity;
+        coin.y += coin.speedY;
+
+        // Draw the coin
+        ctx.fillStyle = coin.color;
+        ctx.beginPath();
+        ctx.arc(coin.x, coin.y, coin.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Add a "B" in the middle of the coin
+        ctx.fillStyle = "white";
+        ctx.font = `${coin.size * 0.7}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("B", coin.x, coin.y);
+
+        // Simulate a shine effect randomly
+        if (Math.random() < 0.02) {
+          const shineSize = coin.size * 0.8;
+          const shineX = coin.x - shineSize * 0.5;
+          const shineY = coin.y - shineSize * 0.5;
+
+          const gradient = ctx.createRadialGradient(
+            shineX + shineSize / 2, shineY + shineSize / 2, 0,
+            shineX + shineSize / 2, shineY + shineSize / 2, shineSize / 2
+          );
+          gradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");
+          gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+          ctx.fillStyle = gradient;
+
+          ctx.beginPath();
+          ctx.arc(coin.x, coin.y, shineSize / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Remove coins that are out of the canvas
+        if (coin.y > canvas.height) {
+          coins.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    // Main animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Create a new coin every 100 milliseconds (adjust the interval as needed)
+      if (Math.random() < 0.01) {
+        createCoin();
+      }
+
+      updateCoins();
+      requestAnimationFrame(animate);
+    }
+
+    // Start the animation
+    animate();
 </script>
 </body>
 </html>
-
