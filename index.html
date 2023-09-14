@@ -230,98 +230,130 @@
 <p id="accountAddress"></p>
 <div id="inscriptions"></div>
 
-<!-- Include the Unisat library/script -->
-<script src="unisat.js"></script>
 
-<script>
-    // Replace with the actual Unisat API base URL
-    const unisatApiBaseUrl = "https://open-api.unisat.io";
 
-    // Initialize the Unisat wallet
-    async function initializeWallet() {
+
+<script type="text/javascript">
+    // Global variable to store the Unisat address
+    let unisatAddress = "";
+
+const unisatApiBaseUrl = "https://open-api.unisat.io";
+
+
+    async function connectWallet() {
         try {
-            // Add your logic to connect to the Unisat wallet using their API
-            // For example, you can use fetch to make API requests to Unisat
-            const response = await fetch(`${unisatApiBaseUrl}/connect-wallet`, {
-                method: 'POST',
-                // Add any required headers and authentication tokens as per Unisat API documentation
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Add any authentication tokens or headers required by Unisat
-                },
-                // Add any payload required to connect the wallet as per Unisat API documentation
-                body: JSON.stringify({
-                    // Add wallet connection parameters here
-                }),
-            });
+            const accounts = await window.unisat.requestAccounts();
+            console.log('Connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+            // Store the Unisat address in the global variable
+            unisatAddress = accounts[0];
 
-            // Check if the wallet was connected successfully
-            if (response.ok) {
-                const walletData = await response.json();
-                const walletAddress = walletData.address;
-
-                // Display the wallet address
-                document.getElementById("accountAddress").textContent = "Account Address: " + walletAddress;
-
-                // Fetch and display TXT inscriptions with ".well"
-                fetchInscriptions(walletAddress);
-            } else {
-                // Handle wallet connection error
-                console.error("Failed to connect wallet:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Failed to connect wallet:", error);
+            // Display the Unisat address as the username
+            displayUnisatAddress();
+            displayWalletInfo();
+        } catch (e) {
+            console.error('Connect failed', e);
+            alert('Failed to connect wallet. Check the console for more details.');
         }
     }
 
-    // Fetch and display TXT inscriptions with ".well"
-    async function fetchInscriptions(walletAddress) {
-        try {
-            // Fetch TXT inscriptions for the wallet address
-            const response = await fetch(`${unisatApiBaseUrl}/get-inscriptions?address=${walletAddress}`, {
-                method: 'GET',
-                // Add any required headers and authentication tokens as per Unisat API documentation
-            });
+    // Function to send messages
+    function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
 
-            // Check if the request was successful
-            if (response.ok) {
-                const inscriptions = await response.json();
-                const wellInscriptions = inscriptions.filter(inscription => inscription.text.includes(".well"));
+        if (message !== "") {
+            // Get the current timestamp
+            const timestamp = new Date().toLocaleString();
 
-                // Display the inscriptions
-                const inscriptionsDiv = document.getElementById("inscriptions");
-                inscriptionsDiv.innerHTML = "<h2>Inscriptions with '.well':</h2>";
+            // Append the user's message with the timestamp to the chat box
+            const chatBox = document.getElementById("chat");
+            chatBox.value += `${timestamp} - You: ${message}\n`;
 
-                if (wellInscriptions.length > 0) {
-                    wellInscriptions.forEach(inscription => {
-                        const p = document.createElement("p");
-                        p.textContent = inscription.text;
-                        inscriptionsDiv.appendChild(p);
-                    });
-                } else {
-                    const p = document.createElement("p");
-                    p.textContent = "No inscriptions with '.well' found.";
-                    inscriptionsDiv.appendChild(p);
-                }
-            } else {
-                console.error("Failed to fetch inscriptions:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Failed to fetch inscriptions:", error);
+            // Clear the message input
+            messageInput.value = "";
+
+            // You can also add code here to post the message with the timestamp to a backend server or blockchain.
         }
     }
 
-    // Call the initialization function when the page loads
+    // Call the displayMessages and displayUnisatAddress functions when the page loads
     window.onload = function () {
-        initializeWallet();
+        displayMessages(chatData);
+        displayUnisatAddress();
     };
 
-    // Function to handle wallet connection (if needed)
-    function connectWallet() {
-        // Add your Unisat wallet connection logic using their API here
-        // Make the necessary API requests and handle user interactions
+    // Function to display the Unisat address as the username
+    function displayUnisatAddress() {
+        const usernameContainer = document.getElementById("username-container");
+        const usernameInput = document.getElementById("username");
+
+        // Set the Unisat address as the value of the username input field
+        usernameInput.value = unisatAddress;
+
+        // Display the Unisat address on the page
+        const addressParagraph = document.createElement("p");
+        addressParagraph.textContent = "Your Unisat Address: " + unisatAddress;
+        usernameContainer.appendChild(addressParagraph);
+    }
+
+    async function displayWalletInfo() {
+        let accountAddress = await window.unisat.getAccounts();
+        document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
+
+        let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+        let inscriptionElements = await Promise.all(inscriptionsData.list.map(async inscription => {
+            let inscriptionId = inscription.inscriptionId;
+            let inscriptionNumber = parseInt(inscriptionId.replace('.well-', ''));
+
+            let inscriptionInfo = {
+                "code": 0,
+                "msg": "OK",
+                "data": {
+                    "cursor": 0,
+                    "total": 0,
+                    "totalConfirmed": 0,
+                    "totalUnconfirmed": 0,
+                    "totalUnconfirmedSpend": 0,
+                    "utxo": [
+                        {
+                            "address": "string",
+                            "codeType": 0,
+                            "height": 0,
+                            "idx": 0,
+                            "inscriptions": [
+                                {
+                                    "inscriptionId": inscriptionId,
+                                    "inscriptionNumber": inscriptionNumber,
+                                    "isBRC20": true,
+                                    "moved": true,
+                                    "offset": 0
+                                }
+                            ],
+                            "isOpInRBF": false,
+                            "satoshi": 10000, // Update with actual satoshi value
+                            "scriptPk": "string",
+                            "scriptType": "string",
+                            "txid": "string",
+                            "vout": 0
+                        }
+                    ]
+                }
+            };
+
+            let inscriptionJson = JSON.stringify(inscriptionInfo, null, 2);
+
+            return `
+                <div class="item">
+                    <p>Inscription JSON:</p>
+                    <pre>${inscriptionJson}</pre>
+                </div>
+            `;
+        }));
+
+        document.getElementById("inscriptions").innerHTML = "Inscriptions: <br>" + inscriptionElements.join('');
     }
 </script>
-
 </body>
 </html>
+
