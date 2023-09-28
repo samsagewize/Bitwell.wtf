@@ -173,6 +173,21 @@
             margin-top: 20px;
             text-align: center;
         }
+    .iframe-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 20%;
+            height: 80%;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
+
+        /* Style the iframe */
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe border */
+        }
     </style>
 </head>
 <body>
