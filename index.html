@@ -2,245 +2,251 @@
 <html>
 <head>
     <title>Welcome to Bitwell</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+            body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #d6e9f7;
+        }
+
+        .well-container {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .well {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: spin 10s infinite linear;
+        }
+
+        .well > div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            transform-origin: bottom center;
+            opacity: 0.8;
+        }
+
+        /* Walls */
+        .well .wall {
+            position: absolute;
+            width: 100%;
+            height: 20px; /* Height of the well walls */
+            background-color: #00a8e0; /* Blue color for walls */
+            transform-origin: bottom center;
+        }
+
+        /* Coin */
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: orange;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            animation: moveCoin 4s infinite linear;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes moveCoin {
+            0%, 100% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(0) rotate(180deg); opacity: 0; }
+        }
+
+        {
+            font-family: 'Architects Daughter', cursive;
+            text-align: center;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .space {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1 {
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        /* Style the Bitwell Category */
+        .category {
+            font-size: 24px;
+            margin-top: 40px;
+        }
+
+        /* Style the subcategories */
+        .subcategory {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .subcategory li {
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .note {
+            color: #fff;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .unisat-connect-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: linear-gradient(to right, #00cc00, #00ff00);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .unisat-connect-button:hover {
+            background: linear-gradient(to right, #00ff00, #00cc00);
+        }
+
+        /* Media query for mobile view */
         @media screen and (max-width: 600px) {
-            /* Mobile-specific styles */
-            /* Adjust button styles */
+            /* Add your mobile-specific CSS here if needed */
+
             .button {
                 font-size: 14px;
                 padding: 6px 12px;
                 font-weight: bold;
-                margin-top: 10px; /* Increase the margin between buttons */
-                display: block; /* Make buttons full-width on mobile */
             }
 
-            /* Adjust iframe container styles */
-            .iframe-container {
-                width: 100%; /* Make the iframe container full-width */
-                height: 40%; /* Reduce the height to fit mobile screens */
-                position: relative;
+            .chat-box {
+                height: 80px;
+                font-size: 10px;
+                font-weight: bold;
             }
-            body {
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                background-color: #d6e9f7;
-            }
-            .well-container {
-                width: 300px;
-                height: 300px;
-                position: relative;
-                perspective: 1000px;
-            }
-            .well {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                transform-style: preserve-3d;
-                animation: spin 10s infinite linear;
-            }
-            .well > div {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background-color: gray;
-                transform-origin: bottom center;
-                opacity: 0.8;
-            }
-            /* Walls */
-            .well .wall {
-                position: absolute;
-                width: 100%;
-                height: 20px; /* Height of the well walls */
-                background-color: #00a8e0; /* Blue color for walls */
-                transform-origin: bottom center;
-            }
-            /* Coin */
-            .coin {
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                background-color: orange;
-                color: white;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                animation: moveCoin 4s infinite linear;
-            }
-            @keyframes spin {
-                0% { transform: rotateY(0deg); }
-                100% { transform: rotateY(360deg); }
-            }
-            @keyframes moveCoin {
-                0%, 100% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
-                50% { transform: translateY(0) rotate(180deg); opacity: 0; }
-            }
-            {
-                font-family: 'Architects Daughter', cursive;
-                text-align: center;
-                overflow: hidden;
-                background-color: #000000;
-            }
-            .space {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-            }
-            h1 {
-                margin-top: 100px;
-                text-align: center;
-            }
-            /* Style the Bitwell Category */
-            .category {
-                font-size: 24px;
-                margin-top: 40px;
-            }
-            /* Style the subcategories */
-            .subcategory {
-                list-style: none;
-                padding-left: 0;
-            }
-            .subcategory li {
-                margin-top: 10px;
-            }
-            .button {
-                display: inline-block;
-                background-color: #3498db;
-                color: #fff;
-                padding: 10px 20px;
-                font-size: 18px;
-                border-radius: 4px;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-                margin-top: 20px;
-                margin-right: 10px;
-            }
-            .button:hover {
-                background-color: #2980b9;
-            }
-            .note {
-                color: #fff;
-                font-size: 16px;
-                margin-top: 20px;
-            }
-            .unisat-connect-button {
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                z-index: 9999;
-                background: linear-gradient(to right, #00cc00, #00ff00);
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-            }
-            .unisat-connect-button:hover {
-                background: linear-gradient(to right, #00ff00, #00cc00);
-            }
-            /* Media query for mobile view */
-            @media screen and (max-width: 600px) {
-                /* Add your mobile-specific CSS here if needed */
-                .button {
-                    font-size: 14px;
-                    padding: 6px 12px;
-                    font-weight: bold;
-                }
-                .chat-box {
-                    height: 80px;
-                    font-size: 10px;
-                    font-weight: bold;
-                }
-            }
-            .taskbar {
-                padding: 10px;
-                background-color: #3498db;
-                color: #fff;
-                border-radius: 5px;
-                margin-top: 20px;
-                text-align: center;
-            }
-            .iframe-container {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 50%;
-                height: 60%;
-                z-index: 9999;
-            }
-            /* Style the iframe */
-            .iframe-container iframe {
-                width: 50%;
-                height: 60%;
-                border: none;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="well-container">
-            <div class="well">
-                <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
-                <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
-            </div>
-            <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(72deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(108deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(144deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(180deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(216deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(252deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
-            <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
-        </div>
+        }
 
-        <h1>Welcome to Bitwell</h1>
+        .taskbar {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+.iframe-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 60%;
+            z-index: 9999;
+        }
 
-        <div class="iframe-container">
-            <iframe src="https://www.ord.io/13544523" frameborder="0"></iframe>
-        </div>
+        /* Style the iframe */
+        .iframe-container iframe {
+            width: 50%;
+            height: 60%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="well-container">
+    <div class="well">
+        <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
+        <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
+    </div>
+    <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(72deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(108deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(144deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(180deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(216deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(252deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
+    <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
+</div>
 
-        <ul>
-            <li><a class="button" href="https://mint.bitwell.wtf" target="_blank">BITWELL PUNKS🎆</a></li>
-            <li><a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥</a></li>
+<h1>Welcome to Bitwell</h1>
+
+<div class="iframe-container">
+    <iframe src="https://www.ord.io/13544523" frameborder="0"></iframe>
+</div>
+
+
+<li><a class="button" href="https://mint.bitwell.wtf" target="_blank">BITWELL PUNKS🎆 </a></li>
+<li><a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥 </a></li>
+
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1">
+    <!-- Bitwell Category -->
+    <li class="category">Bitwell
+        <ul class="subcategory">
+            <li><a class="button" href="https://discord.gg/85pnRaYzwE">Discord</a></li>
+            <li><a class="button" href="https://ord.io/14612390">Bitwell 1.1</a></li>
+            <li><a class="button" href="https://ord.io/16835826">Bitwell 1.2</a></li>
+            <li><a class="button" href="https://www.ord.io/19973665">Bitwell 1.3</a></li>
+            <li><a class="button" href="https://geniidata.com/user/samsagewize/wishes-from-the-well" target="_blank">Indexer👨‍🔬</a></li>
+            <li><a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1" target="_blank">Inscribe✍️</a></li>
+            <li><a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a></li>
+            <li><a class="button" href="https://well-2.gitbook.io/bitwell/.well" target="_blank">Gitbook📝</a></li>
+            <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well🌠 </a></li>
+            <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's🕊️ </a></li>
+            <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld🌊</a></li>
         </ul>
 
-        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1">
-            <!-- Bitwell Category -->
-            <li class="category">Bitwell
-                <ul class="subcategory">
-                    <li><a class="button" href="https://discord.gg/85pnRaYzwE">Discord</a></li>
-                    <li><a class="button" href="https://ord.io/14612390">Bitwell 1.1</a></li>
-                    <li><a class="button" href="https://ord.io/16835826">Bitwell 1.2</a></li>
-                    <li><a class="button" href="https://www.ord.io/19973665">Bitwell 1.3</a></li>
-                    <li><a class="button" href="https://geniidata.com/user/samsagewize/wishes-from-the-well" target="_blank">Indexer👨‍🔬</a></li>
-                    <li><a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1" target="_blank">Inscribe✍️</a></li>
-                    <li><a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a></li>
-                    <li><a class="button" href="https://well-2.gitbook.io/bitwell/.well" target="_blank">Gitbook📝</a></li>
-                    <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well🌠</a></li>
-                    <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's🕊️</a></li>
-                    <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld🌊</a></li>
-                </ul>
-            </li> <!-- Add this closing </li> tag -->
-        </div>
-    </body>
+
+    
+
+</body>
 </html>
