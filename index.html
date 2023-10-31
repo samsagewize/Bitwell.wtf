@@ -129,6 +129,48 @@
             font-size: 16px;
             margin-top: 20px;
         }
+
+ /* Style for the dropdown menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Style for the dropdown button */
+        .dropdown .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Style for the dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        /* Style for the links inside the dropdown */
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color on hover */
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+
+        /* Show the dropdown content when hovering over the dropdown button */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -164,25 +206,29 @@
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/HWLJiExfdw4?start=30" frameborder="0" allowfullscreen></iframe>
 
-<li><a class="button" href="https://mint.bitwell.wtf" target="_blank">BITWELL PUNKS🎆 </a></li>
-<li><a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥 </a></li>
+<div class="dropdown">
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
+        <a class="button" href="https://mint.bitwell.wtf" target="_blank">BITWELL PUNKS🎆</a>
+        <a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥</a>
+        <!-- Bitwell Category -->
+        <a class="category" href="#bitwell-subcategories">Bitwell</a>
+        <ul class="subcategory" id="bitwell-subcategories">
+            <li><a class="button" href="https://discord.gg/85pnRaYzwE">Discord</a></li>
+            <li><a class="button" href="https://ord.io/14612390">Bitwell 1.1</a></li>
+            <li><a class="button" href="https://ord.io/16835826">Bitwell 1.2</a></li>
+            <li><a class="button" href="https://www.ord.io/19973665">Bitwell 1.3</a></li>
+            <li><a class="button" href="https://geniidata.com/user/samsagewize/wishes-from-the-well" target="_blank">Indexer👨‍🔬</a></li>
+            <li><a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1" target="_blank">Inscribe✍️</a></li>
+            <li><a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a></li>
+            <li><a class="button" href="https://well-2.gitbook.io/standard/" target="_blank">Gitbook📝</a></li>
+            <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well🌠</a></li>
+            <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's🕊️</a></li>
+            <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld🌊</a></li>
 
-<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1">
-    <!-- Bitwell Category -->
-    <a class="category" href="#bitwell-subcategories">Bitwell</a>
+        </ul>
+    </div>
 </div>
-<ul class="subcategory" id="bitwell-subcategories">
-    <li><a class="button" href="https://discord.gg/85pnRaYzwE">Discord</a></li>
-    <li><a class="button" href="https://ord.io/14612390">Bitwell 1.1</a></li>
-    <li><a class="button" href="https://ord.io/16835826">Bitwell 1.2</a></li>
-    <li><a class="button" href="https://www.ord.io/19973665">Bitwell 1.3</a></li>
-    <li><a class="button" href="https://geniidata.com/user/samsagewize/wishes-from-the-well" target="_blank">Indexer👨‍🔬</a></li>
-    <li><a class="button" href="https://unisat.io/search?q=.well&amp;type=text&amp;p=1" target="_blank">Inscribe✍️</a></li>
-    <li><a class="button" href="https://medium.com/@djlamoon/bitwell-1-1-building-on-the-bitcoin-blockchain-to-encrypt-and-decrypt-messages-f5ef04619f3" target="_blank">Medium Article</a></li>
-    <li><a class="button" href="https://well-2.gitbook.io/standard/" target="_blank">Gitbook📝</a></li>
-    <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well🌠</a></li>
-    <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's🕊️</a></li>
-    <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld🌊</a></li>
-</ul>
+
 </body>
 </html>
