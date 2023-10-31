@@ -250,5 +250,20 @@
     </div>
 </div>
 
+ <script>
+        // Import sats-connect package if you haven't already
+        // For ES6 (ECMAScript 2015) modules
+        import satsConnect from 'sats-connect';
+
+        // Function to handle the "My Profile" button click
+        function handleProfileButtonClick() {
+            // Redirect the user to the profile page when the button is clicked
+            window.location.href = 'profile.html';
+        }
+
+        // Add a click event listener to the "My Profile" button
+        const myProfileButton = document.getElementById('my-profile-button');
+        myProfileButton.addEventListener('click', handleProfileButtonClick);
+    </script>
 </body>
 </html>
