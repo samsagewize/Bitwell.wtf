@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <title>Welcome to Bitwell</title>
 
@@ -229,6 +229,48 @@
         #wallet-addresses {
             margin-top: 20px;
         }
+   .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: inline-block;
+        }
+
+        /* Style for the dropdown button */
+        .dropdown .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Style for the dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        /* Style for the links inside the dropdown */
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color on hover */
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+
+        /* Show the dropdown content when hovering over the dropdown button */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -262,7 +304,12 @@
 
 <h1>Welcome to Bitwell</h1>
 
-<button id="my-profile-button" class="profile-button">My Profile</button>
+  <button id="my-profile-button" class="dropbtn">My Profile</button>
+
+    <div class="dropdown" id="profile-dropdown">
+        <div id="connect-wallet-button" class="dropdown-content">Connect Wallet</div>
+    </div>
+
     <div id="wallet-addresses"></div>
 
 
@@ -374,16 +421,17 @@ window.onload = function () {
     initializeWallet();
 };
 
-// Function to handle wallet connection (if needed)
-function connectWallet() {
-    // Add your Unisat wallet connection logic using their API here
-    // Make the necessary API requests and handle user interactions
-}
+      // Function to handle wallet connection (if needed)
+        function connectWallet() {
+            // Add your Unisat wallet connection logic using their API here
+            // Make the necessary API requests and handle user interactions
+            // Call initializeWallet() or other relevant functions here
+        }
 
-// Function to connect the wallet when "My Profile" button is clicked
-document.getElementById("my-profile-button").addEventListener("click", function () {
-    connectWallet(); // Call your wallet connection logic
-});
+        // Add a click event listener to the "Connect Wallet" button
+        document.getElementById("connect-wallet-button").addEventListener("click", function () {
+            connectWallet(); // Call your wallet connection logic
+        });
 
     </script>
 </body>
