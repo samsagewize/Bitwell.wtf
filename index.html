@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>Welcome to Bitwell</title>
+
+<script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+
     <style>
             body {
             margin: 0;
@@ -203,6 +207,27 @@
         .profile-button:hover {
             background-color: #444;
         }
+     /* Style for the "My Profile" button */
+        .profile-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Change color on hover */
+        .profile-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style for displaying wallet addresses */
+        #wallet-addresses {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -236,7 +261,46 @@
 
 <h1>Welcome to Bitwell</h1>
 
- <button id="my-profile-button" class="profile-button">My Profile</button>
+<button id="my-profile-button" class="profile-button">My Profile</button>
+    <div id="wallet-addresses"></div>
+
+    <!-- Include the JavaScript code just before the closing </body> tag -->
+    <script>
+        // Initialize sats-connect for Unisat wallet connection
+        const satsConnect = new SatsConnect();
+
+        // Function to handle the "My Profile" button click
+        function handleProfileButtonClick() {
+            // Request access to the user's accounts (wallet addresses) using Unisat
+            satsConnect.unisat.requestAccounts()
+                .then(accounts => {
+                    // Display the user's wallet addresses on the profile page
+                    displayWalletAddresses(accounts);
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the request
+                    console.error('Error requesting accounts:', error);
+                });
+        }
+
+        // Function to display wallet addresses on the profile page
+        function displayWalletAddresses(accounts) {
+            const walletAddressesElement = document.getElementById('wallet-addresses');
+
+            // Clear any existing content
+            walletAddressesElement.innerHTML = '';
+
+            // Display the wallet addresses
+            accounts.forEach(account => {
+                const walletAddressElement = document.createElement('div');
+                walletAddressElement.textContent = `Wallet Address: ${account}`;
+                walletAddressesElement.appendChild(walletAddressElement);
+            });
+        }
+
+        // Add a click event listener to the "My Profile" button
+        const myProfileButton = document.getElementById('my-profile-button');
+        myProfileButton.addEventListener('click', handleProfileButtonClick);
 
 
 <div class="dropdown">
