@@ -311,6 +311,7 @@
 
     <div id="wallet-addresses"></div>
     <div id="wallet-inscriptions"></div>
+    <div id="connected-wallet-address"></div>
 
 
 <div class="dropdown">
@@ -339,6 +340,44 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const profileButton = document.getElementById("my-profile-button");
+
+    profileButton.addEventListener('click', function () {
+        connectWallet();
+    });
+
+    async function connectWallet() {
+        try {
+            const accounts = await window.unisat.requestAccounts();
+            console.log('connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+
+            // Display your wallet address when connected
+            displayConnectedWalletAddress(accounts[0]);
+
+            displayWalletInfo();
+            displayWellTxtInscriptions();
+        } catch (e) {
+            console.log('connect failed', e);
+            alert('Failed to connect wallet');
+        }
+    }
+
+    // Function to display your wallet address when connected
+    function displayConnectedWalletAddress(address) {
+        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+        connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
+    }
+
+    // ...rest of your code
+
+    // Call the initialization function when the page loads
+    window.onload = function () {
+        initializeWallet();
+    };
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
 
