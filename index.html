@@ -271,6 +271,17 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+.inscriptions-container {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .inscription {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -301,6 +312,11 @@
     <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
     <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
 </div>
+
+    <div class="inscriptions-container">
+        <h2>Inscriptions from ordinals.com:</h2>
+        <div id="ordinals-inscriptions"></div>
+    </div>
 
 <h1>Welcome to Bitwell</h1>
 
@@ -342,6 +358,46 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+            // Function to fetch and display inscriptions from ordinals.com
+            async function displayOrdinalsInscriptions() {
+                try {
+                    // Define the URL to fetch inscriptions from ordinals.com
+                    const ordinalsInscriptionsURL = 'https://api.ordinals.com/inscriptions';
+
+                    // Make a GET request to fetch inscriptions
+                    const response = await fetch(ordinalsInscriptionsURL);
+
+                    if (response.ok) {
+                        const inscriptions = await response.json();
+                        const ordinalsInscriptionsDiv = document.getElementById("ordinals-inscriptions");
+
+                        if (inscriptions && inscriptions.length > 0) {
+                            inscriptions.forEach(inscription => {
+                                const p = document.createElement("p");
+                                p.textContent = inscription; // Modify as per your inscription format
+                                ordinalsInscriptionsDiv.appendChild(p);
+                            });
+                        } else {
+                            const p = document.createElement("p");
+                            p.textContent = "No inscriptions from ordinals.com found.";
+                            ordinalsInscriptionsDiv.appendChild(p);
+                        }
+                    } else {
+                        console.error("Failed to fetch inscriptions from ordinals.com:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch inscriptions from ordinals.com:", error);
+                }
+            }
+
+            // Add an event listener to trigger fetching and displaying inscriptions from ordinals.com
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                connectWallet(); // Call your wallet connection logic
+                displayOrdinalsInscriptions(); // Fetch and display inscriptions from ordinals.com
+            });
+        });
+
 document.addEventListener('DOMContentLoaded', function () {
         const inscriptionsDiv = document.getElementById("unisat-inscriptions");
 
