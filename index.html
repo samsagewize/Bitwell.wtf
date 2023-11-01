@@ -312,6 +312,7 @@
     <div id="wallet-addresses"></div>
     <div id="wallet-inscriptions"></div>
     <div id="connected-wallet-address"></div>
+    <div id="inscription-ids"></div>
 
 
 <div class="dropdown">
@@ -378,6 +379,59 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeWallet();
     };
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const profileButton = document.getElementById("my-profile-button");
+    const connectedWalletInput = document.getElementById("connected-wallet-input");
+    const inscriptionIdsDiv = document.getElementById("inscription-ids");
+
+    profileButton.addEventListener('click', function () {
+        connectWallet();
+    });
+
+    async function connectWallet() {
+        try {
+            const accounts = await window.unisat.requestAccounts();
+            console.log('connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+
+            // Display the connected wallet address in the input field
+            connectedWalletInput.value = accounts[0];
+
+            // Fetch and display inscription IDs
+            displayInscriptionIds(accounts[0]);
+
+            displayWalletInfo();
+            displayWellTxtInscriptions();
+        } catch (e) {
+            console.log('connect failed', e);
+            alert('Failed to connect wallet');
+        }
+    }
+
+    // Function to fetch and display inscription IDs
+    async function displayInscriptionIds(walletAddress) {
+        try {
+            // Make an API request to fetch inscription IDs
+            const response = await fetch(`https://api.unisat.io/getinscriptions?address=${walletAddress}`, {
+                method: 'GET',
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const inscriptionIds = data.map(entry => entry.inscriptionId);
+
+                // Display the inscription IDs as text
+                inscriptionIdsDiv.textContent = "Inscription IDs: " + inscriptionIds.join(', ');
+            } else {
+                console.error('Failed to fetch inscription IDs:', response.statusText);
+                inscriptionIdsDiv.textContent = "Failed to fetch inscription IDs";
+            }
+        } catch (error) {
+            console.error('Failed to fetch inscription IDs:', error);
+            inscriptionIdsDiv.textContent = "Failed to fetch inscription IDs";
+        }
+    }
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
@@ -577,6 +631,12 @@ window.onload = function () {
         document.getElementById("connect-wallet-button").addEventListener("click", function () {
             connectWallet(); // Call your wallet connection logic
         });
+
+  // Call the initialization function when the page loads
+    window.onload = function () {
+        initializeWallet();
+    };
+});
 
     </script>
 </body>
