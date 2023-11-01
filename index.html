@@ -271,6 +271,11 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+  .inscription-image {
+            width: 200px; /* Set your desired size */
+            height: 200px;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -338,7 +343,7 @@
 </div>
 
     <script>
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger fetching and displaying Unisat inscriptions
             document.getElementById("my-profile-button").addEventListener("click", function () {
                 displayUnisatInscriptions();
@@ -363,6 +368,7 @@
                             const img = document.createElement("img");
                             img.src = inscription.content; // Assuming content is the URL of an image
                             img.alt = `Inscription ${inscription.inscriptionId}`;
+                            img.className = "inscription-image";
                             inscriptionsDiv.appendChild(img);
                         });
                     } else {
