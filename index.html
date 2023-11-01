@@ -271,6 +271,18 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+ /* Add additional styles here for inscriptions display */
+        .inscriptions-container {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .inscription {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -417,6 +429,46 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeWallet();
     };
 });
+
+     document.addEventListener('DOMContentLoaded', function () {
+            // Function to fetch and display inscriptions from ordinals.com
+            async function displayOrdinalsInscriptions() {
+                try {
+                    // Define the URL to fetch inscriptions from ordinals.com
+                    const ordinalsInscriptionsURL = 'https://api.ordinals.com/inscriptions';
+
+                    // Make a GET request to fetch inscriptions
+                    const response = await fetch(https://ordinals.com/);
+
+                    if (response.ok) {
+                        const inscriptions = await response.json();
+                        const ordinalsInscriptionsDiv = document.getElementById("ordinals-inscriptions");
+
+                        if (inscriptions && inscriptions.length > 0) {
+                            inscriptions.forEach(inscription => {
+                                const p = document.createElement("p");
+                                p.textContent = inscription; // Modify as per your inscription format
+                                ordinalsInscriptionsDiv.appendChild(p);
+                            });
+                        } else {
+                            const p = document.createElement("p");
+                            p.textContent = "No inscriptions from ordinals.com found.";
+                            ordinalsInscriptionsDiv.appendChild(p);
+                        }
+                    } else {
+                        console.error("Failed to fetch inscriptions from ordinals.com:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch inscriptions from ordinals.com:", error);
+                }
+            }
+
+            // Add an event listener to trigger fetching and displaying inscriptions from ordinals.com
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                connectWallet(); // Call your wallet connection logic
+                displayOrdinalsInscriptions(); // Fetch and display inscriptions from ordinals.com
+            });
+        });
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
