@@ -384,6 +384,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const profileButton = document.getElementById("my-profile-button");
+
+    profileButton.addEventListener('click', function () {
+        connectWallet();
+    });
+
+    async function connectWallet() {
+        try {
+            const accounts = await window.unisat.requestAccounts();
+            console.log('connect success', accounts);
+            alert('Wallet connected: ' + accounts[0]);
+
+            // Display the connected wallet address in a new tab inside the webpage
+            displayConnectedWalletAddress(accounts[0]);
+
+            displayWalletInfo();
+            displayWellTxtInscriptions();
+        } catch (e) {
+            console.log('connect failed', e);
+            alert('Failed to connect wallet');
+        }
+    }
+
+    // Function to display the connected wallet address in a new tab inside the webpage
+    function displayConnectedWalletAddress(address) {
+        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+        connectedWalletAddressDiv.innerHTML = `<p>Connected Wallet Address: ${address}</p>`;
+    }
+
 async function displayWalletInfo() {
     try {
         const inscriptionsData = await window.unisat.getInscriptions(0, 10); // Fetch inscriptions
@@ -538,6 +568,11 @@ window.onload = function () {
             connectWallet(); // Call your wallet connection logic
         });
 
+   // Call the initialization function when the page loads
+    window.onload = function () {
+        initializeWallet();
+    };
+});
     </script>
 </body>
 </html>
