@@ -313,6 +313,7 @@
     <div id="wallet-inscriptions"></div>
     <div id="connected-wallet-address"></div>
     <div id="inscription-ids"></div>
+    <div id="unisat-inscriptions"></div>
 
 
 <div class="dropdown">
@@ -341,6 +342,43 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+        const inscriptionsDiv = document.getElementById("unisat-inscriptions");
+
+        // Function to fetch and display Unisat inscriptions
+        async function displayUnisatInscriptions() {
+            try {
+                const cursor = 0; // Define the cursor value
+                const size = 10; // Define the number of inscriptions to fetch
+
+                // Call the Unisat function to get inscriptions
+                const inscriptions = await unisat.getInscriptions(cursor, size);
+
+                // Display the inscriptions in the specified div
+                inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
+
+                if (inscriptions && inscriptions.length > 0) {
+                    inscriptions.forEach(inscription => {
+                        const p = document.createElement("p");
+                        p.textContent = inscription; // Modify as per your inscription format
+                        inscriptionsDiv.appendChild(p);
+                    });
+                } else {
+                    const p = document.createElement("p");
+                    p.textContent = "No Unisat inscriptions found.";
+                    inscriptionsDiv.appendChild(p);
+                }
+            } catch (error) {
+                console.error("Failed to fetch Unisat inscriptions:", error);
+            }
+        }
+
+        // Add an event listener to trigger fetching and displaying Unisat inscriptions
+        document.getElementById("my-profile-button").addEventListener("click", function () {
+            connectWallet(); // Call your wallet connection logic
+            displayUnisatInscriptions(); // Fetch and display Unisat inscriptions
+        });
+    });
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
