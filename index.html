@@ -292,54 +292,39 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
-        // Initialize sats-connect for Unisat wallet connection
-        const satsConnect = new SatsConnect();
+    // Initialize sats-connect for Unisat wallet connection
+    const satsConnect = new SatsConnect();
 
-function handleProfileButtonClick() {
-    // Request access to the user's accounts (wallet addresses) using Unisat
-    satsConnect.unisat.requestAccounts()
-        .then(accounts => {
-            // Display the user's wallet addresses on the profile page
-            displayWalletAddresses(accounts);
-        })
-        .catch(error => {
-            // Handle any errors that occur during the request
-            console.error('Error requesting accounts:', error);
-        });
-}
+    function handleProfileButtonClick() {
+        // Request access to the user's accounts (wallet addresses) using Unisat
+        satsConnect.unisat.requestAccounts()
+            .then(accounts => {
+                // Display the user's wallet addresses on the profile page
+                displayWalletAddresses(accounts);
+            })
+            .catch(error => {
+                // Handle any errors that occur during the request
+                console.error('Error requesting accounts:', error);
+            });
+    }
 
     function displayWalletAddresses(accounts) {
-    const walletAddressesElement = document.getElementById('wallet-addresses');
+        const walletAddressesElement = document.getElementById('wallet-addresses');
 
-    // Clear any existing content
-    walletAddressesElement.innerHTML = '';
+        // Clear any existing content
+        walletAddressesElement.innerHTML = '';
 
-    // Display the wallet addresses
-    accounts.forEach(account => {
-        const walletAddressElement = document.createElement('div');
-        walletAddressElement.textContent = `Wallet Address: ${account}`;
-        walletAddressesElement.appendChild(walletAddressElement);
-    });
-}
+        // Display the wallet addresses
+        accounts.forEach(account => {
+            const walletAddressElement = document.createElement('div');
+            walletAddressElement.textContent = `Wallet Address: ${account}`;
+            walletAddressesElement.appendChild(walletAddressElement);
+        });
+    }
 
-        // Add a click event listener to the "My Profile" button
-        const myProfileButton = document.getElementById('my-profile-button');
-        myProfileButton.addEventListener('click', handleProfileButtonClick);
-
-
-        // Import sats-connect package if you haven't already
-        // For ES6 (ECMAScript 2015) modules
-        import satsConnect from 'sats-connect';
-
-        // Function to handle the "My Profile" button click
-        function handleProfileButtonClick() {
-            // Redirect the user to the profile page when the button is clicked
-            window.location.href = 'profile.html';
-        }
-
-   // Add a click event listener to the "My Profile" button
-const myProfileButton = document.getElementById('my-profile-button');
-myProfileButton.addEventListener('click', handleProfileButtonClick);
+    // Add a click event listener to the "My Profile" button
+    const myProfileButton = document.getElementById('my-profile-button');
+    myProfileButton.addEventListener('click', handleProfileButtonClick);
     </script>
 </body>
 </html>
