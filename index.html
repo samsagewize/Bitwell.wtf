@@ -271,7 +271,7 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
- /* CSS for the water-like animation effect */
+      /* CSS for the water-like animation effect */
         .water-container {
             position: relative;
             width: 200px;
@@ -310,6 +310,16 @@
             max-height: 100%;
             display: block;
             margin: 0 auto;
+        }
+
+        /* CSS for the text box */
+        .inscription-text-box {
+            width: 200px;
+            height: 200px;
+            overflow: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: white;
         }
     </style>
 
@@ -350,12 +360,12 @@
 
 <div id="connected-wallet-address"></div>
     
-<button id="my-profile-button">My Profile</button>
+  <button id="my-profile-button">My Profile</button>
     <div id="water-container" class="water-container">
         <div class="water-animation"></div>
     </div>
     <div id="inscriptions"></div>
-    <div id="inscription-content"></div>
+    <div id="inscription-content" class="inscription-text-box"></div>
 
 
 <div class="dropdown">
@@ -387,7 +397,7 @@
 
     <script>
 
- document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger fetching and displaying Unisat inscriptions
             document.getElementById("my-profile-button").addEventListener("click", function () {
                 displayUnisatInscriptions();
@@ -417,6 +427,11 @@
                             img.alt = `Inscription ${inscription.inscriptionId}`;
                             container.appendChild(img);
                             inscriptionsDiv.appendChild(container);
+
+                            // Add a click event to display the content in the text box
+                            container.addEventListener("click", function () {
+                                displayInscriptionContent(inscription.content);
+                            });
                         });
                     } else {
                         const p = document.createElement("p");
@@ -428,7 +443,7 @@
                 }
             }
 
-            // Function to display inscription content
+            // Function to display inscription content in the text box
             async function displayInscriptionContent(contentURL) {
                 try {
                     const response = await fetch(contentURL);
