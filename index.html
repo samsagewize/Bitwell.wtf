@@ -321,6 +321,12 @@
         <div id="connect-wallet-button" class="dropdown-content">Connect Wallet</div>
     </div>
 
+    <!-- Add a container to display inscriptions -->
+    <div class="inscriptions-container">
+        <h2>Inscriptions from ordinals.com:</h2>
+        <div id="ordinals-inscriptions"></div>
+    </div>
+
     <div id="wallet-addresses"></div>
     <div id="wallet-inscriptions"></div>
     <div id="connected-wallet-address"></div>
@@ -354,43 +360,6 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-        const inscriptionsDiv = document.getElementById("unisat-inscriptions");
-
-        // Function to fetch and display Unisat inscriptions
-        async function displayUnisatInscriptions() {
-            try {
-                const cursor = 0; // Define the cursor value
-                const size = 10; // Define the number of inscriptions to fetch
-
-                // Call the Unisat function to get inscriptions
-                const inscriptions = await unisat.getInscriptions(cursor, size);
-
-                // Display the inscriptions in the specified div
-                inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
-
-                if (inscriptions && inscriptions.length > 0) {
-                    inscriptions.forEach(inscription => {
-                        const p = document.createElement("p");
-                        p.textContent = inscription; // Modify as per your inscription format
-                        inscriptionsDiv.appendChild(p);
-                    });
-                } else {
-                    const p = document.createElement("p");
-                    p.textContent = "No Unisat inscriptions found.";
-                    inscriptionsDiv.appendChild(p);
-                }
-            } catch (error) {
-                console.error("Failed to fetch Unisat inscriptions:", error);
-            }
-        }
-
-        // Add an event listener to trigger fetching and displaying Unisat inscriptions
-        document.getElementById("my-profile-button").addEventListener("click", function () {
-            connectWallet(); // Call your wallet connection logic
-            displayUnisatInscriptions(); // Fetch and display Unisat inscriptions
-        });
-    });
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
@@ -422,13 +391,63 @@ document.addEventListener('DOMContentLoaded', function () {
         connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
     }
 
-    // ...rest of your code
-
     // Call the initialization function when the page loads
     window.onload = function () {
         initializeWallet();
     };
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+            // Function to fetch and display inscriptions from ordinals.com
+            async function displayOrdinalsInscriptions() {
+                try {
+                    // Define the URL to fetch inscriptions from ordinals.com
+                    const ordinalsInscriptionsURL = 'https://api.ordinals.com/inscriptions';
+
+                    // Make a GET request to fetch inscriptions
+                    const response = await fetch(ordinalsInscriptionsURL);
+
+                    if (response.ok) {
+                        const inscriptions = await response.json();
+                        const ordinalsInscriptionsDiv = document.getElementById("ordinals-inscriptions");
+
+                        if (inscriptions && inscriptions.length > 0) {
+                            inscriptions.forEach(inscription => {
+                                const p = document.createElement("p");
+                                p.textContent = inscription; // Modify as per your inscription format
+                                ordinalsInscriptionsDiv.appendChild(p);
+                            });
+                        } else {
+                            const p = document.createElement("p");
+                            p.textContent = "No inscriptions from ordinals.com found.";
+                            ordinalsInscriptionsDiv.appendChild(p);
+                        }
+                    } else {
+                        console.error("Failed to fetch inscriptions from ordinals.com:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch inscriptions from ordinals.com:", error);
+                }
+            }
+
+            // Function to handle wallet connection (if needed)
+            async function connectWallet() {
+                try {
+                    const accounts = await window.unisat.requestAccounts();
+                    console.log('connect success', accounts);
+                    alert('Wallet connected: ' + accounts[0]);
+                    displayOrdinalsInscriptions(); // Fetch and display inscriptions from ordinals.com
+                } catch (e) {
+                    console.log('connect failed', e);
+                    alert('Failed to connect wallet');
+                }
+            }
+
+            // Add an event listener to trigger wallet connection and fetching inscriptions
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                connectWallet();
+            });
+        });
 
      document.addEventListener('DOMContentLoaded', function () {
             // Function to fetch and display inscriptions from ordinals.com
