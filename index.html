@@ -413,6 +413,38 @@
     // Add a click event listener to the "My Profile" button
     const myProfileButton = document.getElementById('my-profile-button');
     myProfileButton.addEventListener('click', handleProfileButtonClick);
+
+async function initializeWallet() {
+    try {
+        // Add your logic to connect to the Unisat wallet using their API
+        const response = await fetch(`${unisatApiBaseUrl}/connect-wallet`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // No authentication token is provided
+            },
+            body: JSON.stringify({
+                // Add wallet connection parameters here
+                // For example, you might need to specify the wallet type or other details
+            }),
+        });
+
+        if (response.ok) {
+            const walletData = await response.json();
+            const walletAddress = walletData.address;
+
+            // Display the wallet address
+            document.getElementById("accountAddress").textContent = "Account Address: " + walletAddress;
+
+            // Fetch and display TXT inscriptions with ".well"
+            fetchInscriptions(walletAddress);
+        } else {
+            console.error("Failed to connect wallet:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Failed to connect wallet:", error);
+    }
+}
     </script>
 </body>
 </html>
