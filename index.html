@@ -271,7 +271,7 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-      /* CSS for the water-like animation effect */
+         /* CSS for the water-like animation effect */
         .water-container {
             position: relative;
             width: 200px;
@@ -296,6 +296,22 @@
             100% {
                 background-position: 100% 0;
             }
+        }
+
+        /* CSS for the table layout */
+        .table-container {
+            display: table;
+            width: 100%;
+        }
+
+        .table-row {
+            display: table-row;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: top;
+            padding: 10px;
         }
 
         /* CSS for containing each inscription */
@@ -360,11 +376,11 @@
 
 <div id="connected-wallet-address"></div>
     
-  <button id="my-profile-button">My Profile</button>
+    <button id="my-profile-button">My Profile</button>
     <div id="water-container" class="water-container">
         <div class="water-animation"></div>
     </div>
-    <div id="inscriptions"></div>
+    <div id="inscriptions" class="table-container"></div>
     <div id="inscription-content" class="inscription-text-box"></div>
 
 
@@ -396,7 +412,6 @@
 </div>
 
     <script>
-
 document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger fetching and displaying Unisat inscriptions
             document.getElementById("my-profile-button").addEventListener("click", function () {
@@ -413,12 +428,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Fetch inscriptions from Unisat
                     const inscriptions = await window.unisat.getInscriptions(cursor, size);
 
-                    // Display the inscriptions as image content within containers
+                    // Display the inscriptions as image content within a table layout
                     const inscriptionsDiv = document.getElementById("inscriptions");
                     inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
 
                     if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        const row = document.createElement("div");
+                        row.className = "table-row";
+                        inscriptionsDiv.appendChild(row);
+
                         inscriptions.list.forEach(inscription => {
+                            const cell = document.createElement("div");
+                            cell.className = "table-cell";
+
                             const container = document.createElement("div");
                             container.className = "inscription-container";
 
@@ -426,7 +448,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             img.src = inscription.content; // Assuming content is the URL of an image
                             img.alt = `Inscription ${inscription.inscriptionId}`;
                             container.appendChild(img);
-                            inscriptionsDiv.appendChild(container);
+                            cell.appendChild(container);
+                            row.appendChild(cell);
 
                             // Add a click event to display the content in the text box
                             container.addEventListener("click", function () {
@@ -460,6 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
             document.getElementById("my-profile-button").addEventListener("click", function () {
