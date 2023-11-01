@@ -403,17 +403,20 @@
                     // Fetch inscriptions from Unisat
                     const inscriptions = await window.unisat.getInscriptions(cursor, size);
 
-                    // Display the inscriptions as image content
+                    // Display the inscriptions as image content within containers
                     const inscriptionsDiv = document.getElementById("inscriptions");
                     inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
 
                     if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
                         inscriptions.list.forEach(inscription => {
+                            const container = document.createElement("div");
+                            container.className = "inscription-container";
+
                             const img = document.createElement("img");
-                            img.src = inscription.content; // Assuming content is the URL of the image
+                            img.src = inscription.content; // Assuming content is the URL of an image
                             img.alt = `Inscription ${inscription.inscriptionId}`;
-                            inscriptionsDiv.appendChild(img);
-                            inscriptionsDiv.appendChild(document.createElement("br")); // Add line breaks
+                            container.appendChild(img);
+                            inscriptionsDiv.appendChild(container);
                         });
                     } else {
                         const p = document.createElement("p");
