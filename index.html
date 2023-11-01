@@ -382,6 +382,27 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+async function displayWalletInfo() {
+    try {
+        const accounts = await window.unisat.requestAccounts();
+        const accountAddress = accounts[0];
+
+        // Display the wallet address
+        const walletAddresses = document.getElementById("wallet-addresses");
+        walletAddresses.textContent = "Wallet Address: " + accountAddress;
+
+        // Fetch and display inscriptions (modify this part as per your inscriptions format)
+        // For now, it just displays the account address.
+        const inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+        // Modify this part to format and display your inscriptions
+        // Example: let inscriptionImages = inscriptionsData.list.map(inscription => `<p>${inscription.inscriptionId}</p>`);
+        // You can append these to an element in your HTML.
+    } catch (e) {
+        console.log('connect failed', e);
+        alert('Failed to connect wallet');
+    }
+}
 // Replace with the actual Unisat API base URL
 const unisatApiBaseUrl = "https://api.unisat.io";
 
