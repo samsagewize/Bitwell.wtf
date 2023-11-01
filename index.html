@@ -299,17 +299,21 @@ const unisatApiBaseUrl = "https://api.unisat.io";
 async function initializeWallet() {
     try {
         // Add your logic to connect to the Unisat wallet using their API
+        // For example, you can use fetch to make API requests to Unisat
         const response = await fetch(`${unisatApiBaseUrl}/connect-wallet`, {
             method: 'POST',
+            // Add any required headers and authentication tokens as per Unisat API documentation
             headers: {
                 'Content-Type': 'application/json',
+                // Add any authentication tokens or headers required by Unisat
             },
+            // Add any payload required to connect the wallet as per Unisat API documentation
             body: JSON.stringify({
                 // Add wallet connection parameters here
-                // For example, you might need to specify the wallet type or other details
             }),
         });
 
+        // Check if the wallet was connected successfully
         if (response.ok) {
             const walletData = await response.json();
             const walletAddress = walletData.address;
@@ -320,6 +324,7 @@ async function initializeWallet() {
             // Fetch and display TXT inscriptions with ".well"
             fetchInscriptions(walletAddress);
         } else {
+            // Handle wallet connection error
             console.error("Failed to connect wallet:", response.statusText);
         }
     } catch (error) {
@@ -333,11 +338,10 @@ async function fetchInscriptions(walletAddress) {
         // Fetch TXT inscriptions for the wallet address
         const response = await fetch(`${unisatApiBaseUrl}/get-inscriptions?address=${walletAddress}`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            // Add any required headers and authentication tokens as per Unisat API documentation
         });
 
+        // Check if the request was successful
         if (response.ok) {
             const inscriptions = await response.json();
             const wellInscriptions = inscriptions.filter(inscription => inscription.text.includes(".well"));
@@ -365,14 +369,21 @@ async function fetchInscriptions(walletAddress) {
     }
 }
 
-// Function to handle the "My Profile" button click
-function handleProfileButtonClick() {
-    initializeWallet(); // Call the initializeWallet function to connect to the wallet
+// Call the initialization function when the page loads
+window.onload = function () {
+    initializeWallet();
+};
+
+// Function to handle wallet connection (if needed)
+function connectWallet() {
+    // Add your Unisat wallet connection logic using their API here
+    // Make the necessary API requests and handle user interactions
 }
 
-// Add a click event listener to the "My Profile" button
-const myProfileButton = document.getElementById('my-profile-button');
-myProfileButton.addEventListener('click', handleProfileButtonClick);
+// Function to connect the wallet when "My Profile" button is clicked
+document.getElementById("myProfileButton").addEventListener("click", function () {
+    connectWallet(); // Call your wallet connection logic
+});
 
     </script>
 </body>
