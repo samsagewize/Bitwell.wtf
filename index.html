@@ -310,6 +310,7 @@
     </div>
 
     <div id="wallet-addresses"></div>
+    <div id="wallet-inscriptions"></div>
 
 
 <div class="dropdown">
@@ -382,6 +383,46 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+async function displayWalletInfo() {
+    try {
+        const inscriptionsData = await window.unisat.getInscriptions(0, 10); // Fetch inscriptions
+        const inscriptionsList = inscriptionsData.list; // Get the list of inscriptions
+
+        // Display the inscriptions in a user-friendly format
+        const inscriptionsContainer = document.getElementById("wallet-inscriptions");
+
+        if (inscriptionsList.length > 0) {
+            // Clear previous inscriptions
+            inscriptionsContainer.innerHTML = "";
+
+            inscriptionsList.forEach(inscription => {
+                // Create a container for each inscription
+                const inscriptionContainer = document.createElement("div");
+
+                // Display inscription information
+                inscriptionContainer.innerHTML = `
+                    <p><strong>Inscription ID:</strong> ${inscription.inscriptionId}</p>
+                    <p><strong>Inscription Number:</strong> ${inscription.inscriptionNumber}</p>
+                    <p><strong>Address:</strong> ${inscription.address}</p>
+                    <!-- Add more fields as needed -->
+
+                    <!-- Example: Display preview and content links -->
+                    <p><strong>Preview:</strong> <a href="${inscription.preview}" target="_blank">Preview</a></p>
+                    <p><strong>Content:</strong> <a href="${inscription.content}" target="_blank">Content</a></p>
+                `;
+
+                // Append the container to the main inscriptions container
+                inscriptionsContainer.appendChild(inscriptionContainer);
+            });
+        } else {
+            inscriptionsContainer.textContent = "No inscriptions found.";
+        }
+    } catch (e) {
+        console.log('Failed to fetch inscriptions:', e);
+        alert('Failed to fetch inscriptions');
+    }
+}
 
 async function displayWalletInfo() {
     try {
