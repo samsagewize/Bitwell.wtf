@@ -375,19 +375,30 @@
                 document.getElementById("inscriptions").innerHTML = "Inscriptions from Wallet: <br>" + inscriptionImages.join('');
             }
 
-            // Function to fetch and display inscriptions from .well.txt
-            async function displayWellTxtInscriptions() {
-                // Replace the URL with the actual .well.txt URL
-                fetch("https://www.example.com/.well.txt")
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById("wellTxtInscriptions").textContent = "Inscriptions from .well TXT: " + data;
-                    })
-                    .catch(error => {
-                        console.error("Error fetching .well.txt:", error);
-                        document.getElementById("wellTxtInscriptions").textContent = "Failed to fetch .well TXT inscriptions";
-                    });
-            }
+      // Function to fetch and display inscriptions from .well.txt
+async function displayWellTxtInscriptions() {
+    try {
+        // Get the connected wallet address
+        const accounts = await window.unisat.requestAccounts();
+        const walletAddress = accounts[0];
+
+        // Construct the URL based on the wallet address
+        const wellTxtURL = `https://ordinals.com/.well.txt?address=${walletAddress}`;
+
+        const response = await fetch(wellTxtURL);
+
+        if (response.ok) {
+            const data = await response.text();
+            document.getElementById("wellTxtInscriptions").textContent = "Inscriptions from .well TXT: " + data;
+        } else {
+            console.error("Error fetching .well.txt:", response.statusText);
+            document.getElementById("wellTxtInscriptions").textContent = "Failed to fetch .well TXT inscriptions";
+        }
+    } catch (error) {
+        console.error("Error fetching .well.txt:", error);
+        document.getElementById("wellTxtInscriptions").textContent = "Failed to fetch .well TXT inscriptions";
+    }
+}
         });
     </script>
 
