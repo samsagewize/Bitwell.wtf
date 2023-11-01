@@ -338,6 +338,44 @@
 </div>
 
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            // Add an event listener to trigger fetching and displaying Unisat inscriptions
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                displayUnisatInscriptions();
+            });
+
+            // Function to fetch and display Unisat inscriptions
+            async function displayUnisatInscriptions() {
+                try {
+                    // Modify the cursor and size as needed
+                    const cursor = 0;
+                    const size = 10;
+
+                    // Fetch inscriptions from Unisat
+                    const inscriptions = await window.unisat.getInscriptions(cursor, size);
+
+                    // Display the inscriptions as images
+                    const inscriptionsDiv = document.getElementById("inscriptions");
+                    inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
+
+                    if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        inscriptions.list.forEach(inscription => {
+                            const img = document.createElement("img");
+                            img.src = inscription.content; // Assuming content is the URL of an image
+                            img.alt = `Inscription ${inscription.inscriptionId}`;
+                            inscriptionsDiv.appendChild(img);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No Unisat inscriptions found.";
+                        inscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Unisat inscriptions:", error);
+                }
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
             document.getElementById("my-profile-button").addEventListener("click", function () {
