@@ -271,23 +271,6 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-         /* CSS for the water-like animation effect */
-        .water-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            background-color: lightblue;
-            overflow: hidden;
-        }
-
-        .water-animation {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(0deg, transparent 20%, rgba(173, 216, 230, 0.4) 20%, rgba(173, 216, 230, 0.4) 40%, transparent 40%, transparent 60%, rgba(173, 216, 230, 0.4) 60%, rgba(173, 216, 230, 0.4) 80%, transparent 80%, transparent 100%);
-            background-size: 100% 50px;
-            animation: wave 2s infinite linear;
-        }
 
         @keyframes wave {
             0% {
@@ -377,8 +360,6 @@
 <div id="connected-wallet-address"></div>
     
     <button id="my-profile-button">My Profile</button>
-    <div id="water-container" class="water-container">
-        <div class="water-animation"></div>
     </div>
     <div id="inscriptions" class="table-container"></div>
     <div id="inscription-content" class="inscription-text-box"></div>
@@ -466,22 +447,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Function to display inscription content in the text box
-            async function displayInscriptionContent(contentURL) {
-                try {
-                    const response = await fetch(contentURL);
-                    if (response.ok) {
-                        const content = await response.text();
-                        const contentDiv = document.getElementById("inscription-content");
-                        contentDiv.innerHTML = "<h2>Inscription Content:</h2>";
-                        contentDiv.innerHTML += content; // Display the content
-                    } else {
-                        console.error("Error fetching inscription content:", response.statusText);
-                    }
-                } catch (error) {
-                    console.error("Error fetching inscription content:", error);
-                }
-            }
+    // Function to display inscription content as an image
+async function displayInscriptionContent(contentURL) {
+    try {
+        const contentDiv = document.getElementById("inscription-content");
+        contentDiv.innerHTML = "<h2>Inscription Content:</h2>";
+
+        // Create an <img> element to display the content as an image
+        const img = document.createElement("img");
+        img.src = contentURL;
+        img.alt = "Inscription Image";
+
+        // Append the image to the contentDiv
+        contentDiv.appendChild(img);
+    } catch (error) {
+        console.error("Error fetching inscription content:", error);
+    }
+}
         });
 
         document.addEventListener('DOMContentLoaded', function () {
