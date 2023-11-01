@@ -310,10 +310,8 @@
     </div>
 
     <div id="wallet-addresses"></div>
-    <div id="wallet-inscriptions"></div>
     <div id="connected-wallet-address"></div>
-    <div id="inscription-ids"></div>
-    <div id="unisat-inscriptions"></div>
+    <div id="wallet-inscriptions"></div>
 
 
 <div class="dropdown">
@@ -342,43 +340,6 @@
 </div>
    <!-- Include the JavaScript code just before the closing </body> tag -->
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-        const inscriptionsDiv = document.getElementById("unisat-inscriptions");
-
-        // Function to fetch and display Unisat inscriptions
-        async function displayUnisatInscriptions() {
-            try {
-                const cursor = 0; // Define the cursor value
-                const size = 10; // Define the number of inscriptions to fetch
-
-                // Call the Unisat function to get inscriptions
-                const inscriptions = await unisat.getInscriptions(cursor, size);
-
-                // Display the inscriptions in the specified div
-                inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
-
-                if (inscriptions && inscriptions.length > 0) {
-                    inscriptions.forEach(inscription => {
-                        const p = document.createElement("p");
-                        p.textContent = inscription; // Modify as per your inscription format
-                        inscriptionsDiv.appendChild(p);
-                    });
-                } else {
-                    const p = document.createElement("p");
-                    p.textContent = "No Unisat inscriptions found.";
-                    inscriptionsDiv.appendChild(p);
-                }
-            } catch (error) {
-                console.error("Failed to fetch Unisat inscriptions:", error);
-            }
-        }
-
-        // Add an event listener to trigger fetching and displaying Unisat inscriptions
-        document.getElementById("my-profile-button").addEventListener("click", function () {
-            connectWallet(); // Call your wallet connection logic
-            displayUnisatInscriptions(); // Fetch and display Unisat inscriptions
-        });
-    });
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
@@ -417,6 +378,50 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeWallet();
     };
 });
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+        const walletInscriptionsDiv = document.getElementById("wallet-inscriptions");
+
+        // Function to display the connected wallet address
+        function displayConnectedWalletAddress(address) {
+            connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
+        }
+
+        // Function to fetch and display inscriptions from the wallet
+        async function displayWalletInscriptions() {
+            try {
+                const accounts = await window.unisat.requestAccounts();
+                const accountAddress = accounts[0];
+
+                // Display the connected wallet address
+                displayConnectedWalletAddress(accountAddress);
+
+                // Fetch and display inscriptions
+                const inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+
+                if (inscriptionsData && inscriptionsData.list && inscriptionsData.list.length > 0) {
+                    walletInscriptionsDiv.innerHTML = "<h2>Wallet Inscriptions:</h2>";
+                    inscriptionsData.list.forEach(inscription => {
+                        const p = document.createElement("p");
+                        p.textContent = inscription.inscriptionId; // Modify as per your inscription format
+                        walletInscriptionsDiv.appendChild(p);
+                    });
+                } else {
+                    walletInscriptionsDiv.textContent = "No inscriptions found in the wallet.";
+                }
+            } catch (error) {
+                console.error("Failed to fetch wallet inscriptions:", error);
+            }
+        }
+
+        // Add an event listener to trigger fetching and displaying wallet inscriptions
+        document.getElementById("my-profile-button").addEventListener("click", function () {
+            connectWallet(); // Call your wallet connection logic
+            displayWalletInscriptions(); // Fetch and display wallet inscriptions
+        });
+    });
 
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById("my-profile-button");
