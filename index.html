@@ -365,10 +365,14 @@ async function fetchInscriptions(walletAddress) {
     }
 }
 
-// Call the initialization function when the page loads
-window.onload = function () {
-    initializeWallet();
-};
+// Function to handle the "My Profile" button click
+function handleProfileButtonClick() {
+    initializeWallet(); // Call the initializeWallet function to connect to the wallet
+}
+
+// Add a click event listener to the "My Profile" button
+const myProfileButton = document.getElementById('my-profile-button');
+myProfileButton.addEventListener('click', handleProfileButtonClick);
     </script>
 </body>
 </html>
