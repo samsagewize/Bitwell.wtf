@@ -271,10 +271,26 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-  .inscription-image {
+    /* CSS to style the button */
+        #my-profile-button {
+            position: fixed;
+            top: 10px; /* Adjust the top value as needed */
+            left: 10px; /* Adjust the left value as needed */
+            z-index: 1000; /* Adjust the z-index to make it appear on top of other elements */
+        }
+
+        /* CSS to style the container */
+        #image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Adjust the gap value as needed */
+            margin: 20px; /* Adjust the margin value as needed */
+        }
+
+        /* CSS to style the images */
+        .inscription-image {
             width: 200px; /* Set your desired size */
             height: 200px;
-            margin: 10px;
         }
     </style>
 </head>
@@ -313,6 +329,7 @@
   <button id="my-profile-button">My Profile</button>
     <div id="connected-wallet-address"></div>
     <div id="inscriptions"></div>
+    <div id="image-container"></div>
 
 
 <div class="dropdown">
@@ -360,8 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const inscriptions = await window.unisat.getInscriptions(cursor, size);
 
                     // Display the inscriptions as images
-                    const inscriptionsDiv = document.getElementById("inscriptions");
-                    inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
+                    const inscriptionsDiv = document.getElementById("image-container");
 
                     if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
                         inscriptions.list.forEach(inscription => {
