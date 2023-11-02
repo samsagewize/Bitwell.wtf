@@ -330,6 +330,7 @@
     <div id="connected-wallet-address"></div>
     <div id="inscriptions"></div>
     <div id="image-container"></div>
+      <div id="txt-inscriptions"></div>
 
 
 <div class="dropdown">
@@ -364,6 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger fetching and displaying Unisat inscriptions
             document.getElementById("my-profile-button").addEventListener("click", function () {
                 displayUnisatInscriptions();
+                displayTxtInscriptions();
             });
 
             // Function to fetch and display Unisat inscriptions
@@ -394,6 +396,31 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 } catch (error) {
                     console.error("Failed to fetch Unisat inscriptions:", error);
+                }
+            }
+
+            // Function to fetch and display TXT inscriptions
+            async function displayTxtInscriptions() {
+                try {
+                    // Fetch and display TXT inscriptions from the wallet
+                    // You can modify this part to fetch and display TXT inscriptions from the wallet
+                    const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
+                    const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
+                    txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
+
+                    if (txtInscriptions.length > 0) {
+                        txtInscriptions.forEach(txtInscription => {
+                            const p = document.createElement("p");
+                            p.textContent = txtInscription;
+                            txtInscriptionsDiv.appendChild(p);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No TXT inscriptions found.";
+                        txtInscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch TXT inscriptions:", error);
                 }
             }
         });
