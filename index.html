@@ -399,31 +399,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Function to fetch and display TXT inscriptions
-            async function displayTxtInscriptions() {
-                try {
-                    // Fetch and display TXT inscriptions from the wallet
-                    // You can modify this part to fetch and display TXT inscriptions from the wallet
-                    const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
-                    const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
-                    txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
+       async function displayTxtInscriptions() {
+    try {
+        // Replace this with code to fetch the TXT inscriptions with image URLs from the wallet
+        const txtInscriptionsWithImageURLs = await fetchTxtInscriptionsWithImageURLs();
 
-                    if (txtInscriptions.length > 0) {
-                        txtInscriptions.forEach(txtInscription => {
-                            const p = document.createElement("p");
-                            p.textContent = txtInscription;
-                            txtInscriptionsDiv.appendChild(p);
-                        });
-                    } else {
-                        const p = document.createElement("p");
-                        p.textContent = "No TXT inscriptions found.";
-                        txtInscriptionsDiv.appendChild(p);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch TXT inscriptions:", error);
-                }
-            }
-        });
+        const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
+        txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions as Images:</h2>";
+
+        if (txtInscriptionsWithImageURLs.length > 0) {
+            txtInscriptionsWithImageURLs.forEach(txtInscription => {
+                const img = document.createElement("img");
+                img.src = txtInscription.imageURL;
+                img.alt = "TXT Inscription Image";
+                txtInscriptionsDiv.appendChild(img);
+            });
+        } else {
+            const p = document.createElement("p");
+            p.textContent = "No TXT inscriptions found as images.";
+            txtInscriptionsDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error("Failed to fetch and display TXT inscriptions:", error);
+    }
+}
+
+// Function to fetch TXT inscriptions with image URLs
+async function fetchTxtInscriptionsWithImageURLs() {
+    try {
+        // Replace this with your logic to fetch TXT inscriptions with image URLs
+        const txtInscriptionsWithImageURLs = [
+            { imageURL: 'image_url_1.jpg' },
+            { imageURL: 'image_url_2.jpg' },
+            { imageURL: 'image_url_3.jpg' }
+        ];
+
+        return txtInscriptionsWithImageURLs;
+    } catch (error) {
+        console.error("Failed to fetch TXT inscriptions with image URLs:", error);
+        return [];
+    }
+}
 
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
