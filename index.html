@@ -362,75 +362,68 @@
 
     <script>
 document.addEventListener('DOMContentLoaded', function () {
-        // Add an event listener to trigger wallet connection and information display
-        document.getElementById("my-profile-button").addEventListener("click", async function () {
-            const connectedWalletAddress = await connectWallet(); // Call your wallet connection logic
+            // Add an event listener to trigger fetching and displaying Unisat inscriptions
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                displayUnisatInscriptions();
+                displayTxtInscriptions();
+            });
 
-            if (connectedWalletAddress) {
-                displayConnectedWalletAddress(connectedWalletAddress);
-                displayWalletBalance(connectedWalletAddress);
-                displayWellTxtInscriptions();
+            // Function to fetch and display Unisat inscriptions
+            async function displayUnisatInscriptions() {
+                try {
+                    // Modify the cursor and size as needed
+                    const cursor = 0;
+                    const size = 10;
+
+                    // Fetch inscriptions from Unisat
+                    const inscriptions = await window.unisat.getInscriptions(cursor, size);
+
+                    // Display the inscriptions as images
+                    const inscriptionsDiv = document.getElementById("image-container");
+
+                    if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        inscriptions.list.forEach(inscription => {
+                            const img = document.createElement("img");
+                            img.src = inscription.content; // Assuming content is the URL of an image
+                            img.alt = `Inscription ${inscription.inscriptionId}`;
+                            img.className = "inscription-image";
+                            inscriptionsDiv.appendChild(img);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No Unisat inscriptions found.";
+                        inscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Unisat inscriptions:", error);
+                }
+            }
+
+            // Function to fetch and display TXT inscriptions
+            async function displayTxtInscriptions() {
+                try {
+                    // Fetch and display TXT inscriptions from the wallet
+                    // You can modify this part to fetch and display TXT inscriptions from the wallet
+                    const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
+                    const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
+                    txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
+
+                    if (txtInscriptions.length > 0) {
+                        txtInscriptions.forEach(txtInscription => {
+                            const p = document.createElement("p");
+                            p.textContent = txtInscription;
+                            txtInscriptionsDiv.appendChild(p);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No TXT inscriptions found.";
+                        txtInscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch TXT inscriptions:", error);
+                }
             }
         });
-
-        // Function to handle wallet connection
-        async function connectWallet() {
-            try {
-                const accounts = await window.unisat.requestAccounts();
-                console.log('connect success', accounts);
-                alert('Wallet connected: ' + accounts[0]);
-                return accounts[0];
-            } catch (e) {
-                console.log('connect failed', e);
-                alert('Failed to connect wallet');
-                return null;
-            }
-        }
-
-        // Function to display the connected wallet address
-        function displayConnectedWalletAddress(address) {
-            const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
-            connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
-        }
-
-        // Function to display wallet balance
-        async function displayWalletBalance(address) {
-            try {
-                const balance = await window.unisat.getBalance(address);
-                const walletBalanceDiv = document.getElementById("wallet-balance");
-                walletBalanceDiv.textContent = "Wallet Balance: " + balance + " UNISAT";
-            } catch (error) {
-                console.error("Error fetching wallet balance:", error);
-                const walletBalanceDiv = document.getElementById("wallet-balance");
-                walletBalanceDiv.textContent = "Failed to fetch wallet balance";
-            }
-        }
-
-        // Function to fetch and display inscriptions from .well.txt
-        async function displayWellTxtInscriptions() {
-            try {
-                // Get the connected wallet address
-                const accounts = await window.unisat.requestAccounts();
-                const walletAddress = accounts[0];
-
-                // Construct the URL based on the wallet address
-                const wellTxtURL = `https://ordinals.com/.well.txt?address=${walletAddress}`;
-
-                const response = await fetch(wellTxtURL);
-
-                if (response.ok) {
-                    const data = await response.text();
-                    document.getElementById("wellTxtInscriptions").textContent = "Inscriptions from .well TXT: " + data;
-                } else {
-                    console.error("Error fetching .well.txt:", response.statusText);
-                    document.getElementById("wellTxtInscriptions").textContent = "Failed to fetch .well TXT inscriptions";
-                }
-            } catch (error) {
-                console.error("Error fetching .well.txt:", error);
-                document.getElementById("wellTxtInscriptions").textContent = "Failed to fetch .well TXT inscriptions";
-            }
-        }
-    });
 
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
