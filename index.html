@@ -330,7 +330,14 @@
     <div id="connected-wallet-address"></div>
     <div id="inscriptions"></div>
     <div id="image-container"></div>
-      <div id="txt-inscriptions"></div>
+ <div id="inscriptions">
+  <div id="unisat-inscriptions" class="inscription-container">
+    <h2>Ordinals:</h2>
+  </div>
+  <div id="welltxt-inscriptions" class="inscription-container">
+    <h2>.well numbers:</h2>
+  </div>
+</div>
 
 
 <div class="dropdown">
@@ -431,6 +438,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+// Inside the function displayWellTxtInscriptions():
+const wellTxtInscriptionsDiv = document.getElementById("welltxt-inscriptions");
+wellTxtInscriptionsDiv.innerHTML = "Inscriptions from .well.txt: <br>" + data;
+
+// Inside the function displayUnisatInscriptions():
+const unisatInscriptionsDiv = document.getElementById("unisat-inscriptions");
+unisatInscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
 
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
