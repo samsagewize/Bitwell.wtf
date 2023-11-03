@@ -279,17 +279,19 @@
             z-index: 1000; /* Adjust the z-index to make it appear on top of other elements */
         }
 
-   .inscription-image-container {
-    margin: 10px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    display: inline-block;
-}
+        /* CSS to style the container */
+        #image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Adjust the gap value as needed */
+            margin: 20px; /* Adjust the margin value as needed */
+        }
 
-.inscription-image {
-    max-width: 100px;
-    max-height: 100px;
-}
+        /* CSS to style the images */
+        .inscription-image {
+            width: 200px; /* Set your desired size */
+            height: 200px;
+        }
     </style>
 </head>
 <body>
@@ -397,46 +399,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-// Function to fetch and display Unisat inscriptions
-async function displayUnisatInscriptions() {
-    try {
-        // Modify the cursor and size as needed
-        const cursor = 0;
-        const size = 10;
+            // Function to fetch and display TXT inscriptions
+            async function displayTxtInscriptions() {
+                try {
+                    // Fetch and display TXT inscriptions from the wallet
+                    // You can modify this part to fetch and display TXT inscriptions from the wallet
+                    const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
+                    const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
+                    txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
 
-        // Fetch inscriptions from Unisat
-        const inscriptions = await window.unisat.getInscriptions(cursor, size);
-
-        // Get the inscriptions container
-        const inscriptionsDiv = document.getElementById("image-container");
-
-        if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
-            inscriptions.list.forEach(inscription => {
-                // Create a container div for each image
-                const imgContainer = document.createElement("div");
-                imgContainer.className = "inscription-image-container";
-                
-                // Create the image element
-                const img = document.createElement("img");
-                img.src = inscription.content; // Assuming content is the URL of an image
-                img.alt = `Inscription ${inscription.inscriptionId}`;
-                img.className = "inscription-image";
-
-                // Append the image to the container
-                imgContainer.appendChild(img);
-                
-                // Append the container to the main container
-                inscriptionsDiv.appendChild(imgContainer);
-            });
-        } else {
-            const p = document.createElement("p");
-            p.textContent = "No Unisat inscriptions found.";
-            inscriptionsDiv.appendChild(p);
-        }
-    } catch (error) {
-        console.error("Failed to fetch Unisat inscriptions:", error);
-    }
-}
+                    if (txtInscriptions.length > 0) {
+                        txtInscriptions.forEach(txtInscription => {
+                            const p = document.createElement("p");
+                            p.textContent = txtInscription;
+                            txtInscriptionsDiv.appendChild(p);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No TXT inscriptions found.";
+                        txtInscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch TXT inscriptions:", error);
+                }
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             // Add an event listener to trigger wallet connection and information display
