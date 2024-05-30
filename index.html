@@ -174,14 +174,18 @@
     </div>
 
     <script>
-        const { StacksTestnet } = window.StacksNetwork;
+        const { StacksNetwork } = window.StacksNetwork;
         const { standardPrincipalCV, uintCV, principalCV, makeContractCall, broadcastTransaction } = window.StacksTransactions;
         const { showConnect, UserSession, AppConfig } = window.StacksConnect;
 
         const appConfig = new AppConfig(['store_write', 'publish_data']);
         const userSession = new UserSession({ appConfig });
 
-        const network = new StacksTestnet();
+        const network = new StacksNetwork({
+            url: 'https://stacks-node-api.devnet.stacks.co',
+            networkId: 2147483648, // Devnet network ID
+        });
+
         let countdownInterval;
 
         const { getAddress } = SatsConnect;
@@ -196,7 +200,7 @@
                         }
                     },
                     network: {
-                        type: 'Testnet' // Change to 'Mainnet' for production
+                        type: 'Devnet' // Use 'Devnet' for development
                     },
                     apiKey: "cf615e7cbcb9f7f6bad1344406db5e20",
                     onFinish: (response) => {
@@ -228,7 +232,7 @@
                 functionName,
                 functionArgs,
                 network,
-                senderAddress: userSession.loadUserData().profile.stxAddress.testnet,
+                senderAddress: userSession.loadUserData().profile.stxAddress.devnet,
             };
 
             const transaction = await makeContractCall(options);
