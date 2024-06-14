@@ -5,8 +5,10 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <title>Welcome to Bitwell</title>
 
+
+
     <style>
-        body {
+            body {
             margin: 0;
             display: flex;
             justify-content: center;
@@ -133,7 +135,7 @@
             margin-top: 20px;
         }
 
-        /* Style for the dropdown menu */
+ /* Style for the dropdown menu */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -165,6 +167,7 @@
             display: inline-block;
         }
 
+
         /* Style for the dropdown button */
         .dropdown .dropbtn {
             background-color: #333;
@@ -173,7 +176,6 @@
             border: none;
             cursor: pointer;
         }
-
         /* Style for the links inside the dropdown */
         .dropdown-content a {
             color: white;
@@ -192,7 +194,7 @@
             display: block;
         }
 
-        /* Style for the "My Profile" button */
+    /* Style for the "My Profile" button */
         .profile-button {
             position: absolute;
             top: 10px; /* Adjust this value to control the vertical position */
@@ -206,13 +208,28 @@
         .profile-button:hover {
             background-color: #444;
         }
+     /* Style for the "My Profile" button */
+        .profile-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Change color on hover */
+        .profile-button:hover {
+            background-color: #0056b3;
+        }
 
         /* Style for displaying wallet addresses */
         #wallet-addresses {
             margin-top: 20px;
         }
-
-        .dropdown {
+   .dropdown {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -254,8 +271,7 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        /* CSS to style the button */
+    /* CSS to style the button */
         #my-profile-button {
             position: fixed;
             top: 10px; /* Adjust the top value as needed */
@@ -277,24 +293,24 @@
             height: 200px;
         }
 
-        /* Inscription container styles */
-        #wallet-connected {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+/* Inscription container styles */
+#wallet-connected {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-        .inscription-image-container {
-            margin: 10px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            max-width: 200px; /* Adjust the width as needed */
-        }
+.inscription-image-container {
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-width: 200px; /* Adjust the width as needed */
+}
 
-        .inscription-image {
-            max-width: 100%; /* Ensure the image fits within the container */
-            height: auto;
-        }
+.inscription-image {
+    max-width: 100%; /* Ensure the image fits within the container */
+    height: auto;
+}
     </style>
 </head>
 <body>
@@ -328,12 +344,13 @@
 
 <h1>Welcome to Bitwell</h1>
 
-<div id="product-component-1718054888537"></div>
 
-<div id="connected-wallet-address"></div>
-<div id="inscriptions"></div>
-<div id="image-container"></div>
-<div id="txt-inscriptions"></div>
+  
+    <div id="connected-wallet-address"></div>
+    <div id="inscriptions"></div>
+    <div id="image-container"></div>
+      <div id="txt-inscriptions"></div>
+
 
 <div class="dropdown">
     <button class="dropbtn">Dropdown</button>
@@ -355,338 +372,191 @@
             <li><a class="button" href="https://magiceden.io/ordinals/marketplace/wfw" target="_blank">Wishes From the Well🌠</a></li>
             <li><a class="button" href="https://magiceden.io/ordinals/marketplace/bitp" target="_blank">BitPidgey's🕊️</a></li>
             <li><a class="button" href="https://ord.io/19235550" target="_blank">Be WaterWorld🌊</a></li>
+
+
+
         </ul>
     </div>
 </div>
 
-<footer>
-    <p>&copy; Urua Labs</p>
-</footer>
+   <footer>
+        <p>&copy; Urua Labs</p>
+    </footer>
 
-<script>
+    <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Add an event listener to trigger fetching and displaying Unisat inscriptions
-    document.getElementById("my-profile-button").addEventListener("click", function () {
-        displayUnisatInscriptions();
-        displayTxtInscriptions();
-    });
+            // Add an event listener to trigger fetching and displaying Unisat inscriptions
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                displayUnisatInscriptions();
+                displayTxtInscriptions();
+            });
 
-    // Function to fetch and display Unisat inscriptions
-    async function displayUnisatInscriptions() {
-        try {
-            // Modify the cursor and size as needed
-            const cursor = 0;
-            const size = 10;
+            // Function to fetch and display Unisat inscriptions
+            async function displayUnisatInscriptions() {
+                try {
+                    // Modify the cursor and size as needed
+                    const cursor = 0;
+                    const size = 10;
 
-            // Fetch inscriptions from Unisat
-            const inscriptions = await window.unisat.getInscriptions(cursor, size);
+                    // Fetch inscriptions from Unisat
+                    const inscriptions = await window.unisat.getInscriptions(cursor, size);
 
-            // Display the inscriptions as images
-            const inscriptionsDiv = document.getElementById("image-container");
+                    // Display the inscriptions as images
+                    const inscriptionsDiv = document.getElementById("image-container");
 
-            if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
-                inscriptions.list.forEach(inscription => {
-                    const img = document.createElement("img");
-                    img.src = inscription.content; // Assuming content is the URL of an image
-                    img.alt = `Inscription ${inscription.inscriptionId}`;
-                    img.className = "inscription-image";
-                    inscriptionsDiv.appendChild(img);
-                });
-            } else {
-                const p = document.createElement("p");
-                p.textContent = "No Unisat inscriptions found.";
-                inscriptionsDiv.appendChild(p);
-            }
-        } catch (error) {
-            console.error("Failed to fetch Unisat inscriptions:", error);
-        }
-    }
-
-    // Function to fetch and display TXT inscriptions
-    async function displayTxtInscriptions() {
-        try {
-            // Fetch and display TXT inscriptions from the wallet
-            // You can modify this part to fetch and display TXT inscriptions from the wallet
-            const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
-            const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
-            txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
-
-            if (txtInscriptions.length > 0) {
-                txtInscriptions.forEach(txtInscription => {
-                    const p = document.createElement("p");
-                    p.textContent = txtInscription;
-                    txtInscriptionsDiv.appendChild(p);
-                });
-            } else {
-                const p = document.createElement("p");
-                p.textContent = "No TXT inscriptions found.";
-                txtInscriptionsDiv.appendChild(p);
-            }
-        } catch (error) {
-            console.error("Failed to fetch TXT inscriptions:", error);
-        }
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Add an event listener to trigger wallet connection and information display
-    document.getElementById("my-profile-button").addEventListener("click", function () {
-        connectWallet(); // Call your wallet connection logic
-        displayWalletInfo();
-        displayWellTxtInscriptions();
-    });
-
-    // Function to handle wallet connection
-    async function connectWallet() {
-        try {
-            const accounts = await window.unisat.requestAccounts();
-            console.log('connect success', accounts);
-            alert('Wallet connected: ' + accounts[0]);
-            displayConnectedWalletAddress(accounts[0]);
-        } catch (e) {
-            console.log('connect failed', e);
-            alert('Failed to connect wallet');
-        }
-    }
-
-    // Function to display the connected wallet address
-    function displayConnectedWalletAddress(address) {
-        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
-        connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
-    }
-
-    // Function to display wallet information
-    async function displayWalletInfo() {
-        let accountAddress = await window.unisat.getAccounts();
-        document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
-
-        let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
-        let inscriptionImages = inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
-        document.getElementById("inscriptions").innerHTML = "Inscriptions from Wallet: <br>" + inscriptionImages.join('');
-    }
-
-    // Function to fetch and display Unisat inscriptions
-    async function displayUnisatInscriptions() {
-        try {
-            // Modify the cursor and size as needed
-            const cursor = 0;
-            const size = 10;
-
-            // Fetch inscriptions from Unisat
-            const inscriptions = await window.unisat.getInscriptions(cursor, size);
-
-            // Display the inscriptions as plain text
-            const inscriptionsDiv = document.getElementById("inscriptions");
-            inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
-
-            if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
-                inscriptions.list.forEach(inscription => {
-                    const p = document.createElement("p");
-                    p.textContent = inscription.content; // Display the inscription content
-                    inscriptionsDiv.appendChild(p);
-                });
-            } else {
-                const p = document.createElement("p");
-                p.textContent = "No Unisat inscriptions found.";
-                inscriptionsDiv.appendChild(p);
-            }
-        } catch (error) {
-            console.error("Failed to fetch Unisat inscriptions:", error);
-        }
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Add an event listener to trigger fetching and displaying Unisat inscriptions
-    document.getElementById("my-profile-button").addEventListener("click", function () {
-        displayUnisatInscriptions();
-    });
-
-    // Function to fetch and display Unisat inscriptions
-    async function displayUnisatInscriptions() {
-        try {
-            // Modify the cursor and size as needed
-            const cursor = 0;
-            const size = 10;
-
-            // Fetch inscriptions from Unisat
-            const inscriptions = await window.unisat.getInscriptions(cursor, size);
-
-            // Display the inscriptions as links
-            const inscriptionsDiv = document.getElementById("inscriptions");
-            inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
-
-            if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
-                inscriptions.list.forEach(inscription => {
-                    const link = document.createElement("a");
-                    link.href = `https://ordinals.com/inscription/${inscription.inscriptionId}`;
-                    link.textContent = `Inscription ${inscription.inscriptionId}`;
-                    link.target = "_blank"; // Open in a new tab
-                    inscriptionsDiv.appendChild(link);
-                    inscriptionsDiv.appendChild(document.createElement("br")); // Add line breaks
-                });
-            } else {
-                const p = document.createElement("p");
-                p.textContent = "No Unisat inscriptions found.";
-                inscriptionsDiv.appendChild(p);
-            }
-        } catch (error) {
-            console.error("Failed to fetch Unisat inscriptions:", error);
-        }
-    }
-});
-
-// Shopify Buy Button Script
-(function () {
-  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-  if (window.ShopifyBuy) {
-    if (window.ShopifyBuy.UI) {
-      ShopifyBuyInit();
-    } else {
-      loadScript();
-    }
-  } else {
-    loadScript();
-  }
-  function loadScript() {
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = scriptURL;
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-    script.onload = ShopifyBuyInit;
-  }
-  function ShopifyBuyInit() {
-    var client = ShopifyBuy.buildClient({
-      domain: 'f7d741-d1.myshopify.com',
-      storefrontAccessToken: '476f243b37afbc69af6387fe27115206',
-    });
-    ShopifyBuy.UI.onReady(client).then(function (ui) {
-      ui.createComponent('product', {
-        id: '8130294677675',
-        node: document.getElementById('product-component-1718054888537'),
-        moneyFormat: '%24%7B%7Bamount%7D%7D',
-        options: {
-          "product": {
-            "styles": {
-              "product": {
-                "@media (min-width: 601px)": {
-                  "max-width": "calc(25% - 20px)",
-                  "margin-left": "20px",
-                  "margin-bottom": "50px"
+                    if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        inscriptions.list.forEach(inscription => {
+                            const img = document.createElement("img");
+                            img.src = inscription.content; // Assuming content is the URL of an image
+                            img.alt = `Inscription ${inscription.inscriptionId}`;
+                            img.className = "inscription-image";
+                            inscriptionsDiv.appendChild(img);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No Unisat inscriptions found.";
+                        inscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Unisat inscriptions:", error);
                 }
-              },
-              "button": {
-                "font-family": "Lora, serif",
-                ":hover": {
-                  "background-color": "#3934c2"
-                },
-                "background-color": "#3f3ad7",
-                ":focus": {
-                  "background-color": "#3934c2"
-                },
-                "border-radius": "27px",
-                "padding-left": "23px",
-                "padding-right": "23px"
-              }
-            },
-            "text": {
-              "button": "Add to cart"
-            },
-            "googleFonts": [
-              "Lora"
-            ]
-          },
-          "productSet": {
-            "styles": {
-              "products": {
-                "@media (min-width: 601px)": {
-                  "margin-left": "-20px"
-                }
-              }
             }
-          },
-          "modalProduct": {
-            "contents": {
-              "img": false,
-              "imgWithCarousel": true,
-              "button": false,
-              "buttonWithQuantity": true
-            },
-            "styles": {
-              "product": {
-                "@media (min-width: 601px)": {
-                  "max-width": "100%",
-                  "margin-left": "0px",
-                  "margin-bottom": "0px"
+
+            // Function to fetch and display TXT inscriptions
+            async function displayTxtInscriptions() {
+                try {
+                    // Fetch and display TXT inscriptions from the wallet
+                    // You can modify this part to fetch and display TXT inscriptions from the wallet
+                    const txtInscriptions = ["TXT Inscription 1", "TXT Inscription 2", "TXT Inscription 3"];
+                    const txtInscriptionsDiv = document.getElementById("txt-inscriptions");
+                    txtInscriptionsDiv.innerHTML = "<h2>TXT Inscriptions:</h2>";
+
+                    if (txtInscriptions.length > 0) {
+                        txtInscriptions.forEach(txtInscription => {
+                            const p = document.createElement("p");
+                            p.textContent = txtInscription;
+                            txtInscriptionsDiv.appendChild(p);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No TXT inscriptions found.";
+                        txtInscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch TXT inscriptions:", error);
                 }
-              },
-              "button": {
-                "font-family": "Lora, serif",
-                ":hover": {
-                  "background-color": "#3934c2"
-                },
-                "background-color": "#3f3ad7",
-                ":focus": {
-                  "background-color": "#3934c2"
-                },
-                "border-radius": "27px",
-                "padding-left": "23px",
-                "padding-right": "23px"
-              }
-            },
-            "googleFonts": [
-              "Lora"
-            ],
-            "text": {
-              "button": "Add to cart"
             }
-          },
-          "option": {},
-          "cart": {
-            "styles": {
-              "button": {
-                "font-family": "Lora, serif",
-                ":hover": {
-                  "background-color": "#3934c2"
-                },
-                "background-color": "#3f3ad7",
-                ":focus": {
-                  "background-color": "#3934c2"
-                },
-                "border-radius": "27px"
-              }
-            },
-            "text": {
-              "total": "Subtotal",
-              "button": "Checkout"
-            },
-            "googleFonts": [
-              "Lora"
-            ]
-          },
-          "toggle": {
-            "styles": {
-              "toggle": {
-                "font-family": "Lora, serif",
-                "background-color": "#3f3ad7",
-                ":hover": {
-                  "background-color": "#3934c2"
-                },
-                ":focus": {
-                  "background-color": "#3934c2"
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add an event listener to trigger wallet connection and information display
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                connectWallet(); // Call your wallet connection logic
+                displayWalletInfo();
+                displayWellTxtInscriptions();
+            });
+
+            // Function to handle wallet connection
+            async function connectWallet() {
+                try {
+                    const accounts = await window.unisat.requestAccounts();
+                    console.log('connect success', accounts);
+                    alert('Wallet connected: ' + accounts[0]);
+                    displayConnectedWalletAddress(accounts[0]);
+                } catch (e) {
+                    console.log('connect failed', e);
+                    alert('Failed to connect wallet');
                 }
-              }
-            },
-            "googleFonts": [
-              "Lora"
-            ]
-          }
-        },
-      });
-    });
-  }
-})();
-</script>
+            }
+
+            // Function to display the connected wallet address
+            function displayConnectedWalletAddress(address) {
+                const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+                connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
+            }
+
+            // Function to display wallet information
+            async function displayWalletInfo() {
+                let accountAddress = await window.unisat.getAccounts();
+                document.getElementById("accountAddress").textContent = "Account Address: " + accountAddress;
+
+                let inscriptionsData = await window.unisat.getInscriptions(0, 1000);
+                let inscriptionImages = inscriptionsData.list.map(inscription => `<p class="item">${inscription.inscriptionId}</p>`);
+                document.getElementById("inscriptions").innerHTML = "Inscriptions from Wallet: <br>" + inscriptionImages.join('');
+            }
+
+// Function to fetch and display Unisat inscriptions
+            async function displayUnisatInscriptions() {
+                try {
+                    // Modify the cursor and size as needed
+                    const cursor = 0;
+                    const size = 10;
+
+                    // Fetch inscriptions from Unisat
+                    const inscriptions = await window.unisat.getInscriptions(cursor, size);
+
+                    // Display the inscriptions as plain text
+                    const inscriptionsDiv = document.getElementById("inscriptions");
+                    inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
+
+                    if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        inscriptions.list.forEach(inscription => {
+                            const p = document.createElement("p");
+                            p.textContent = inscription.content; // Display the inscription content
+                            inscriptionsDiv.appendChild(p);
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No Unisat inscriptions found.";
+                        inscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Unisat inscriptions:", error);
+                }
+            }
+        });
+
+     document.addEventListener('DOMContentLoaded', function () {
+            // Add an event listener to trigger fetching and displaying Unisat inscriptions
+            document.getElementById("my-profile-button").addEventListener("click", function () {
+                displayUnisatInscriptions();
+            });
+
+            // Function to fetch and display Unisat inscriptions
+            async function displayUnisatInscriptions() {
+                try {
+                    // Modify the cursor and size as needed
+                    const cursor = 0;
+                    const size = 10;
+
+                    // Fetch inscriptions from Unisat
+                    const inscriptions = await window.unisat.getInscriptions(cursor, size);
+
+                    // Display the inscriptions as links
+                    const inscriptionsDiv = document.getElementById("inscriptions");
+                    inscriptionsDiv.innerHTML = "<h2>Unisat Inscriptions:</h2>";
+
+                    if (inscriptions && inscriptions.list && inscriptions.list.length > 0) {
+                        inscriptions.list.forEach(inscription => {
+                            const link = document.createElement("a");
+                            link.href = `https://ordinals.com/inscription/${inscription.inscriptionId}`;
+                            link.textContent = `Inscription ${inscription.inscriptionId}`;
+                            link.target = "_blank"; // Open in a new tab
+                            inscriptionsDiv.appendChild(link);
+                            inscriptionsDiv.appendChild(document.createElement("br")); // Add line breaks
+                        });
+                    } else {
+                        const p = document.createElement("p");
+                        p.textContent = "No Unisat inscriptions found.";
+                        inscriptionsDiv.appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Unisat inscriptions:", error);
+                }
+            }
+        });
+    </script>
+
 
 </body>
 </html>
