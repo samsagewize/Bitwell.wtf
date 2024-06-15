@@ -3,8 +3,6 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@xverse-wallet/sdk@latest/dist/xverse-sdk.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ordinals-js@latest/dist/ordinals.min.js"></script>
     <title>Welcome to Bitwell</title>
 
     <style>
@@ -202,43 +200,50 @@
     <p>&copy; Urua Labs</p>
 </footer>
 
-<script>
-    let wallet;
+<script type="module">
+    import { getAddress } from 'sats-connect';
 
-    document.getElementById('connectWallet').addEventListener('click', async () => {
+    async function connectWallet() {
         try {
-            wallet = new XverseWallet();
-            await wallet.connect();
-            alert('Wallet connected successfully');
-            displayConnectedWalletAddress(wallet.address);
-            displayRuneBalance();
+            const result = await getAddress({
+                purpose: 'ordinals',
+                payload: {
+                    description: 'Connect your Xverse wallet to get your address'
+                }
+            });
+            const address = result.result.address;
+            if (address) {
+                alert('Wallet connected successfully');
+                displayConnectedWalletAddress(address);
+                displayRuneBalance(address);
+            } else {
+                alert('Failed to retrieve address');
+            }
         } catch (error) {
             console.error('Failed to connect wallet:', error);
         }
-    });
+    }
 
     function displayConnectedWalletAddress(address) {
         const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
         connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
     }
 
-    async function displayRuneBalance() {
+    async function displayRuneBalance(address) {
         try {
             const runeId = "CAT•GO•TO•THE•SUN";
-            const runeBalance = await getRuneBalance(wallet.address, runeId);
+            const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
+            const data = await response.json();
+            const balance = data.balance;
+
             const runeBalanceDiv = document.getElementById("rune-balance");
-            runeBalanceDiv.textContent = `Rune Balance for ${runeId}: ${runeBalance}`;
+            runeBalanceDiv.textContent = "Rune Balance: " + balance;
         } catch (error) {
-            console.error('Failed to fetch Rune balance:', error);
+            console.error('Failed to retrieve Rune balance:', error);
         }
     }
 
-    async function getRuneBalance(address, runeId) {
-        // Implement the logic to fetch the Rune balance for the given address and Rune ID
-        // This will depend on the specific API or method provided by the Runes/Ordinals system
-        // For demonstration, returning a mock value
-        return 42; // Replace with actual logic
-    }
+    document.getElementById("connectWallet").addEventListener("click", connectWallet);
 </script>
 
 </body>
