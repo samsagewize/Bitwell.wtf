@@ -1,250 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <title>Welcome to Bitwell</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Castelan Landscaping</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
+            background: url('DALL·E 2024-06-16 15.48.26 - A realistic scene with perfectly cut, lush green grass at the bottom of the image. The sky above is clear and blue, with a few scattered, fluffy white.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #d6e9f7;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .well-container {
-            width: 300px;
-            height: 300px;
-            position: relative;
-            perspective: 1000px;
-        }
-
-        .well {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            animation: spin 10s infinite linear;
-        }
-
-        .well > div {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: gray;
-            transform-origin: bottom center;
-            opacity: 0.8;
-        }
-
-        .well .wall {
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-color: #00a8e0;
-            transform-origin: bottom center;
-        }
-
-        .coin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: orange;
-            color: white;
-            font-size: 14px;
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            text-align: center;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            animation: moveCoin 4s infinite linear;
         }
 
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
+        .logo {
+            width: 50px;
+            height: 50px;
         }
 
-        @keyframes moveCoin {
-            0%, 100% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(0) rotate(180deg); opacity: 0; }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #4CAF50;
         }
 
-        .dropdown {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: inline-block;
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
-        .dropdown .dropbtn {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
+        nav ul li {
+            margin: 10px 0;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 160px;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
+        nav ul li a {
             text-decoration: none;
-            display: block;
+            color: #333;
+            font-size: 1.2em;
         }
 
-        .dropdown-content a:hover {
-            background-color: #444;
+        main {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        #connected-wallet-address, #rune-balance {
-            margin-top: 20px;
-        }
-
-        #image-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px;
-        }
-
-        .inscription-image {
-            width: 200px;
-            height: 200px;
-        }
-
-        #wallet-connected {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .inscription-image-container {
-            margin: 10px;
-            border: 1px solid #ccc;
+        footer {
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            max-width: 200px;
-        }
-
-        .inscription-image {
-            max-width: 100%;
-            height: auto;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-
-<div class="well-container">
-    <div class="well">
-        <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
-    </div>
-    <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(72deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(108deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(144deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(180deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(216deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(252deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
-</div>
-
-<h1>Welcome to Bitwell</h1>
-
-<button id="connectWallet">Connect Xverse Wallet</button>
-<div id="connected-wallet-address"></div>
-<div id="rune-balance"></div>
-<div id="inscriptions"></div>
-<div id="image-container"></div>
-<div id="txt-inscriptions"></div>
-
-<div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
-    <div class="dropdown-content">
-        <a class="button" href="https://mint.bitwell.wtf" target="_blank">BITWELL PUNKS🎆</a>
-        <a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥</a>
-        <a class="button" href="https://idclub.io/market/domain/well" target="_blank">.well Market</a>
-        <!-- Bitwell Category -->
-        <a class="category" href="#bitwell-subcategories">Bitwell</a>
-        <ul class="subcategory" id="bitwell-subcategories">
-            <!-- Subcategories -->
-        </ul>
-    </div>
-</div>
-
-<footer>
-    <p>&copy; Urua Labs</p>
-</footer>
-
-<script type="module">
-    import { getAddress } from 'sats-connect';
-
-    async function connectWallet() {
-        try {
-            const result = await getAddress({
-                purpose: 'ordinals',
-                payload: {
-                    description: 'Connect your Xverse wallet to get your address'
-                }
-            });
-            const address = result.address;
-            if (address) {
-                alert('Wallet connected successfully');
-                displayConnectedWalletAddress(address);
-                displayRuneBalance(address);
-            } else {
-                alert('Failed to retrieve address');
-            }
-        } catch (error) {
-            console.error('Failed to connect wallet:', error);
-        }
-    }
-
-    function displayConnectedWalletAddress(address) {
-        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
-        connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
-    }
-
-    async function displayRuneBalance(address) {
-        try {
-            const runeId = "CAT•GO•TO•THE•SUN";
-            const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
-            const data = await response.json();
-            const balance = data.balance;
-
-            const runeBalanceDiv = document.getElementById("rune-balance");
-            runeBalanceDiv.textContent = "Rune Balance: " + balance;
-        } catch (error) {
-            console.error('Failed to retrieve Rune balance:', error);
-        }
-    }
-
-    document.getElementById("connectWallet").addEventListener("click", connectWallet);
-</script>
-
+    <header>
+        <img src="DALL·E 2024-06-16 16.00.59 - A close-up view of perfectly cut, lush green grass with even, short blades. The grass is vibrant and healthy, showing meticulous care and maintenance.webp" alt="Logo" class="logo">
+        <h1>Castelan Landscaping</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Schedule</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Our Services</h2>
+            <p>We offer professional lawn mowing services to keep your lawn looking its best.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Castelan Landscaping</p>
+    </footer>
 </body>
 </html>
