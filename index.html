@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
     <title>Welcome to Bitwell</title>
+
     <style>
         body {
             margin: 0;
@@ -173,7 +175,7 @@
 
 <h1>Welcome to Bitwell</h1>
 
-<button id="connectWallet">Connect UniSat Wallet</button>
+<button id="connectWallet">Connect Xverse Wallet</button>
 <div id="connected-wallet-address"></div>
 <div id="rune-balance"></div>
 <div id="inscriptions"></div>
@@ -199,79 +201,447 @@
 </footer>
 
 <script>
-(async () => {
-    const UniSat = await import('https://cdn.unisat.io/js/unisat.js');
-
-    async function connectWallet() {
-        try {
-            const address = await UniSat.connect();
-            if (address) {
-                alert('Wallet connected successfully');
-                displayConnectedWalletAddress(address);
-                displayRuneBalance(address);
-                fetchAndDisplayRunes(address);
-            } else {
-                alert('Failed to retrieve address');
+(() => {
+    "use strict";
+    var e;
+    !function(e) {
+        e[e.SMALLEST = 0] = "SMALLEST",
+        e[e.SMALL = 1] = "SMALL",
+        e[e.MEDIUM = 2] = "MEDIUM",
+        e[e.LARGE = 3] = "LARGE"
+    }(e || (e = {}));
+    var s;
+    !function(e) {
+        e.authenticationRequest = "xverse_stx_authentication_request",
+        e.signatureRequest = "xverse_stx_signature_request",
+        e.structuredDataSignatureRequest = "xverse_stx_structured_data_signature_request",
+        e.transactionRequest = "xverse_stx_transaction_request",
+        e.getAddressRequest = "xverse_btc_address_request",
+        e.signPsbtRequest = "xverse_btc_sats_psbt_request",
+        e.signBatchPsbtRequest = "xverse_btc_batch_psbt_request",
+        e.signMessageRequest = "xverse_btc_sign_message_request",
+        e.sendBtcRequest = "xverse_btc_send_request",
+        e.createInscriptionRequest = "xverse_btc_create_inscription_Request",
+        e.createRepeatInscriptionsRequest = "xverse_btc_create_repeat_inscriptions_request",
+        e.rpcRequest = "xverse_rpc_request"
+    }(s || (s = {}));
+    const t = "xverse-wallet";
+    var n, a, o, i;
+    !function(e) {
+        e.transactionRequest = "transactionRequest",
+        e.transactionResponse = "transactionResponse",
+        e.authenticationRequest = "authenticationRequest",
+        e.authenticationResponse = "authenticationResponse",
+        e.signatureRequest = "signatureRequest",
+        e.signatureResponse = "signatureResponse",
+        e.structuredDataSignatureRequest = "structuredDataSignatureRequest",
+        e.structuredDataSignatureResponse = "structuredDataSignatureResponse"
+    }(n || (n = {})),
+    function(e) {
+        e.request = "request"
+    }(a || (a = {})),
+    function(e) {
+        e.OriginatingTabClosed = "OriginatingTabClosed"
+    }(o || (o = {})),
+    function(e) {
+        e.getAddressRequest = "getAddressRequest",
+        e.getAddressResponse = "getAddressResponse",
+        e.signPsbtRequest = "signPsbtRequest",
+        e.signBatchPsbtRequest = "signBatchPsbtRequest",
+        e.signPsbtResponse = "signPsbtResponse",
+        e.signBatchPsbtResponse = "signBatchPsbtResponse",
+        e.signMessageRequest = "signMessageRequest",
+        e.signMessageResponse = "signMessageResponse",
+        e.sendBtcRequest = "sendBtcRequest",
+        e.sendBtcResponse = "sendBtcResponse",
+        e.createInscriptionRequest = "createInscriptionRequest",
+        e.createInscriptionResponse = "createInscriptionResponse",
+        e.createRepeatInscriptionsRequest = "createRepeatInscriptionsRequest",
+        e.createRepeatInscriptionsResponse = "createRepeatInscriptionsResponse",
+        e.request = "request"
+    }(i || (i = {}));
+    const r = (e,s)=>{
+        const {data: n} = e
+          , a = n.source === t
+          , o = n.method === s;
+        return a && o && !!n.payload
+    }
+      , d = {
+        connect: async e=>{
+            const t = new CustomEvent(s.getAddressRequest,{
+                detail: {
+                    btcAddressRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.getAddressResponse) && a.data.payload?.addressRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.addressResponse ? "string" != typeof a.data.payload.addressResponse && s(a.data.payload.addressResponse) : t(a.data.payload.addressResponse))
+                }
+                ;
+                window.addEventListener("message", n)
             }
-        } catch (error) {
-            console.error('Failed to connect wallet:', error);
+            ))
         }
-    }
-
-    function displayConnectedWalletAddress(address) {
-        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
-        connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
-    }
-
-    async function displayRuneBalance(address) {
-        try {
-            const runeId = "CAT•GO•TO•THE•SUN";
-            const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
-            const data = await response.json();
-            const balance = data.balance || 0;
-
-            const runeBalanceDiv = document.getElementById("rune-balance");
-            runeBalanceDiv.textContent = "Rune Balance: " + balance;
-        } catch (error) {
-            console.error('Failed to retrieve Rune balance:', error);
-        }
-    }
-
-    async function fetchAndDisplayRunes(address) {
-        try {
-            const response = await fetch(`https://api.magiceden.io/runes?owner=${address}`);
-            const data = await response.json();
-            console.log("Response from fetch runes:", data);
-            const runes = data.runes;
-
-            if (runes && Array.isArray(runes)) {
-                const imageContainer = document.getElementById("image-container");
-                runes.forEach(rune => {
-                    const runeDiv = document.createElement("div");
-                    runeDiv.className = "inscription-image-container";
-
-                    const img = document.createElement("img");
-                    img.src = rune.image;
-                    img.alt = rune.name;
-                    img.className = "inscription-image";
-
-                    const name = document.createElement("p");
-                    name.textContent = rune.name;
-
-                    runeDiv.appendChild(img);
-                    runeDiv.appendChild(name);
-                    imageContainer.appendChild(runeDiv);
-                });
-            } else {
-                console.error('Invalid runes response format', runes);
+        ,
+        signTransaction: async e=>{
+            const t = new CustomEvent(s.signPsbtRequest,{
+                detail: {
+                    signPsbtRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.signPsbtResponse) && a.data.payload?.signPsbtRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.signPsbtResponse ? "string" != typeof a.data.payload.signPsbtResponse && s(a.data.payload.signPsbtResponse) : t(a.data.payload.signPsbtResponse))
+                }
+                ;
+                window.addEventListener("message", n)
             }
-        } catch (error) {
-            console.error('Failed to fetch and display runes:', error);
+            ))
+        }
+        ,
+        signMultipleTransactions: async e=>{
+            const t = new CustomEvent(s.signBatchPsbtRequest,{
+                detail: {
+                    signBatchPsbtRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.signBatchPsbtResponse) && a.data.payload?.signBatchPsbtRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.signBatchPsbtResponse ? "string" != typeof a.data.payload.signBatchPsbtResponse && s(a.data.payload.signBatchPsbtResponse) : t(a.data.payload.signBatchPsbtResponse))
+                }
+                ;
+                window.addEventListener("message", n)
+            }
+            ))
+        }
+        ,
+        signMessage: async e=>{
+            const t = new CustomEvent(s.signMessageRequest,{
+                detail: {
+                    signMessageRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.signMessageResponse) && a.data.payload?.signMessageRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.signMessageResponse ? "string" == typeof a.data.payload.signMessageResponse && s(a.data.payload.signMessageResponse) : t(a.data.payload.signMessageResponse))
+                }
+                ;
+                window.addEventListener("message", n)
+            }
+            ))
+        }
+        ,
+        sendBtcTransaction: async e=>{
+            const t = new CustomEvent(s.sendBtcRequest,{
+                detail: {
+                    sendBtcRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.sendBtcResponse) && a.data.payload?.sendBtcRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.sendBtcResponse ? "string" == typeof a.data.payload.sendBtcResponse && s(a.data.payload.sendBtcResponse) : t(a.data.payload.sendBtcResponse))
+                }
+                ;
+                window.addEventListener("message", n)
+            }
+            ))
+        }
+        ,
+        createInscription: async e=>{
+            const t = new CustomEvent(s.createInscriptionRequest,{
+                detail: {
+                    createInscriptionRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.createInscriptionResponse) && a.data.payload?.createInscriptionRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.createInscriptionResponse ? "string" != typeof a.data.payload.createInscriptionResponse && s(a.data.payload.createInscriptionResponse) : t(a.data.payload.createInscriptionResponse))
+                }
+                ;
+                window.addEventListener("message", n)
+            }
+            ))
+        }
+        ,
+        createRepeatInscriptions: async e=>{
+            const t = new CustomEvent(s.createRepeatInscriptionsRequest,{
+                detail: {
+                    createRepeatInscriptionsRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const n = a=>{
+                    r(a, i.createRepeatInscriptionsResponse) && a.data.payload?.createRepeatInscriptionsRequest === e && (window.removeEventListener("message", n),
+                    "cancel" !== a.data.payload.createRepeatInscriptionsResponse ? "string" != typeof a.data.payload.createRepeatInscriptionsResponse && s(a.data.payload.createRepeatInscriptionsResponse) : t(a.data.payload.createRepeatInscriptionsResponse))
+                }
+                ;
+                window.addEventListener("message", n)
+            }
+            ))
+        }
+        ,
+        request: async(e,n)=>{
+            const a = ((e=21)=>crypto.getRandomValues(new Uint8Array(e)).reduce(((e,s)=>e + ((s &= 63) < 36 ? s.toString(36) : s < 62 ? (s - 26).toString(36).toUpperCase() : s > 62 ? "-" : "_")), ""))()
+              , o = {
+                jsonrpc: "2.0",
+                id: a,
+                method: e,
+                params: n
+            }
+              , i = new CustomEvent(s.rpcRequest,{
+                detail: o
+            });
+            return document.dispatchEvent(i),
+            new Promise((e=>{
+                window.addEventListener("message", (function s(n) {
+                    if (!(e=>{
+                        const {data: s} = e;
+                        return s.source === t
+                    }
+                    )(n))
+                        return;
+                    const o = n.data;
+                    return o.id === a ? (window.removeEventListener("message", s),
+                    e(o)) : void 0
+                }
+                ))
+            }
+            ))
         }
     }
+      , c = {
+        getURL: async()=>{
+            const {url: e} = await (async(e,s={})=>new Promise(((t,n)=>{
+                const a = setTimeout((()=>{
+                    n(new Error("Unable to get response from xverse extension"))
+                }
+                ), 1e3)
+                  , o = s=>{
+                    "xverse-extension" === s.data.source && s.data.method === `${e}Response` && (clearTimeout(a),
+                    window.removeEventListener("message", o),
+                    t(s.data))
+                }
+                ;
+                window.addEventListener("message", o),
+                window.postMessage({
+                    method: e,
+                    source: "xverse-app",
+                    ...s
+                }, window.location.origin)
+            }
+            )))("getURL");
+            return e
+        }
+        ,
+        structuredDataSignatureRequest: async e=>{
+            const t = new CustomEvent(s.structuredDataSignatureRequest,{
+                detail: {
+                    signatureRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const a = o=>{
+                    r(o, n.signatureResponse) && o.data.payload?.signatureRequest === e && (window.removeEventListener("message", a),
+                    "cancel" !== o.data.payload.signatureResponse ? "string" != typeof o.data.payload.signatureResponse && s(o.data.payload.signatureResponse) : t(o.data.payload.signatureResponse))
+                }
+                ;
+                window.addEventListener("message", a)
+            }
+            ))
+        }
+        ,
+        signatureRequest: async e=>{
+            const t = new CustomEvent(s.signatureRequest,{
+                detail: {
+                    signatureRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const a = o=>{
+                    r(o, n.signatureResponse) && o.data.payload?.signatureRequest === e && (window.removeEventListener("message", a),
+                    "cancel" !== o.data.payload.signatureResponse ? "string" != typeof o.data.payload.signatureResponse && s(o.data.payload.signatureResponse) : t(o.data.payload.signatureResponse))
+                }
+                ;
+                window.addEventListener("message", a)
+            }
+            ))
+        }
+        ,
+        authenticationRequest: async e=>{
+            const t = new CustomEvent(s.authenticationRequest,{
+                detail: {
+                    authenticationRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const a = o=>{
+                    r(o, n.authenticationResponse) && o.data.payload?.authenticationRequest === e && (window.removeEventListener("message", a),
+                    "cancel" !== o.data.payload.authenticationResponse ? s(o.data.payload.authenticationResponse) : t(o.data.payload.authenticationResponse))
+                }
+                ;
+                window.addEventListener("message", a)
+            }
+            ))
+        }
+        ,
+        transactionRequest: async e=>{
+            const t = new CustomEvent(s.transactionRequest,{
+                detail: {
+                    transactionRequest: e
+                }
+            });
+            return document.dispatchEvent(t),
+            new Promise(((s,t)=>{
+                const a = o=>{
+                    r(o, n.transactionResponse) && o.data.payload?.transactionRequest === e && (window.removeEventListener("message", a),
+                    "cancel" !== o.data.payload.transactionResponse ? "string" != typeof o.data.payload.transactionResponse && s(o.data.payload.transactionResponse) : t(o.data.payload.transactionResponse))
+                }
+                ;
+                window.addEventListener("message", a)
+            }
+            ))
+        }
+        ,
+        getProductInfo: ()=>({
+            version: "0.37.1",
+            name: "Xverse Wallet"
+        }),
+        request() {
+            throw new Error("`request` function is not implemented")
+        }
+    };
+    window.XverseProviders = {
+        StacksProvider: c,
+        BitcoinProvider: d
+    };
+    try {
+        document.currentScript?.dataset.isPriority ? Object.defineProperties(window, {
+            StacksProvider: {
+                get: ()=>c,
+                set: ()=>{}
+            }
+        }) : window.StacksProvider = c
+    } catch (e) {
+        console.log("Failed setting Xverse Stacks default provider. Another wallet may have already set it in an immutable way."),
+        console.error(e)
+    }
+    try {
+        document.currentScript?.dataset.isPriority ? Object.defineProperties(window, {
+            BitcoinProvider: {
+                get: ()=>d,
+                set: ()=>{}
+            }
+        }) : window.BitcoinProvider = d
+    } catch (e) {
+        console.log("Failed setting Xverse Bitcoin default provider. Another wallet may have already set it in an immutable way."),
+        console.error(e)
+    }
+    window.btc_providers || (window.btc_providers = []),
+    window.btc_providers.push({
+        id: "XverseProviders.BitcoinProvider",
+        name: "Xverse Wallet",
+        icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiMxNzE3MTciIGQ9Ik0wIDBoNjAwdjYwMEgweiIvPjxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTQ0MCA0MzUuNHYtNTFjMC0yLS44LTMuOS0yLjItNS4zTDIyMCAxNjIuMmE3LjYgNy42IDAgMCAwLTUuNC0yLjJoLTUxLjFjLTIuNSAwLTQuNiAyLTQuNiA0LjZ2NDcuM2MwIDIgLjggNCAyLjIgNS40bDc4LjIgNzcuOGE0LjYgNC42IDAgMCAxIDAgNi41bC03OSA3OC43Yy0xIC45LTEuNCAyLTEuNCAzLjJ2NTJjMCAyLjQgMiA0LjUgNC42IDQuNUgyNDljMi42IDAgNC42LTIgNC42LTQuNlY0MDVjMC0xLjIuNS0yLjQgMS40LTMuM2w0Mi40LTQyLjJhNC42IDQuNiAwIDAgMSA2LjQgMGw3OC43IDc4LjRhNy42IDcuNiAwIDAgMCA1LjQgMi4yaDQ3LjVjMi41IDAgNC42LTIgNC42LTQuNloiLz48cGF0aCBmaWxsPSIjRUU3QTMwIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGQ9Ik0zMjUuNiAyMjcuMmg0Mi44YzIuNiAwIDQuNiAyLjEgNC42IDQuNnY0Mi42YzAgNCA1IDYuMSA4IDMuMmw1OC43LTU4LjVjLjgtLjggMS4zLTIgMS4zLTMuMnYtNTEuMmMwLTIuNi0yLTQuNi00LjYtNC42TDM4NCAxNjBjLTEuMiAwLTIuNC41LTMuMyAxLjNsLTU4LjQgNTguMWE0LjYgNC42IDAgMCAwIDMuMiA3LjhaIi8+PC9nPjwvc3ZnPg==",
+        webUrl: "https://www.xverse.app/",
+        chromeWebStoreUrl: "https://chrome.google.com/webstore/detail/xverse-wallet/idnnbdplmphpflfnlkomgpfbpcgelopg?hl=en-GB&authuser=1",
+        googlePlayStoreUrl: "https://play.google.com/store/apps/details?id=com.secretkeylabs.xverse",
+        iOSAppStoreUrl: "https://apps.apple.com/app/xverse-bitcoin-web3-wallet/id1552272513",
+        methods: ["getInfo", "getAddresses", "getAccounts", "signMessage", "sendTransfer", "signPsbt", "stx_callContract", "stx_deployContract", "stx_getAccounts", "stx_getAddresses", "stx_signMessage", "stx_signStructuredMessage", "stx_signTransaction", "stx_transferStx"]
+    })
+}
+)();
 
-    document.getElementById("connectWallet").addEventListener("click", connectWallet);
-})();
+async function connectWallet() {
+    try {
+        const result = await BitcoinProvider.connect({
+            purpose: 'ordinals',
+            payload: {
+                description: 'Connect your Xverse wallet to get your address'
+            }
+        });
+        console.log("Result from BitcoinProvider.connect:", result);
+        const address = result?.address;
+        if (address) {
+            alert('Wallet connected successfully');
+            displayConnectedWalletAddress(address);
+            displayRuneBalance(address);
+            fetchAndDisplayRunes(address);
+        } else {
+            alert('Failed to retrieve address');
+        }
+    } catch (error) {
+        console.error('Failed to connect wallet:', error);
+    }
+}
+
+function displayConnectedWalletAddress(address) {
+    const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+    connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
+}
+
+async function displayRuneBalance(address) {
+    try {
+        const runeId = "CAT•GO•TO•THE•SUN";
+        const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
+        const data = await response.json();
+        const balance = data.balance || 0;
+
+        const runeBalanceDiv = document.getElementById("rune-balance");
+        runeBalanceDiv.textContent = "Rune Balance: " + balance;
+    } catch (error) {
+        console.error('Failed to retrieve Rune balance:', error);
+    }
+}
+
+async function fetchAndDisplayRunes(address) {
+    try {
+        const response = await fetch(`https://api.magiceden.io/runes?owner=${address}`);
+        const data = await response.json();
+        console.log("Response from fetch runes:", data);
+        const runes = data.runes;
+
+        if (runes && Array.isArray(runes)) {
+            const imageContainer = document.getElementById("image-container");
+            runes.forEach(rune => {
+                const runeDiv = document.createElement("div");
+                runeDiv.className = "inscription-image-container";
+
+                const img = document.createElement("img");
+                img.src = rune.image;
+                img.alt = rune.name;
+                img.className = "inscription-image";
+
+                const name = document.createElement("p");
+                name.textContent = rune.name;
+
+                runeDiv.appendChild(img);
+                runeDiv.appendChild(name);
+                imageContainer.appendChild(runeDiv);
+            });
+        } else {
+            console.error('Invalid runes response format', runes);
+        }
+    } catch (error) {
+        console.error('Failed to fetch and display runes:', error);
+    }
+}
+
+document.getElementById("connectWallet").addEventListener("click", connectWallet);
 </script>
 
 </body>
