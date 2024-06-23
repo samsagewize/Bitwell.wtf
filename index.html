@@ -598,7 +598,7 @@ async function displayRuneBalance(address) {
         const runeId = "CAT•GO•TO•THE•SUN";
         const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
         const data = await response.json();
-        const balance = data.balance;
+        const balance = data.balance || 0;
 
         const runeBalanceDiv = document.getElementById("rune-balance");
         runeBalanceDiv.textContent = "Rune Balance: " + balance;
@@ -613,22 +613,26 @@ async function fetchAndDisplayRunes(address) {
         const runes = await response.json();
         const imageContainer = document.getElementById("image-container");
 
-        runes.forEach(rune => {
-            const runeDiv = document.createElement("div");
-            runeDiv.className = "inscription-image-container";
+        if (Array.isArray(runes)) {
+            runes.forEach(rune => {
+                const runeDiv = document.createElement("div");
+                runeDiv.className = "inscription-image-container";
 
-            const img = document.createElement("img");
-            img.src = rune.image;
-            img.alt = rune.name;
-            img.className = "inscription-image";
+                const img = document.createElement("img");
+                img.src = rune.image;
+                img.alt = rune.name;
+                img.className = "inscription-image";
 
-            const name = document.createElement("p");
-            name.textContent = rune.name;
+                const name = document.createElement("p");
+                name.textContent = rune.name;
 
-            runeDiv.appendChild(img);
-            runeDiv.appendChild(name);
-            imageContainer.appendChild(runeDiv);
-        });
+                runeDiv.appendChild(img);
+                runeDiv.appendChild(name);
+                imageContainer.appendChild(runeDiv);
+            });
+        } else {
+            console.error('Invalid runes response format', runes);
+        }
     } catch (error) {
         console.error('Failed to fetch and display runes:', error);
     }
