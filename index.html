@@ -574,7 +574,8 @@ async function connectWallet() {
                 description: 'Connect your Xverse wallet to get your address'
             }
         });
-        const address = result.address;
+        console.log("Result from BitcoinProvider.connect:", result);
+        const address = result?.address;
         if (address) {
             alert('Wallet connected successfully');
             displayConnectedWalletAddress(address);
@@ -610,10 +611,12 @@ async function displayRuneBalance(address) {
 async function fetchAndDisplayRunes(address) {
     try {
         const response = await fetch(`https://api.magiceden.io/runes?owner=${address}`);
-        const runes = await response.json();
-        const imageContainer = document.getElementById("image-container");
+        const data = await response.json();
+        console.log("Response from fetch runes:", data);
+        const runes = data.runes;
 
         if (runes && Array.isArray(runes)) {
+            const imageContainer = document.getElementById("image-container");
             runes.forEach(rune => {
                 const runeDiv = document.createElement("div");
                 runeDiv.className = "inscription-image-container";
