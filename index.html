@@ -2,7 +2,6 @@
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sats-connect/dist/sats-connect.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <title>Welcome to Bitwell</title>
 
     <style>
@@ -207,20 +206,29 @@
     async function connectWallet() {
         try {
             const result = await getAddress({
-                purpose: 'ordinals',
+                network: {
+                    type: 'Mainnet'
+                },
                 payload: {
-                    description: 'Connect your Xverse wallet to get your address'
+                    purposes: ['ordinals'],
+                    message: 'Connect your Xverse wallet to get your address',
+                    network: 'mainnet'
+                },
+                onFinish: (response) => {
+                    const address = response.address;
+                    if (address) {
+                        alert('Wallet connected successfully');
+                        displayConnectedWalletAddress(address);
+                        displayRuneBalance(address);
+                        fetchAndDisplayRunes(address);
+                    } else {
+                        alert('Failed to retrieve address');
+                    }
+                },
+                onCancel: () => {
+                    alert('Wallet connection canceled');
                 }
             });
-            const address = result.address;
-            if (address) {
-                alert('Wallet connected successfully');
-                displayConnectedWalletAddress(address);
-                displayRuneBalance(address);
-                fetchAndDisplayRunes(address);
-            } else {
-                alert('Failed to retrieve address');
-            }
         } catch (error) {
             console.error('Failed to connect wallet:', error);
         }
