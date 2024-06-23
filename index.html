@@ -613,7 +613,7 @@ async function fetchAndDisplayRunes(address) {
         const runes = await response.json();
         const imageContainer = document.getElementById("image-container");
 
-        if (Array.isArray(runes)) {
+        if (runes && Array.isArray(runes)) {
             runes.forEach(rune => {
                 const runeDiv = document.createElement("div");
                 runeDiv.className = "inscription-image-container";
