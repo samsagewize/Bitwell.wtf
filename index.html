@@ -140,6 +140,10 @@
             max-width: 100%;
             height: auto;
         }
+
+        .connect-wallet {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -173,11 +177,14 @@
 
 <h1>Welcome to Bitwell</h1>
 
-<div class="dropdown">
-    <button id="connectWallet" class="dropbtn">Connect Wallet</button>
-    <div class="dropdown-content">
-        <a href="#" id="connectUniSat">Connect UniSat</a>
-        <a href="#" id="connectXverse">Connect Xverse</a>
+<div>
+    <button id="connectWallet" class="connect-wallet">Connect Wallet</button>
+    <div class="dropdown">
+        <button class="dropbtn">Choose Wallet</button>
+        <div class="dropdown-content">
+            <a href="#" id="connectUniSat">Connect UniSat</a>
+            <a href="#" id="connectXverse">Connect Xverse</a>
+        </div>
     </div>
 </div>
 
