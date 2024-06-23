@@ -283,7 +283,7 @@
             console.log("Response from fetch runes:", data);
             const runes = data.runes;
 
-            if (runes && Array.isArray(runes)) {
+            if (Array.isArray(runes)) {
                 const imageContainer = document.getElementById("image-container");
                 runes.forEach(rune => {
                     const runeDiv = document.createElement("div");
