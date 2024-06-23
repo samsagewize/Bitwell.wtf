@@ -178,7 +178,6 @@
 <h1>Welcome to Bitwell</h1>
 
 <div>
-    <button id="connectWallet" class="connect-wallet">Connect Wallet</button>
     <div class="dropdown">
         <button class="dropbtn">Choose Wallet</button>
         <div class="dropdown-content">
@@ -213,11 +212,8 @@
 </footer>
 
 <script src="https://cdn.unisat.io/js/unisat.js"></script>
-<script>
-(async () => {
-    // Placeholder for Xverse SDK initialization
-    // Replace with actual Xverse SDK initialization scripts
-    // Assuming Xverse SDK is available globally as `BitcoinProvider`
+<script type="module">
+    import { Wallet } from "sats-connect";
 
     async function connectUniSat() {
         try {
@@ -237,24 +233,32 @@
 
     async function connectXverse() {
         try {
-            const result = await BitcoinProvider.connect({
-                purpose: 'ordinals',
-                payload: {
-                    description: 'Connect your Xverse wallet to get your address'
-                }
+            const response = await Wallet.request('runes_getOrder', {
+                id: "ORDER_ID",
+                network: "Mainnet"
             });
-            const address = result?.address;
-            if (address) {
-                alert('Xverse Wallet connected successfully');
-                displayConnectedWalletAddress(address);
-                displayRuneBalance(address);
-                fetchAndDisplayRunes(address);
+
+            if (response.status === 'success') {
+                setTotalCost(response.result.totalCost);
+                setTotalSize(response.result.totalSize);
+                displayConnectedWalletAddress(response.result.address);
+                displayRuneBalance(response.result.address);
+                fetchAndDisplayRunes(response.result.address);
             } else {
-                alert('Failed to retrieve address');
+                console.error(response.error);
+                alert('Error Fetching Estimate. See console for details.');
             }
         } catch (error) {
             console.error('Failed to connect Xverse wallet:', error);
         }
+    }
+
+    function setTotalCost(cost) {
+        console.log("Total Cost: ", cost);
+    }
+
+    function setTotalSize(size) {
+        console.log("Total Size: ", size);
     }
 
     function displayConnectedWalletAddress(address) {
@@ -311,7 +315,6 @@
 
     document.getElementById("connectUniSat").addEventListener("click", connectUniSat);
     document.getElementById("connectXverse").addEventListener("click", connectXverse);
-})();
 </script>
 
 </body>
