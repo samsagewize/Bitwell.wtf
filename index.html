@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Bitwell</title>
     <style>
         body {
@@ -147,11 +145,9 @@
             margin-right: 10px;
         }
     </style>
-    <script src="https://unpkg.com/sats-connect"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@sats-connect/core"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@sats-connect/ui"></script>
 </head>
 <body>
+
 <div class="well-container">
     <div class="well">
         <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
@@ -182,6 +178,7 @@
 <h1>Welcome to Bitwell</h1>
 
 <div>
+    <button id="connectWallet" class="connect-wallet">Connect Wallet</button>
     <div class="dropdown">
         <button class="dropbtn">Choose Wallet</button>
         <div class="dropdown-content">
@@ -215,50 +212,107 @@
     <p>&copy; Urua Labs</p>
 </footer>
 
+<script src="https://cdn.unisat.io/js/unisat.js"></script>
 <script>
-    import { Wallet, BitcoinNetworkType, RpcErrorCode, getDefaultProvider, setDefaultProvider } from "sats-connect";
-    import { loadSelector, selectWalletProvider, type Config } from "@sats-connect/ui";
+(async () => {
+    // Placeholder for Xverse SDK initialization
+    // Replace with actual Xverse SDK initialization scripts
+    // Assuming Xverse SDK is available globally as `BitcoinProvider`
 
-    document.getElementById('connectXverse').addEventListener('click', async () => {
+    async function connectUniSat() {
         try {
-            const defaultWallet = await getDefaultProvider();
-            
-            if (!defaultWallet) {
-                loadSelector();
-                const config = {}; // Add your configuration options if needed
-                const selectedWallet = await selectWalletProvider(config);
-                await setDefaultProvider(selectedWallet);
-            }
-
-            const response = await Wallet.request('getAccounts', null);
-
-            if (response.status === 'success') {
-                const paymentAddressItem = response.result.find(address => address.purpose === 'payment');
-                const ordinalsAddressItem = response.result.find(address => address.purpose === 'ordinals');
-                const stacksAddressItem = response.result.find(address => address.purpose === 'stacks');
-                
-                if (paymentAddressItem) {
-                    document.getElementById('connected-wallet-address').innerText = `Payment Address: ${paymentAddressItem.address}`;
-                }
-
-                if (ordinalsAddressItem) {
-                    // Handle ordinals address
-                }
-
-                if (stacksAddressItem) {
-                    // Handle stacks address
-                }
+            const address = await UniSat.connect();
+            if (address) {
+                alert('UniSat Wallet connected successfully');
+                displayConnectedWalletAddress(address);
+                displayRuneBalance(address);
+                fetchAndDisplayRunes(address);
             } else {
-                if (response.error.code === RpcErrorCode.USER_REJECTION) {
-                    alert('User cancelled the connection.');
-                } else {
-                    alert('Failed to connect to wallet.');
-                }
+                alert('Failed to retrieve address');
             }
-        } catch (err) {
-            alert('Something went wrong: ' + err.message);
+        } catch (error) {
+            console.error('Failed to connect UniSat wallet:', error);
         }
-    });
+    }
+
+    async function connectXverse() {
+        try {
+            const result = await BitcoinProvider.connect({
+                purpose: 'ordinals',
+                payload: {
+                    description: 'Connect your Xverse wallet to get your address'
+                }
+            });
+            const address = result?.address;
+            if (address) {
+                alert('Xverse Wallet connected successfully');
+                displayConnectedWalletAddress(address);
+                displayRuneBalance(address);
+                fetchAndDisplayRunes(address);
+            } else {
+                alert('Failed to retrieve address');
+            }
+        } catch (error) {
+            console.error('Failed to connect Xverse wallet:', error);
+        }
+    }
+
+    function displayConnectedWalletAddress(address) {
+        const connectedWalletAddressDiv = document.getElementById("connected-wallet-address");
+        connectedWalletAddressDiv.textContent = "Connected Wallet Address: " + address;
+    }
+
+    async function displayRuneBalance(address) {
+        try {
+            const runeId = "CAT•GO•TO•THE•SUN";
+            const response = await fetch(`https://api.yourservice.com/runes_balance?address=${address}&runeId=${runeId}`);
+            const data = await response.json();
+            const balance = data.balance || 0;
+
+            const runeBalanceDiv = document.getElementById("rune-balance");
+            runeBalanceDiv.textContent = "Rune Balance: " + balance;
+        } catch (error) {
+            console.error('Failed to retrieve Rune balance:', error);
+        }
+    }
+
+    async function fetchAndDisplayRunes(address) {
+        try {
+            const response = await fetch(`https://api.magiceden.io/runes?owner=${address}`);
+            const data = await response.json();
+            console.log("Response from fetch runes:", data);
+            const runes = data.runes;
+
+            if (runes && Array.isArray(runes)) {
+                const imageContainer = document.getElementById("image-container");
+                runes.forEach(rune => {
+                    const runeDiv = document.createElement("div");
+                    runeDiv.className = "inscription-image-container";
+
+                    const img = document.createElement("img");
+                    img.src = rune.image;
+                    img.alt = rune.name;
+                    img.className = "inscription-image";
+
+                    const name = document.createElement("p");
+                    name.textContent = rune.name;
+
+                    runeDiv.appendChild(img);
+                    runeDiv.appendChild(name);
+                    imageContainer.appendChild(runeDiv);
+                });
+            } else {
+                console.error('Invalid runes response format', runes);
+            }
+        } catch (error) {
+            console.error('Failed to fetch and display runes:', error);
+        }
+    }
+
+    document.getElementById("connectUniSat").addEventListener("click", connectUniSat);
+    document.getElementById("connectXverse").addEventListener("click", connectXverse);
+})();
 </script>
+
 </body>
 </html>
