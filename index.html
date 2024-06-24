@@ -189,7 +189,6 @@
     </div>
 </div>
 
-<button id="connect-wallet" class="connect-wallet">Connect Wallet</button>
 <div id="connected-wallet-address"></div>
 <div id="rune-balance"></div>
 <div id="inscriptions"></div>
@@ -215,38 +214,76 @@
 </footer>
 
 <script>
-    document.getElementById('connect-wallet').addEventListener('click', async () => {
-        const getProvider = async () => {
-            if (window.BitcoinProvider) {
-                return window.BitcoinProvider;
-            } else {
-                alert('No Bitcoin wallet found');
-                throw new Error('No Bitcoin wallet found');
-            }
-        };
-
-        const payload = {
-            purposes: ['payment'], // Specify the purpose of the address
-            message: 'Connect your wallet to the website',
-            network: {
-                type: 'Mainnet' // Use 'Mainnet' or 'Testnet' depending on your needs
-            }
-        };
-
-        const options = {
-            getProvider,
-            payload,
-            onFinish: (response) => {
-                console.log('Address:', response.address);
-                alert(`Connected! Address: ${response.address}`);
-            },
-            onCancel: () => {
-                console.log('Connection cancelled');
-                alert('Connection cancelled');
-            }
-        };
-
+    document.getElementById('connectUniSat').addEventListener('click', async () => {
         try {
+            const getProvider = async () => {
+                if (window.BitcoinProvider) {
+                    return window.BitcoinProvider;
+                } else {
+                    alert('No Bitcoin wallet found');
+                    throw new Error('No Bitcoin wallet found');
+                }
+            };
+
+            const payload = {
+                purposes: ['payment'],
+                message: 'Connect your wallet to our site',
+                network: {
+                    type: 'Mainnet' // or 'Testnet' depending on your needs
+                }
+            };
+
+            const options = {
+                getProvider,
+                payload,
+                onFinish: (response) => {
+                    console.log('Address:', response.address);
+                    alert(`Connected! Address: ${response.address}`);
+                },
+                onCancel: () => {
+                    console.log('Connection cancelled');
+                    alert('Connection cancelled');
+                }
+            };
+
+            await satsConnect.getAddress(options);
+        } catch (error) {
+            console.error('Error connecting wallet:', error);
+        }
+    });
+
+    document.getElementById('connectXverse').addEventListener('click', async () => {
+        try {
+            const getProvider = async () => {
+                if (window.BitcoinProvider) {
+                    return window.BitcoinProvider;
+                } else {
+                    alert('No Bitcoin wallet found');
+                    throw new Error('No Bitcoin wallet found');
+                }
+            };
+
+            const payload = {
+                purposes: ['payment'],
+                message: 'Connect your Xverse wallet to our site',
+                network: {
+                    type: 'Mainnet' // or 'Testnet' depending on your needs
+                }
+            };
+
+            const options = {
+                getProvider,
+                payload,
+                onFinish: (response) => {
+                    console.log('Address:', response.address);
+                    alert(`Connected! Address: ${response.address}`);
+                },
+                onCancel: () => {
+                    console.log('Connection cancelled');
+                    alert('Connection cancelled');
+                }
+            };
+
             await satsConnect.getAddress(options);
         } catch (error) {
             console.error('Error connecting wallet:', error);
