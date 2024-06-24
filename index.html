@@ -216,45 +216,50 @@
 </footer>
 
 <script>
-    document.getElementById('connectXverse').addEventListener('click', async () => {
-        try {
-            const { Wallet, RpcErrorCode } = window.satsConnect;
-            const { getDefaultProvider, setDefaultProvider } = window.satsConnectCore;
-            const { loadSelector, selectWalletProvider } = window.satsConnectUi;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('connectXverse').addEventListener('click', async () => {
+            try {
+                // Wait for the library to load
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-            const defaultWallet = await getDefaultProvider();
-            
-            if (!defaultWallet) {
-                loadSelector();
-                const config = {}; // Add your configuration options if needed
-                const selectedWallet = await selectWalletProvider(config);
-                await setDefaultProvider(selectedWallet);
-            }
+                const { Wallet, BitcoinNetworkType, RpcErrorCode } = window.satsConnect;
+                const { getDefaultProvider, setDefaultProvider } = window.satsConnectCore;
+                const { loadSelector, selectWalletProvider } = window.satsConnectUi;
 
-            const response = await Wallet.request('getAccounts', null);
+                const defaultWallet = await getDefaultProvider();
+                
+                if (!defaultWallet) {
+                    loadSelector();
+                    const config = {}; // Add your configuration options if needed
+                    const selectedWallet = await selectWalletProvider(config);
+                    await setDefaultProvider(selectedWallet);
+                }
 
-            if (response.status === 'success') {
-                if (response.result) {
-                    const paymentAddressItem = response.result.find(address => address.purpose === 'payment');
-                    const ordinalsAddressItem = response.result.find(address => address.purpose === 'ordinals');
-                    const stacksAddressItem = response.result.find(address => address.purpose === 'stacks');
+                const response = await Wallet.request('getAccounts', null);
 
-                    if (paymentAddressItem) {
-                        document.getElementById('connected-wallet-address').innerText = `Payment Address: ${paymentAddressItem.address}`;
+                if (response.status === 'success') {
+                    if (response.result) {
+                        const paymentAddressItem = response.result.find(address => address.purpose === 'payment');
+                        const ordinalsAddressItem = response.result.find(address => address.purpose === 'ordinals');
+                        const stacksAddressItem = response.result.find(address => address.purpose === 'stacks');
+
+                        if (paymentAddressItem) {
+                            document.getElementById('connected-wallet-address').innerText = `Payment Address: ${paymentAddressItem.address}`;
+                        }
+                    } else {
+                        alert('No accounts found.');
                     }
                 } else {
-                    alert('No accounts found.');
+                    if (response.error.code === RpcErrorCode.USER_REJECTION) {
+                        alert('User cancelled the connection.');
+                    } else {
+                        alert('Failed to connect to wallet.');
+                    }
                 }
-            } else {
-                if (response.error.code === RpcErrorCode.USER_REJECTION) {
-                    alert('User cancelled the connection.');
-                } else {
-                    alert('Failed to connect to wallet.');
-                }
+            } catch (err) {
+                alert('Something went wrong: ' + err.message);
             }
-        } catch (err) {
-            alert('Something went wrong: ' + err.message);
-        }
+        });
     });
 </script>
 </body>
