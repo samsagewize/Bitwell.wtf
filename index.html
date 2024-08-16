@@ -13,6 +13,7 @@
             flex-direction: column;
             min-height: 100vh;
             background-color: #d6e9f7;
+            position: relative; /* Allow for absolute positioning of dropdown */
         }
 
         .well-container {
@@ -74,7 +75,7 @@
         .dropdown {
             position: absolute;
             top: 10px;
-            right: 10px;
+            left: 10px;
             display: inline-block;
         }
 
@@ -108,7 +109,6 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
     </style>
 </head>
 <body>
@@ -142,251 +142,107 @@
 
 <h1>Welcome to Bitwell</h1>
 
-<div>
-    <div class="dropdown">
-        <button class="dropbtn">Uru Shop</button>
-        <div class="dropdown-content">
-
-<div id='product-component-1723827605524'></div>
-<script type="text/javascript">
-/*<![CDATA[*/
-(function () {
-  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-  if (window.ShopifyBuy) {
-    if (window.ShopifyBuy.UI) {
-      ShopifyBuyInit();
-    } else {
-      loadScript();
-    }
-  } else {
-    loadScript();
-  }
-  function loadScript() {
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = scriptURL;
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-    script.onload = ShopifyBuyInit;
-  }
-  function ShopifyBuyInit() {
-    var client = ShopifyBuy.buildClient({
-      domain: '7345d1-e1.myshopify.com',
-      storefrontAccessToken: 'fffc48240d20f72107aea4d51f69d34c',
-    });
-    ShopifyBuy.UI.onReady(client).then(function (ui) {
-      ui.createComponent('product', {
-        id: '8268264374438',
-        node: document.getElementById('product-component-1723827605524'),
-        moneyFormat: '%24%7B%7Bamount%7D%7D',
-        options: {
-  "product": {
-    "styles": {
-      "product": {
-        "@media (min-width: 601px)": {
-          "max-width": "calc(25% - 20px)",
-          "margin-left": "20px",
-          "margin-bottom": "50px"
-        }
-      },
-      "button": {
-        ":hover": {
-          "background-color": "#256dd2"
-        },
-        "background-color": "#2979e9",
-        ":focus": {
-          "background-color": "#256dd2"
-        }
-      }
-    },
-    "text": {
-      "button": "Add to cart"
-    }
-  },
-  "productSet": {
-    "styles": {
-      "products": {
-        "@media (min-width: 601px)": {
-          "margin-left": "-20px"
-        }
-      }
-    }
-  },
-  "modalProduct": {
-    "contents": {
-      "img": false,
-      "imgWithCarousel": true,
-      "button": false,
-      "buttonWithQuantity": true
-    },
-    "styles": {
-      "product": {
-        "@media (min-width: 601px)": {
-          "max-width": "100%",
-          "margin-left": "0px",
-          "margin-bottom": "0px"
-        }
-      },
-      "button": {
-        ":hover": {
-          "background-color": "#256dd2"
-        },
-        "background-color": "#2979e9",
-        ":focus": {
-          "background-color": "#256dd2"
-        }
-      }
-    },
-    "text": {
-      "button": "Add to cart"
-    }
-  },
-  "option": {},
-  "cart": {
-    "styles": {
-      "button": {
-        ":hover": {
-          "background-color": "#256dd2"
-        },
-        "background-color": "#2979e9",
-        ":focus": {
-          "background-color": "#256dd2"
-        }
-      },
-      "title": {
-        "color": "#4195d9"
-      },
-      "header": {
-        "color": "#4195d9"
-      },
-      "lineItems": {
-        "color": "#4195d9"
-      },
-      "subtotalText": {
-        "color": "#4195d9"
-      },
-      "subtotal": {
-        "color": "#4195d9"
-      },
-      "notice": {
-        "color": "#4195d9"
-      },
-      "currency": {
-        "color": "#4195d9"
-      },
-      "close": {
-        "color": "#4195d9",
-        ":hover": {
-          "color": "#4195d9"
-        }
-      },
-      "empty": {
-        "color": "#4195d9"
-      },
-      "noteDescription": {
-        "color": "#4195d9"
-      },
-      "discountText": {
-        "color": "#4195d9"
-      },
-      "discountIcon": {
-        "fill": "#4195d9"
-      },
-      "discountAmount": {
-        "color": "#4195d9"
-      },
-      "cart": {
-        "background-color": "#000000"
-      },
-      "footer": {
-        "background-color": "#000000"
-      }
-    },
-    "text": {
-      "total": "Subtotal",
-      "button": "Checkout"
-    },
-    "popup": false
-  },
-  "toggle": {
-    "styles": {
-      "toggle": {
-        "background-color": "#2979e9",
-        ":hover": {
-          "background-color": "#256dd2"
-        },
-        ":focus": {
-          "background-color": "#256dd2"
-        }
-      }
-    }
-  },
-  "lineItem": {
-    "styles": {
-      "variantTitle": {
-        "color": "#4195d9"
-      },
-      "title": {
-        "color": "#4195d9"
-      },
-      "price": {
-        "color": "#4195d9"
-      },
-      "fullPrice": {
-        "color": "#4195d9"
-      },
-      "discount": {
-        "color": "#4195d9"
-      },
-      "discountIcon": {
-        "fill": "#4195d9"
-      },
-      "quantity": {
-        "color": "#4195d9"
-      },
-      "quantityIncrement": {
-        "color": "#4195d9",
-        "border-color": "#4195d9"
-      },
-      "quantityDecrement": {
-        "color": "#4195d9",
-        "border-color": "#4195d9"
-      },
-      "quantityInput": {
-        "color": "#4195d9",
-        "border-color": "#4195d9"
-      }
-    }
-  }
-},
-      });
-    });
-  }
-})();
-/*]]>*/
-</script>
-
-        </div>
-<iframe style="border: 0; width: 100%; height: 42px;" src="https://bandcamp.com/EmbeddedPlayer/track=1458633819/size=small/bgcol=ffffff/linkcol=0687f5/transparent=true/" seamless><a href="https://samsagewize.bandcamp.com/track/yo-ya-ni-siento">null by Sam Sage</a></iframe>
-    </div>
-</div>
-
-
 <div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
+    <button class="dropbtn">Uru Shop</button>
     <div class="dropdown-content">
-      
-        <a class="button" href="https://rare78.wtf/" target="_blank">Rare 78🟥</a>
-        <a class="button" href="https://idclub.io/market/domain/well" target="_blank">.well Market</a>
-        <!-- Bitwell Category -->
-        </ul>
+        <iframe srcdoc="
+            <div id='product-component-1723827605524'></div>
+            <script type='text/javascript'>
+            /*<![CDATA[*/
+            (function () {
+              var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+              if (window.ShopifyBuy) {
+                if (window.ShopifyBuy.UI) {
+                  ShopifyBuyInit();
+                } else {
+                  loadScript();
+                }
+              } else {
+                loadScript();
+              }
+              function loadScript() {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = scriptURL;
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+                script.onload = ShopifyBuyInit;
+              }
+              function ShopifyBuyInit() {
+                var client = ShopifyBuy.buildClient({
+                  domain: '7345d1-e1.myshopify.com',
+                  storefrontAccessToken: 'fffc48240d20f72107aea4d51f69d34c',
+                });
+                ShopifyBuy.UI.onReady(client).then(function (ui) {
+                  ui.createComponent('product', {
+                    id: '8268264374438',
+                    node: document.getElementById('product-component-1723827605524'),
+                    moneyFormat: '%24%7B%7Bamount%7D%7D',
+                    options: {
+                      product: {
+                        styles: {
+                          product: {
+                            '@media (min-width: 601px)': {
+                              'max-width': 'calc(25% - 20px)',
+                              'margin-left': '20px',
+                              'margin-bottom': '50px'
+                            }
+                          },
+                          button: {
+                            ':hover': { 'background-color': '#256dd2' },
+                            'background-color': '#2979e9',
+                            ':focus': { 'background-color': '#256dd2' }
+                          }
+                        },
+                        text: { button: 'Add to cart' }
+                      },
+                      productSet: {
+                        styles: {
+                          products: { '@media (min-width: 601px)': { 'margin-left': '-20px' } }
+                        }
+                      },
+                      modalProduct: {
+                        contents: {
+                          img: false,
+                          imgWithCarousel: true,
+                          button: false,
+                          buttonWithQuantity: true
+                        },
+                        styles: {
+                          product: {
+                            '@media (min-width: 601px)': {
+                              'max-width': '100%',
+                              'margin-left': '0px',
+                              'margin-bottom': '0px'
+                            }
+                          },
+                          button: {
+                            ':hover': { 'background-color': '#256dd2' },
+                            'background-color': '#2979e9',
+                            ':focus': { 'background-color': '#256dd2' }
+                          }
+                        },
+                        text: { button: 'Add to cart' }
+                      },
+                      cart: {
+                        styles: {
+                          button: {
+                            ':hover': { 'background-color': '#256dd2' },
+                            'background-color': '#2979e9',
+                            ':focus': { 'background-color': '#256dd2' }
+                          }
+                        },
+                        text: { total: 'Subtotal', button: 'Checkout' }
+                      }
+                    }
+                  });
+                });
+              }
+            })();
+            /*]]>*/
+            </script>
+        " style="width: 100%; height: 400px; border: none;"></iframe>
     </div>
 </div>
 
-<footer>
-    <p>&copy; Urua Labs</p>
-</footer>
-
-
-</script>
 </body>
 </html>
