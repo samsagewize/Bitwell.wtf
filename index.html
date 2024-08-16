@@ -127,12 +127,22 @@
             color: #ff69b4;
             text-shadow: 2px 2px 0px #000;
         }
+
+        iframe {
+            margin-top: 20px;
+            border: 2px solid #ff69b4;
+            box-shadow: 0 0 5px #000;
+        }
     </style>
 </head>
 <body>
 
 <div class="well-container">
-    <!-- existing well content remains the same -->
+    <div class="well">
+        <!-- Your well content remains the same -->
+        <div class="wall"></div>
+        <div class="coin">💰</div>
+    </div>
 </div>
 
 <h1>Welcome to Bitwell</h1>
@@ -141,6 +151,9 @@
     <button class="dropbtn">Uru Shop</button>
     <div class="dropdown-content">
         <!-- your dropdown content -->
+        <a href="#">Option 1</a>
+        <a href="#">Option 2</a>
+        <a href="#">Option 3</a>
     </div>
 </div>
 
@@ -148,6 +161,9 @@
     <button class="dropbtn">Dropdown</button>
     <div class="dropdown-content">
         <!-- your dropdown content -->
+        <a href="#">Option A</a>
+        <a href="#">Option B</a>
+        <a href="#">Option C</a>
     </div>
 </div>
 
@@ -156,6 +172,8 @@
     <h2>Retro Buy Button</h2>
     <div id="product-component-1723827605524"></div>
 </div>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <footer>
     <p>&copy; Urua Labs</p>
@@ -289,7 +307,7 @@
       "close": {
         "color": "#4195d9",
         ":hover": {
-          "color": "#4195d9"
+          "color": "#256dd2"
         }
       },
       "empty": {
@@ -307,33 +325,26 @@
       "discountAmount": {
         "color": "#4195d9"
       },
-      "cart": {
-        "background-color": "#000000"
-      },
-      "footer": {
-        "background-color": "#000000"
+      "cartCount": {
+        "font-size": "1.1rem"
       }
     },
     "text": {
-      "total": "Subtotal",
+      "title": "Your Cart",
+      "empty": "Your cart is empty",
+      "notice": "Shipping and discount codes are added at checkout.",
+      "subtotal": "Subtotal",
       "button": "Checkout"
     },
-    "popup": false
-  },
-  "toggle": {
-    "styles": {
-      "toggle": {
-        "background-color": "#2979e9",
-        ":hover": {
-          "background-color": "#256dd2"
-        },
-        ":focus": {
-          "background-color": "#256dd2"
-        }
-      }
+    "contents": {
+      "img": true,
+      "title": true,
+      "price": true,
+      "quantity": true,
+      "button": true
     }
   }
-},
+}
       });
     });
   }
