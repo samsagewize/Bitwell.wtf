@@ -54,12 +54,42 @@
             display: block;
         }
 
-        iframe {
+        .carousel-container {
             margin-top: 20px;
-            width: 60%;
-            height: 400px;
+            width: 80%;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
             border: 1px solid #ccc;
             border-radius: 8px;
+        }
+
+        .carousel-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 150px;
+        }
+
+        .carousel-controls button {
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .carousel-controls button:hover {
+            background-color: #444;
         }
     </style>
 </head>
@@ -69,17 +99,54 @@
     <div class="dropdown">
         <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
         <div class="dropdown-content">
-            <a href="https://magiceden.us/ordinals/marketplace/rare78">Rare 78</a>
-            <a href="https://magiceden.us/ordinals/marketplace/bwp">Bitwell Punks</a>
-            <a href="https://idclub.io/market/domain/well">.well domain</a>
-            <a href="https://magiceden.us/ordinals/marketplace/wfw">Wishes from the Well</a>
-            <a href="https://magiceden.us/ordinals/item-details/0349e108c26011c662e74e688cb8f4581720748b7984e1c5a1119db82a4ae451i0">OG WISHING WELL</a>
-            <a href="https://magiceden.us/ordinals/item-details/2dd72dcbe8fbb63f4c38ff8c5d9819c18461af36ea80ce28e13028b439be813fi0">TXT ENCRYPTION WISH</a>
-            <a href="https://magiceden.us/ordinals/item-details/63693811e68c096f1e82bf0927de29917ef905fd9075a1e094ae135a240baf35i0">Binary Wishes</a>
-            <a href="https://magiceden.us/ordinals/item-details/d9d04162ebed6a418b18b0592388b21f39483da288787aad3007523a245ede85i0">Water Wishes</a>
+            <a href="#" onclick="updateIframe(0)">Rare 78</a>
+            <a href="#" onclick="updateIframe(1)">Bitwell Punks</a>
+            <a href="#" onclick="updateIframe(2)">.well domain</a>
+            <a href="#" onclick="updateIframe(3)">Wishes from the Well</a>
+            <a href="#" onclick="updateIframe(4)">OG WISHING WELL</a>
+            <a href="#" onclick="updateIframe(5)">TXT ENCRYPTION WISH</a>
+            <a href="#" onclick="updateIframe(6)">Binary Wishes</a>
+            <a href="#" onclick="updateIframe(7)">Water Wishes</a>
         </div>
     </div>
 
-    <iframe src="https://magiceden.us/ordinals/marketplace/bwp" title="Magic Eden BWP"></iframe>
+    <div class="carousel-container">
+        <iframe id="carouselIframe" src="https://magiceden.us/ordinals/marketplace/rare78" title="Carousel Viewer"></iframe>
+        <div class="carousel-controls">
+            <button onclick="prevItem()">Previous</button>
+            <button onclick="nextItem()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const links = [
+            "https://magiceden.us/ordinals/marketplace/rare78",
+            "https://magiceden.us/ordinals/marketplace/bwp",
+            "https://idclub.io/market/domain/well",
+            "https://magiceden.us/ordinals/marketplace/wfw",
+            "https://magiceden.us/ordinals/item-details/0349e108c26011c662e74e688cb8f4581720748b7984e1c5a1119db82a4ae451i0",
+            "https://magiceden.us/ordinals/item-details/2dd72dcbe8fbb63f4c38ff8c5d9819c18461af36ea80ce28e13028b439be813fi0",
+            "https://magiceden.us/ordinals/item-details/63693811e68c096f1e82bf0927de29917ef905fd9075a1e094ae135a240baf35i0",
+            "https://magiceden.us/ordinals/item-details/d9d04162ebed6a418b18b0592388b21f39483da288787aad3007523a245ede85i0"
+        ];
+
+        let currentIndex = 0;
+
+        function updateIframe(index) {
+            currentIndex = index;
+            const iframe = document.getElementById("carouselIframe");
+            iframe.src = links[currentIndex];
+        }
+
+        function prevItem() {
+            currentIndex = (currentIndex - 1 + links.length) % links.length;
+            updateIframe(currentIndex);
+        }
+
+        function nextItem() {
+            currentIndex = (currentIndex + 1) % links.length;
+            updateIframe(currentIndex);
+        }
+    </script>
 </body>
 </html>
