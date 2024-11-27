@@ -13,63 +13,7 @@
             flex-direction: column;
             min-height: 100vh;
             background-color: #d6e9f7;
-            position: relative; /* Allow for absolute positioning of dropdown */
-        }
-
-        .well-container {
-            width: 300px;
-            height: 300px;
             position: relative;
-            perspective: 1000px;
-        }
-
-        .well {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            animation: spin 10s infinite linear;
-        }
-
-        .well > div {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: gray;
-            transform-origin: bottom center;
-            opacity: 0.8;
-        }
-
-        .well .wall {
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-color: #00a8e0;
-            transform-origin: bottom center;
-        }
-
-        .coin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: orange;
-            color: white;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            animation: moveCoin 4s infinite linear;
-        }
-
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        @keyframes moveCoin {
-            0%, 100% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(0) rotate(180deg); opacity: 0; }
         }
 
         .dropdown {
@@ -91,7 +35,7 @@
             display: none;
             position: absolute;
             background-color: #333;
-            min-width: 160px;
+            min-width: 200px;
             z-index: 1;
         }
 
@@ -112,54 +56,30 @@
 
         iframe {
             margin-top: 20px;
-            width: 80%;
-            height: 600px;
+            width: 60%;
+            height: 400px;
             border: 1px solid #ccc;
             border-radius: 8px;
         }
     </style>
 </head>
 <body>
+    <h1>Welcome to Bitwell</h1>
 
-<div class="well-container">
-    <div class="well">
-        <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
-        <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
+    <div class="dropdown">
+        <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
+        <div class="dropdown-content">
+            <a href="https://magiceden.us/ordinals/marketplace/rare78">Rare 78</a>
+            <a href="https://magiceden.us/ordinals/marketplace/bwp">Bitwell Punks</a>
+            <a href="https://idclub.io/market/domain/well">.well domain</a>
+            <a href="https://magiceden.us/ordinals/marketplace/wfw">Wishes from the Well</a>
+            <a href="https://magiceden.us/ordinals/item-details/0349e108c26011c662e74e688cb8f4581720748b7984e1c5a1119db82a4ae451i0">OG WISHING WELL</a>
+            <a href="https://magiceden.us/ordinals/item-details/2dd72dcbe8fbb63f4c38ff8c5d9819c18461af36ea80ce28e13028b439be813fi0">TXT ENCRYPTION WISH</a>
+            <a href="https://magiceden.us/ordinals/item-details/63693811e68c096f1e82bf0927de29917ef905fd9075a1e094ae135a240baf35i0">Binary Wishes</a>
+            <a href="https://magiceden.us/ordinals/item-details/d9d04162ebed6a418b18b0592388b21f39483da288787aad3007523a245ede85i0">Water Wishes</a>
+        </div>
     </div>
-    <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(72deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(108deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(144deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(180deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(216deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(252deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(288deg) translateY(-150px) translateZ(150px);">B</div>
-    <div class="coin" style="transform: rotateY(324deg) translateY(-150px) translateZ(150px);">B</div>
-</div>
 
-<h1>Welcome to Bitwell</h1>
-
-<!-- Iframe Section -->
-<iframe src="https://magiceden.us/ordinals/marketplace/bwp" title="Magic Eden BWP"></iframe>
-
-<div class="dropdown">
-    <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
-    <div class="dropdown-content">
-        <a href="https://magiceden.us/ordinals/marketplace/rare78">Rare 78</a>
-        <a href="https://magiceden.us/ordinals/marketplace/bwp">Bitwell Punks</a>
-    </div>
-</div>
-
+    <iframe src="https://magiceden.us/ordinals/marketplace/bwp" title="Magic Eden BWP"></iframe>
 </body>
 </html>
