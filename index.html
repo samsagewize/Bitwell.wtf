@@ -56,8 +56,8 @@
 
         .carousel-container {
             margin-top: 20px;
-            width: 80%;
-            height: 500px;
+            width: 85%;
+            height: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -91,6 +91,57 @@
         .carousel-controls button:hover {
             background-color: #444;
         }
+
+        .well-container {
+            position: absolute;
+            bottom: 20px;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .well {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin 10s linear infinite;
+        }
+
+        .wall {
+            position: absolute;
+            width: 50px;
+            height: 100px;
+            background: #000;
+            border: 1px solid #ccc;
+            transform-origin: center bottom;
+        }
+
+        .coin {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: gold;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-weight: bold;
+            transform-origin: center bottom;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -116,6 +167,25 @@
             <button onclick="prevItem()">Previous</button>
             <button onclick="nextItem()">Next</button>
         </div>
+    </div>
+
+    <div class="well-container">
+        <div class="well">
+            <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(30deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(60deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(90deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(120deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(150deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(180deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(210deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(240deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(270deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(300deg) translateY(0px) translateZ(150px);"></div>
+            <div class="wall" style="transform: rotateY(330deg) translateY(0px) translateZ(150px);"></div>
+        </div>
+        <div class="coin" style="transform: rotateY(0deg) translateY(-150px) translateZ(150px);">B</div>
+        <div class="coin" style="transform: rotateY(36deg) translateY(-150px) translateZ(150px);">B</div>
     </div>
 
     <script>
