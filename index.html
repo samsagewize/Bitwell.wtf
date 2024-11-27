@@ -16,6 +16,7 @@
             position: relative;
         }
 
+        /* Main Menu */
         .dropdown {
             position: absolute;
             top: 10px;
@@ -54,6 +55,32 @@
             display: block;
         }
 
+        /* Alternate Menu */
+        .alternate-menu {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .alternate-menu a {
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        .alternate-menu a:hover {
+            background-color: #444;
+            border-radius: 4px;
+        }
+
+        /* Logo Container */
         .logo-container {
             position: absolute;
             top: 10px;
@@ -66,6 +93,7 @@
             border-radius: 10px;
         }
 
+        /* Carousel */
         .carousel-container {
             margin-top: 20px;
             width: 85%;
@@ -104,9 +132,11 @@
             background-color: #444;
         }
 
+        /* 3D Well */
         .well-container {
             position: absolute;
-            bottom: 20px;
+            top: 10px;
+            right: 10px;
             width: 300px;
             height: 300px;
             display: flex;
@@ -159,6 +189,7 @@
 <body>
     <h1>Welcome to Bitwell</h1>
 
+    <!-- Main Menu -->
     <div class="dropdown">
         <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
         <div class="dropdown-content">
@@ -173,10 +204,19 @@
         </div>
     </div>
 
+    <!-- Alternate Menu -->
+    <div class="alternate-menu">
+        <a href="https://open.spotify.com/artist/3o7QHIT3xAl7YM7nd9QiTk" target="_blank">Sam Sage Music - Spotify</a>
+        <a href="https://magiceden.us/ordinals/item-details/0349e108c26011c662e74e688cb8f4581720748b7984e1c5a1119db82a4ae451i0">Track 1</a>
+        <a href="https://magiceden.us/ordinals/item-details/2dd72dcbe8fbb63f4c38ff8c5d9819c18461af36ea80ce28e13028b439be813fi0">Track 2</a>
+    </div>
+
+    <!-- Logo Container -->
     <div class="logo-container">
         <img src="https://via.placeholder.com/150" alt="Logo">
     </div>
 
+    <!-- Carousel Container -->
     <div class="carousel-container">
         <iframe id="carouselIframe" src="https://magiceden.us/ordinals/marketplace/rare78" title="Carousel Viewer"></iframe>
         <div class="carousel-controls">
@@ -185,6 +225,7 @@
         </div>
     </div>
 
+    <!-- 3D Well -->
     <div class="well-container">
         <div class="well">
             <div class="wall" style="transform: rotateY(0deg) translateY(0px) translateZ(150px);"></div>
@@ -210,27 +251,34 @@
             "https://magiceden.us/ordinals/marketplace/bwp",
             "https://idclub.io/market/domain/well",
             "https://magiceden.us/ordinals/marketplace/wfw",
-            "https://magiceden.us/ordinals/item-details/0349e108c26011c662e74e688cb8f4581720748b7984e1c5a1119db82a4ae451i0",
-            "https://magiceden.us/ordinals/item-details/2dd72dcbe8fbb63f4c38ff8c5d9819c18461af36ea80ce28e13028b439be813fi0",
-            "https://magiceden.us/ordinals/item-details/63693811e68c096f1e82bf0927de29917ef905fd9075a1e094ae135a240baf35i0",
-            "https://magiceden.us/ordinals/item-details/d9d04162ebed6a418b18b0592388b21f39483da288787aad3007523a245ede85i0"
+            "https://magiceden.us/ordinals/marketplace/ogww",
+            "https://magiceden.us/ordinals/marketplace/txtww",
+            "https://magiceden.us/ordinals/marketplace/bw",
+            "https://magiceden.us/ordinals/marketplace/ww",
         ];
 
         let currentIndex = 0;
 
         function updateIframe(index) {
-            currentIndex = index;
             const iframe = document.getElementById("carouselIframe");
-            iframe.src = links[currentIndex];
+            iframe.src = links[index];
         }
 
         function prevItem() {
-            currentIndex = (currentIndex - 1 + links.length) % links.length;
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = links.length - 1;
+            }
             updateIframe(currentIndex);
         }
 
         function nextItem() {
-            currentIndex = (currentIndex + 1) % links.length;
+            if (currentIndex < links.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
             updateIframe(currentIndex);
         }
     </script>
