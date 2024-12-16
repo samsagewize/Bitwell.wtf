@@ -208,8 +208,8 @@
 <body>
     <h1>Welcome to Bitwell</h1>
 
-    <!-- $Well Button -->
-    <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
+    <!-- $Well Use Button -->
+    <button class="well-button" onclick="openWellUseModal()">Open $Well Use Modal</button>
 
     <!-- Lilly Well Button -->
     <button class="well-button" onclick="window.open('https://vvaifu.fun/character/675f90265f7093d263c0e899', '_blank')">LILLY WELL</button>
@@ -275,7 +275,8 @@
                 try {
                     const resp = await window.solana.connect();
                     provider = window.solana;
-                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+                    connection = new web3.Connection(web3.clusterApiUrl('devnet'));
+
                     document.getElementById("message").innerText = `Connected: ${resp.publicKey.toString()}`;
                     checkTokenBalance(resp.publicKey);
                 } catch (err) {
