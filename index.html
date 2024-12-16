@@ -211,6 +211,9 @@
     <!-- $Well Button -->
     <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
 
+    <!-- $well Button -->
+    <button class="well-button" onclick="openLillyModal()">Open Lilly Well</button>
+
     <!-- Lilly Well Modal -->
     <div class="lilly-modal" id="lillyModal">
         <button class="close-btn" onclick="closeLillyModal()">×</button>
@@ -272,8 +275,8 @@
                 try {
                     const resp = await window.solana.connect();
                     provider = window.solana;
-                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
-                    document.getElementById("message").innerText = `Connected to wallet: ${resp.publicKey.toString()}`;
+                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+                    document.getElementById("message").innerText = "Wallet connected successfully!";
                     document.getElementById("burnTokens").disabled = false; // Enable button after wallet connects
                 } catch (err) {
                     document.getElementById("message").innerText = `Error: ${err.message}`;
