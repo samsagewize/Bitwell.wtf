@@ -277,58 +277,37 @@
                     provider = window.solana;
                     connection = new web3.Connection(web3.clusterApiUrl('devnet'));
 
-                    document.getElementById("message").innerText = `Connected: ${resp.publicKey.toString()}`;
+                    document.getElementById("message").innerText = "Wallet connected!";
                     document.getElementById("burnTokens").disabled = false;
                 } catch (error) {
-                    document.getElementById("message").innerText = "Failed to connect wallet.";
+                    console.error(error);
+                    document.getElementById("message").innerText = "Failed to connect wallet!";
                 }
             } else {
-                alert("Please install Phantom wallet.");
+                alert("Please install Phantom Wallet extension.");
             }
         }
 
         async function burnTokens() {
-            const walletPublicKey = provider.publicKey;
-            const tokenAddress = new web3.PublicKey(TOKEN_MINT_ADDRESS);
-            const associatedTokenAddress = await getAssociatedTokenAddress(tokenAddress, walletPublicKey);
+            if (provider && provider.publicKey) {
+                const wallet = provider.publicKey;
+                const token = new splToken.Token(connection, TOKEN_MINT_ADDRESS, splToken.TOKEN_PROGRAM_ID, wallet);
+                const balance = await token.getAccountInfo(wallet);
+                const amountToBurn = balance.amount;
 
-            const tokenAccount = await connection.getAccountInfo(associatedTokenAddress);
-            if (tokenAccount) {
-                // Burning logic here
-                console.log("Token burned!");
-            } else {
-                alert("You do not have any $Well tokens to burn.");
+                if (amountToBurn <= 0) {
+                    document.getElementById("message").innerText = "Not enough $Well tokens to burn!";
+                    return;
+                }
+
+                try {
+                    await token.burn(wallet, amountToBurn);
+                    document.getElementById("message").innerText = "Successfully used $Well!";
+                } catch (error) {
+                    console.error(error);
+                    document.getElementById("message").innerText = "Error burning tokens!";
+                }
             }
-        }
-
-        function getAssociatedTokenAddress(tokenMint, ownerAddress) {
-            return web3.PublicKey.findProgramAddress(
-                [ownerAddress.toBuffer(), tokenMint.toBuffer()],
-                web3.TOKEN_PROGRAM_ID
-            );
-        }
-
-        function updateIframe(index) {
-            const iframeSources = [
-                "https://rare78.com",
-                "https://bitwellpunks.com",
-                "https://well-domain.com",
-                "https://wishesfromthewell.com",
-                "https://ogwishingwell.com",
-                "https://txtencryptionwish.com",
-                "https://binarywishes.com",
-                "https://waterwishes.com"
-            ];
-
-            document.getElementById('carouselIframe').src = iframeSources[index];
-        }
-
-        function openLillyModal() {
-            document.getElementById("lillyModal").style.display = "flex";
-        }
-
-        function closeLillyModal() {
-            document.getElementById("lillyModal").style.display = "none";
         }
 
         function openWellUseModal() {
@@ -339,12 +318,39 @@
             document.getElementById("wellUseModal").style.display = "none";
         }
 
+        function openLillyModal() {
+            document.getElementById("lillyModal").style.display = "flex";
+        }
+
+        function closeLillyModal() {
+            document.getElementById("lillyModal").style.display = "none";
+        }
+
+        function updateIframe(index) {
+            const iframe = document.getElementById("carouselIframe");
+            const urls = [
+                "https://magiceden.us/ordinals/marketplace/rare78",
+                "https://magiceden.us/ordinals/marketplace/bitwellpunks",
+                "https://magiceden.us/ordinals/marketplace/well-domain",
+                "https://magiceden.us/ordinals/marketplace/wishing-well",
+                "https://magiceden.us/ordinals/marketplace/og-well",
+                "https://magiceden.us/ordinals/marketplace/txt-encryption-wish",
+                "https://magiceden.us/ordinals/marketplace/binary-wishes",
+                "https://magiceden.us/ordinals/marketplace/water-wishes"
+            ];
+            iframe.src = urls[index];
+        }
+
+        let currentItem = 0;
+
         function prevItem() {
-            // Logic to go to the previous item
+            currentItem = (currentItem - 1 + 8) % 8;
+            updateIframe(currentItem);
         }
 
         function nextItem() {
-            // Logic to go to the next item
+            currentItem = (currentItem + 1) % 8;
+            updateIframe(currentItem);
         }
     </script>
 </body>
