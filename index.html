@@ -267,15 +267,14 @@
     <script>
         let provider = null;
         let connection = null;
-        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // $Well token address
-        const RAFFLE_WALLET = "<YOUR_RAFFLE_WALLET_ADDRESS_HERE>"; // Replace with your raffle wallet address
+        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJ9LP9HTf9qThF8tCU9jC6EEL9km2kcsYnt"; // Replace with your token mint address
 
         async function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
                 provider = window.solana;
                 try {
                     await provider.connect();
-                    connection = new web3.Connection("https://api.devnet.solana.com", "confirmed");
+                    connection = new solanaWeb3.Connection("https://api.devnet.solana.com", "confirmed");
                     document.getElementById("message").innerText = "Wallet connected!";
                     document.getElementById("burnTokens").disabled = false;
                 } catch (error) {
@@ -297,7 +296,7 @@
             // Add logic for burning tokens here
             console.log("Burning tokens...");
 
-            const transaction = new web3.Transaction();
+            const transaction = new solanaWeb3.Transaction();
 
             // Add your burning logic here using Solana's web3.js API
         }
