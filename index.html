@@ -183,6 +183,17 @@
         <iframe src="https://vvaifu.fun/character/675f90265f7093d263c0e899" title="Lilly Well" id="lillyIframe"></iframe>
     </div>
 
+    <!-- $Well Use Modal -->
+    <div class="lilly-modal" id="wellUseModal">
+        <button class="close-btn" onclick="closeWellUseModal()">×</button>
+        <h2>Bitwell - $Well Use Raffle</h2>
+        <button id="connectWallet">Connect Phantom Wallet</button>
+        <button id="burnTokens" disabled>$Well Use</button>
+
+        <div class="message" id="message"></div>
+        <iframe id="raffleFrame" src=""></iframe>
+    </div>
+
     <!-- Main Menu -->
     <div class="dropdown">
         <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
@@ -212,50 +223,85 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.76.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.2.0"></script>
+
     <script>
-        const links = [
-            "https://magiceden.us/ordinals/marketplace/rare78",
-            "https://magiceden.us/ordinals/marketplace/bwp",
-            "https://idclub.io/market/domain/well",
-            "https://magiceden.us/ordinals/marketplace/wfw",
-            "https://magiceden.us/ordinals/marketplace/ogww",
-            "https://magiceden.us/ordinals/marketplace/txtww",
-            "https://magiceden.us/ordinals/marketplace/bw",
-            "https://magiceden.us/ordinals/marketplace/ww",
-        ];
+        let provider = null;
+        let connection = null;
+        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // $Well token address
+        const RAFFLE_WALLET = "<YOUR_RAFFLE_WALLET_ADDRESS_HERE>"; // Replace with your raffle wallet address
 
-        let currentIndex = 0;
-
-        function updateIframe(index) {
-            const iframe = document.getElementById("carouselIframe");
-            iframe.src = links[index];
-        }
-
-        function prevItem() {
-            if (currentIndex > 0) {
-                currentIndex--;
+        async function connectWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const resp = await window.solana.connect();
+                    provider = window.solana;
+                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+                    document.getElementById("message").innerText = `Connected to wallet: ${resp.publicKey.toString()}`;
+                    document.getElementById("burnTokens").disabled = false;
+                } catch (err) {
+                    document.getElementById("message").innerText = `Connection failed: ${err.message}`;
+                }
             } else {
-                currentIndex = links.length - 1;
+                alert("Please install Phantom Wallet to use this feature.");
             }
-            updateIframe(currentIndex);
         }
 
-        function nextItem() {
-            if (currentIndex < links.length - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
+        async function burnTokens() {
+            try {
+                const userWallet = provider.publicKey;
+
+                const tokenAccountInfo = await connection.getParsedTokenAccountsByOwner(
+                    userWallet,
+                    { mint: new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS) }
+                );
+
+                const userTokenAccount = tokenAccountInfo.value[0]?.pubkey;
+
+                if (!userTokenAccount) {
+                    throw new Error("No tokens found in your wallet.");
+                }
+
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaSplToken.Token.createTransferInstruction(
+                        solanaSplToken.TOKEN_PROGRAM_ID,
+                        userTokenAccount,
+                        new solanaWeb3.PublicKey(RAFFLE_WALLET),
+                        userWallet,
+                        [],
+                        1 // Burn 1 token per raffle entry
+                    )
+                );
+
+                const { blockhash } = await connection.getLatestBlockhash();
+                transaction.recentBlockhash = blockhash;
+                transaction.feePayer = userWallet;
+
+                const signedTransaction = await provider.signTransaction(transaction);
+                const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+                await connection.confirmTransaction(signature, 'confirmed');
+                document.getElementById("message").innerText = "Tokens burned successfully! You are now entered into the raffle.";
+            } catch (err) {
+                document.getElementById("message").innerText = `Error: ${err.message}`;
             }
-            updateIframe(currentIndex);
         }
 
-        // Functions to open and close the Lilly Well iframe
         function openLillyModal() {
-            document.getElementById('lillyModal').style.display = 'flex';
+            document.getElementById("lillyModal").style.display = "flex";
         }
 
         function closeLillyModal() {
-            document.getElementById('lillyModal').style.display = 'none';
+            document.getElementById("lillyModal").style.display = "none";
+        }
+
+        function openWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "flex";
+        }
+
+        function closeWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "none";
         }
     </script>
 </body>
