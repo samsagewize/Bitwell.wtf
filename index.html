@@ -97,6 +97,7 @@
             height: 100%;
             border: 1px solid #ccc;
             border-radius: 8px;
+            z-index: 0; /* Set the z-index of the iframe to 0 */
         }
 
         .carousel-controls {
@@ -131,6 +132,7 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            z-index: 10; /* Set the z-index to ensure it appears above the iframe */
         }
 
         .well-button:hover {
@@ -148,6 +150,7 @@
             background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
+            z-index: 20; /* Ensure the modal appears in front of everything else */
         }
 
         .lilly-modal iframe {
