@@ -123,7 +123,7 @@
         /* $Well Button */
         .well-button {
             position: absolute;
-            top: 20px;
+            top: 100px;
             left: 20px;
             background-color: #333;
             color: white;
@@ -169,13 +169,47 @@
             border: none;
             cursor: pointer;
         }
+
+        /* $Well Use Modal */
+        .well-use-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 20; /* Ensure the modal appears in front of everything else */
+        }
+
+        .well-use-modal .well-use-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 60%;
+        }
+
+        .well-use-modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
     <h1>Welcome to Bitwell</h1>
 
     <!-- $Well Button -->
-    <button class="well-button" onclick="openLillyModal()">$Well</button>
+    <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
 
     <!-- Lilly Well Modal -->
     <div class="lilly-modal" id="lillyModal">
@@ -184,14 +218,15 @@
     </div>
 
     <!-- $Well Use Modal -->
-    <div class="lilly-modal" id="wellUseModal">
-        <button class="close-btn" onclick="closeWellUseModal()">×</button>
-        <h2>Bitwell - $Well Use Raffle</h2>
-        <button id="connectWallet">Connect Phantom Wallet</button>
-        <button id="burnTokens" disabled>$Well Use</button>
-
-        <div class="message" id="message"></div>
-        <iframe id="raffleFrame" src=""></iframe>
+    <div class="well-use-modal" id="wellUseModal">
+        <div class="well-use-content">
+            <button class="close-btn" onclick="closeWellUseModal()">×</button>
+            <h2>Bitwell - $Well Use Raffle</h2>
+            <button id="connectWallet" onclick="connectWallet()">Connect Phantom Wallet</button>
+            <button id="burnTokens" onclick="burnTokens()" disabled>$Well Use</button>
+            <div class="message" id="message"></div>
+            <iframe id="raffleFrame" src=""></iframe>
+        </div>
     </div>
 
     <!-- Main Menu -->
@@ -239,38 +274,34 @@
                     provider = window.solana;
                     connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
                     document.getElementById("message").innerText = `Connected to wallet: ${resp.publicKey.toString()}`;
-                    document.getElementById("burnTokens").disabled = false;
+                    document.getElementById("burnTokens").disabled = false; // Enable button after wallet connects
                 } catch (err) {
-                    document.getElementById("message").innerText = `Connection failed: ${err.message}`;
+                    document.getElementById("message").innerText = `Error: ${err.message}`;
                 }
             } else {
-                alert("Please install Phantom Wallet to use this feature.");
+                document.getElementById("message").innerText = "Phantom wallet not detected. Please install Phantom Wallet.";
             }
         }
 
         async function burnTokens() {
             try {
                 const userWallet = provider.publicKey;
-
-                const tokenAccountInfo = await connection.getParsedTokenAccountsByOwner(
-                    userWallet,
-                    { mint: new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS) }
+                const tokenMintAddress = new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS);
+                const userTokenAccount = await solanaWeb3.Token.getAssociatedTokenAddress(
+                    solanaWeb3.ASSOCIATED_TOKEN_PROGRAM_ID,
+                    solanaWeb3.Token.TOKEN_PROGRAM_ID,
+                    tokenMintAddress,
+                    userWallet
                 );
 
-                const userTokenAccount = tokenAccountInfo.value[0]?.pubkey;
-
-                if (!userTokenAccount) {
-                    throw new Error("No tokens found in your wallet.");
-                }
-
                 const transaction = new solanaWeb3.Transaction().add(
-                    solanaSplToken.Token.createTransferInstruction(
-                        solanaSplToken.TOKEN_PROGRAM_ID,
+                    solanaWeb3.Token.createBurnInstruction(
+                        solanaWeb3.TOKEN_PROGRAM_ID,
+                        tokenMintAddress,
                         userTokenAccount,
-                        new solanaWeb3.PublicKey(RAFFLE_WALLET),
                         userWallet,
                         [],
-                        1 // Burn 1 token per raffle entry
+                        1 // Burn 1 token
                     )
                 );
 
