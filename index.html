@@ -288,6 +288,31 @@
             }
         }
 
+async function connectWallet() {
+    if (window.solana && window.solana.isPhantom) {
+        try {
+            // Attempt to connect the wallet
+            const resp = await window.solana.connect();
+            provider = window.solana;
+            connection = new web3.Connection(web3.clusterApiUrl('devnet')); // You can change the cluster API if needed
+
+            console.log("Connected to Phantom Wallet:", resp.publicKey.toString()); // Log the wallet address to the console
+
+            // Enable the button and show a successful connection message
+            document.getElementById("message").innerText = "Wallet connected!";
+            document.getElementById("burnTokens").disabled = false;
+        } catch (error) {
+            // Handle connection errors
+            console.error("Error connecting to Phantom Wallet:", error);
+            document.getElementById("message").innerText = "Failed to connect wallet! Error: " + error.message;
+        }
+    } else {
+        alert("Please install Phantom Wallet extension.");
+        document.getElementById("message").innerText = "Phantom Wallet not found!";
+    }
+}
+
+
         async function burnTokens() {
             if (provider && provider.publicKey) {
                 const wallet = provider.publicKey;
