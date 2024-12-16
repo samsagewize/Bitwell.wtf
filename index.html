@@ -275,70 +275,32 @@
                 try {
                     const resp = await window.solana.connect();
                     provider = window.solana;
-                    connection = new web3.Connection(web3.clusterApiUrl('devnet'));
+                    connection = new web3.Connection("https://api.devnet.solana.com"); // Fixed URL for the Solana connection
 
                     document.getElementById("message").innerText = "Wallet connected!";
                     document.getElementById("burnTokens").disabled = false;
                 } catch (error) {
-                    console.error(error);
-                    document.getElementById("message").innerText = "Failed to connect wallet!";
+                    console.error("Error connecting to Phantom Wallet:", error);
+                    document.getElementById("message").innerText = "Failed to connect wallet! Error: " + error.message;
                 }
             } else {
                 alert("Please install Phantom Wallet extension.");
+                document.getElementById("message").innerText = "Phantom Wallet not found!";
             }
         }
-
-async function connectWallet() {
-    if (window.solana && window.solana.isPhantom) {
-        try {
-            // Attempt to connect the wallet
-            const resp = await window.solana.connect();
-            provider = window.solana;
-            
-            // Correct way to create a connection to the Solana cluster
-            connection = new web3.Connection(web3.clusterApiUrl('devnet')); // This was incorrect, we'll fix it below
-
-            // Use a proper endpoint URL instead of the above method
-            connection = new web3.Connection("https://api.devnet.solana.com"); // Replace this with the desired Solana cluster URL
-
-            console.log("Connected to Phantom Wallet:", resp.publicKey.toString()); // Log the wallet address to the console
-
-            // Enable the button and show a successful connection message
-            document.getElementById("message").innerText = "Wallet connected!";
-            document.getElementById("burnTokens").disabled = false;
-        } catch (error) {
-            // Handle connection errors
-            console.error("Error connecting to Phantom Wallet:", error);
-            document.getElementById("message").innerText = "Failed to connect wallet! Error: " + error.message;
-        }
-    } else {
-        alert("Please install Phantom Wallet extension.");
-        document.getElementById("message").innerText = "Phantom Wallet not found!";
-    }
-}
-
-
 
         async function burnTokens() {
-            if (provider && provider.publicKey) {
-                const wallet = provider.publicKey;
-                const token = new splToken.Token(connection, TOKEN_MINT_ADDRESS, splToken.TOKEN_PROGRAM_ID, wallet);
-                const balance = await token.getAccountInfo(wallet);
-                const amountToBurn = balance.amount;
-
-                if (amountToBurn <= 0) {
-                    document.getElementById("message").innerText = "Not enough $Well tokens to burn!";
-                    return;
-                }
-
-                try {
-                    await token.burn(wallet, amountToBurn);
-                    document.getElementById("message").innerText = "Successfully used $Well!";
-                } catch (error) {
-                    console.error(error);
-                    document.getElementById("message").innerText = "Error burning tokens!";
-                }
+            if (!provider || !connection) {
+                alert("Please connect wallet first!");
+                return;
             }
+
+            // Add logic for burning tokens here
+            console.log("Burning tokens...");
+
+            const transaction = new web3.Transaction();
+
+            // Add your burning logic here using Solana's web3.js API
         }
 
         function openWellUseModal() {
@@ -358,30 +320,31 @@ async function connectWallet() {
         }
 
         function updateIframe(index) {
-            const iframe = document.getElementById("carouselIframe");
-            const urls = [
+            const iframeUrls = [
                 "https://magiceden.us/ordinals/marketplace/rare78",
                 "https://magiceden.us/ordinals/marketplace/bitwellpunks",
                 "https://magiceden.us/ordinals/marketplace/well-domain",
-                "https://magiceden.us/ordinals/marketplace/wishing-well",
-                "https://magiceden.us/ordinals/marketplace/og-well",
+                "https://magiceden.us/ordinals/marketplace/wishes-from-the-well",
+                "https://magiceden.us/ordinals/marketplace/og-wishing-well",
                 "https://magiceden.us/ordinals/marketplace/txt-encryption-wish",
                 "https://magiceden.us/ordinals/marketplace/binary-wishes",
                 "https://magiceden.us/ordinals/marketplace/water-wishes"
             ];
-            iframe.src = urls[index];
+            document.getElementById("carouselIframe").src = iframeUrls[index];
         }
 
-        let currentItem = 0;
-
         function prevItem() {
-            currentItem = (currentItem - 1 + 8) % 8;
-            updateIframe(currentItem);
+            let iframe = document.getElementById("carouselIframe");
+            let currentIndex = iframe.src.indexOf("marketplace");
+            let newIndex = currentIndex - 1; // Go back by 1 (simple example)
+            iframe.src = iframe.src.replace("marketplace", `marketplace-${newIndex}`);
         }
 
         function nextItem() {
-            currentItem = (currentItem + 1) % 8;
-            updateIframe(currentItem);
+            let iframe = document.getElementById("carouselIframe");
+            let currentIndex = iframe.src.indexOf("marketplace");
+            let newIndex = currentIndex + 1; // Go forward by 1 (simple example)
+            iframe.src = iframe.src.replace("marketplace", `marketplace-${newIndex}`);
         }
     </script>
 </body>
