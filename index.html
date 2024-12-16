@@ -272,11 +272,10 @@
 
         async function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
+                provider = window.solana;
                 try {
-                    const resp = await window.solana.connect();
-                    provider = window.solana;
-                    connection = new web3.Connection("https://api.devnet.solana.com"); // Fixed URL for the Solana connection
-
+                    await provider.connect();
+                    connection = new web3.Connection("https://api.devnet.solana.com", "confirmed");
                     document.getElementById("message").innerText = "Wallet connected!";
                     document.getElementById("burnTokens").disabled = false;
                 } catch (error) {
