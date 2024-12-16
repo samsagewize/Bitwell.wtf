@@ -294,7 +294,12 @@ async function connectWallet() {
             // Attempt to connect the wallet
             const resp = await window.solana.connect();
             provider = window.solana;
-            connection = new web3.Connection(web3.clusterApiUrl('devnet')); // You can change the cluster API if needed
+            
+            // Correct way to create a connection to the Solana cluster
+            connection = new web3.Connection(web3.clusterApiUrl('devnet')); // This was incorrect, we'll fix it below
+
+            // Use a proper endpoint URL instead of the above method
+            connection = new web3.Connection("https://api.devnet.solana.com"); // Replace this with the desired Solana cluster URL
 
             console.log("Connected to Phantom Wallet:", resp.publicKey.toString()); // Log the wallet address to the console
 
@@ -311,6 +316,7 @@ async function connectWallet() {
         document.getElementById("message").innerText = "Phantom Wallet not found!";
     }
 }
+
 
 
         async function burnTokens() {
