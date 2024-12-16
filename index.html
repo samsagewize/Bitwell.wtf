@@ -278,68 +278,73 @@
                     connection = new web3.Connection(web3.clusterApiUrl('devnet'));
 
                     document.getElementById("message").innerText = `Connected: ${resp.publicKey.toString()}`;
-                    checkTokenBalance(resp.publicKey);
-                } catch (err) {
-                    document.getElementById("message").innerText = "Wallet connection failed!";
+                    document.getElementById("burnTokens").disabled = false;
+                } catch (error) {
+                    document.getElementById("message").innerText = "Failed to connect wallet.";
                 }
             } else {
-                alert("Please install Phantom Wallet!");
-            }
-        }
-
-        async function checkTokenBalance(walletAddress) {
-            const token = new spl.Token(connection, TOKEN_MINT_ADDRESS, spl.TOKEN_PROGRAM_ID, walletAddress);
-            const tokenBalance = await token.getAccountInfo(walletAddress);
-            const balance = tokenBalance.amount;
-
-            const burnButton = document.getElementById("burnTokens");
-            if (balance > 0) {
-                burnButton.disabled = false;
-            } else {
-                burnButton.disabled = true;
-                document.getElementById("message").innerText = "Insufficient $Well token balance.";
+                alert("Please install Phantom wallet.");
             }
         }
 
         async function burnTokens() {
-            const burnButton = document.getElementById("burnTokens");
-            burnButton.disabled = true;
-            document.getElementById("message").innerText = "Burning tokens...";
+            const walletPublicKey = provider.publicKey;
+            const tokenAddress = new web3.PublicKey(TOKEN_MINT_ADDRESS);
+            const associatedTokenAddress = await getAssociatedTokenAddress(tokenAddress, walletPublicKey);
 
-            // Burn tokens logic goes here, for example:
-            // (1) Create transaction to burn the tokens.
-            // (2) Send transaction to the blockchain.
-            // (3) Notify user upon success or failure.
+            const tokenAccount = await connection.getAccountInfo(associatedTokenAddress);
+            if (tokenAccount) {
+                // Burning logic here
+                console.log("Token burned!");
+            } else {
+                alert("You do not have any $Well tokens to burn.");
+            }
         }
 
-        function openWellUseModal() {
-            document.getElementById('wellUseModal').style.display = 'flex';
-        }
-
-        function closeWellUseModal() {
-            document.getElementById('wellUseModal').style.display = 'none';
-        }
-
-        function openLillyModal() {
-            document.getElementById('lillyModal').style.display = 'flex';
-        }
-
-        function closeLillyModal() {
-            document.getElementById('lillyModal').style.display = 'none';
+        function getAssociatedTokenAddress(tokenMint, ownerAddress) {
+            return web3.PublicKey.findProgramAddress(
+                [ownerAddress.toBuffer(), tokenMint.toBuffer()],
+                web3.TOKEN_PROGRAM_ID
+            );
         }
 
         function updateIframe(index) {
-            const iframes = [
-                "https://magiceden.us/ordinals/marketplace/rare78",
-                "https://magiceden.us/ordinals/marketplace/bitwellpunk",
-                "https://magiceden.us/ordinals/marketplace/well",
-                "https://magiceden.us/ordinals/marketplace/og_wish",
-                "https://magiceden.us/ordinals/marketplace/txt_encryption",
-                "https://magiceden.us/ordinals/marketplace/binary",
-                "https://magiceden.us/ordinals/marketplace/water_wish"
+            const iframeSources = [
+                "https://rare78.com",
+                "https://bitwellpunks.com",
+                "https://well-domain.com",
+                "https://wishesfromthewell.com",
+                "https://ogwishingwell.com",
+                "https://txtencryptionwish.com",
+                "https://binarywishes.com",
+                "https://waterwishes.com"
             ];
 
-            document.getElementById('carouselIframe').src = iframes[index];
+            document.getElementById('carouselIframe').src = iframeSources[index];
+        }
+
+        function openLillyModal() {
+            document.getElementById("lillyModal").style.display = "flex";
+        }
+
+        function closeLillyModal() {
+            document.getElementById("lillyModal").style.display = "none";
+        }
+
+        function openWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "flex";
+        }
+
+        function closeWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "none";
+        }
+
+        function prevItem() {
+            // Logic to go to the previous item
+        }
+
+        function nextItem() {
+            // Logic to go to the next item
         }
     </script>
 </body>
