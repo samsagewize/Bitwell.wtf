@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -208,11 +209,8 @@
 <body>
     <h1>Welcome to Bitwell</h1>
 
-    <!-- $Well Use Button -->
-    <button class="well-button" onclick="openWellUseModal()">Open $Well Use Modal</button>
-
-    <!-- Lilly Well Button -->
-    <button class="well-button" onclick="window.open('https://vvaifu.fun/character/675f90265f7093d263c0e899', '_blank')">LILLY WELL</button>
+    <!-- $Well Button -->
+    <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
 
     <!-- Lilly Well Modal -->
     <div class="lilly-modal" id="lillyModal">
@@ -267,46 +265,59 @@
     <script>
         let provider = null;
         let connection = null;
-        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJ9LP9HTf9qThF8tCU9jC6EEL9km2kcsYnt"; // Replace with your token mint address
+        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // $Well token address
+        const RAFFLE_WALLET = "<YOUR_RAFFLE_WALLET_ADDRESS_HERE>"; // Replace with your raffle wallet address
 
         async function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
-                provider = window.solana;
                 try {
-                    await provider.connect();
-                    connection = new solanaWeb3.Connection("https://api.devnet.solana.com", "confirmed");
-                    document.getElementById("message").innerText = "Wallet connected!";
-                    document.getElementById("burnTokens").disabled = false;
-                } catch (error) {
-                    console.error("Error connecting to Phantom Wallet:", error);
-                    document.getElementById("message").innerText = "Failed to connect wallet! Error: " + error.message;
+                    const resp = await window.solana.connect();
+                    provider = window.solana;
+                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+                    document.getElementById("message").innerText = `Connected to wallet: ${resp.publicKey.toString()}`;
+                    document.getElementById("burnTokens").disabled = false; // Enable button after wallet connects
+                } catch (err) {
+                    document.getElementById("message").innerText = `Error: ${err.message}`;
                 }
             } else {
-                alert("Please install Phantom Wallet extension.");
-                document.getElementById("message").innerText = "Phantom Wallet not found!";
+                document.getElementById("message").innerText = "Phantom wallet not detected. Please install Phantom Wallet.";
             }
         }
 
         async function burnTokens() {
-            if (!provider || !connection) {
-                alert("Please connect wallet first!");
-                return;
+            try {
+                const userWallet = provider.publicKey;
+                const tokenMintAddress = new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS);
+                const userTokenAccount = await solanaWeb3.Token.getAssociatedTokenAddress(
+                    solanaWeb3.ASSOCIATED_TOKEN_PROGRAM_ID,
+                    solanaWeb3.Token.TOKEN_PROGRAM_ID,
+                    tokenMintAddress,
+                    userWallet
+                );
+
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.Token.createBurnInstruction(
+                        solanaWeb3.TOKEN_PROGRAM_ID,
+                        tokenMintAddress,
+                        userTokenAccount,
+                        userWallet,
+                        [],
+                        1 // Burn 1 token
+                    )
+                );
+
+                const { blockhash } = await connection.getLatestBlockhash();
+                transaction.recentBlockhash = blockhash;
+                transaction.feePayer = userWallet;
+
+                const signedTransaction = await provider.signTransaction(transaction);
+                const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+                await connection.confirmTransaction(signature, 'confirmed');
+                document.getElementById("message").innerText = "Tokens burned successfully! You are now entered into the raffle.";
+            } catch (err) {
+                document.getElementById("message").innerText = `Error: ${err.message}`;
             }
-
-            // Add logic for burning tokens here
-            console.log("Burning tokens...");
-
-            const transaction = new solanaWeb3.Transaction();
-
-            // Add your burning logic here using Solana's web3.js API
-        }
-
-        function openWellUseModal() {
-            document.getElementById("wellUseModal").style.display = "flex";
-        }
-
-        function closeWellUseModal() {
-            document.getElementById("wellUseModal").style.display = "none";
         }
 
         function openLillyModal() {
@@ -317,32 +328,12 @@
             document.getElementById("lillyModal").style.display = "none";
         }
 
-        function updateIframe(index) {
-            const iframeUrls = [
-                "https://magiceden.us/ordinals/marketplace/rare78",
-                "https://magiceden.us/ordinals/marketplace/bitwellpunks",
-                "https://magiceden.us/ordinals/marketplace/well-domain",
-                "https://magiceden.us/ordinals/marketplace/wishes-from-the-well",
-                "https://magiceden.us/ordinals/marketplace/og-wishing-well",
-                "https://magiceden.us/ordinals/marketplace/txt-encryption-wish",
-                "https://magiceden.us/ordinals/marketplace/binary-wishes",
-                "https://magiceden.us/ordinals/marketplace/water-wishes"
-            ];
-            document.getElementById("carouselIframe").src = iframeUrls[index];
+        function openWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "flex";
         }
 
-        function prevItem() {
-            let iframe = document.getElementById("carouselIframe");
-            let currentIndex = iframe.src.indexOf("marketplace");
-            let newIndex = currentIndex - 1; // Go back by 1 (simple example)
-            iframe.src = iframe.src.replace("marketplace", `marketplace-${newIndex}`);
-        }
-
-        function nextItem() {
-            let iframe = document.getElementById("carouselIframe");
-            let currentIndex = iframe.src.indexOf("marketplace");
-            let newIndex = currentIndex + 1; // Go forward by 1 (simple example)
-            iframe.src = iframe.src.replace("marketplace", `marketplace-${newIndex}`);
+        function closeWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "none";
         }
     </script>
 </body>
