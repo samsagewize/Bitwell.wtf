@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bitwell</title>
+    <title>Lily's Well</title>
     <style>
-        /* General Styling */
         body {
             margin: 0;
             display: flex;
@@ -14,197 +13,132 @@
             flex-direction: column;
             min-height: 100vh;
             background-color: #d6e9f7;
-            position: relative;
             font-family: Arial, sans-serif;
         }
 
-        /* Main Dropdown Menu */
-        .dropdown {
+        h1 {
+            color: #444;
+            font-size: 36px;
+        }
+
+        .well-button {
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .well-button:hover {
+            background-color: #444;
+        }
+
+        /* Avatar Style */
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lilly-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lilly-modal iframe {
+            width: 80%;
+            height: 80%;
+            border-radius: 8px;
+        }
+
+        .lilly-modal .close-btn {
             position: absolute;
             top: 10px;
             right: 10px;
-            display: inline-block;
-        }
-
-        .dropdown .dropbtn {
-            background-color: #333;
+            font-size: 30px;
             color: white;
-            padding: 10px 20px;
+            background: transparent;
             border: none;
             cursor: pointer;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 200px;
-            z-index: 1;
-        }
-
-        .dropdown-content input {
-            width: 90%;
-            padding: 5px;
-            margin: 10px;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #444;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* $Well Button Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: #444;
-            color: #fff;
-            text-align: center;
-            padding: 5px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            bottom: 150%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Back-to-Top Button */
-        #backToTop {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        #backToTop:hover {
-            background-color: #444;
-        }
-
-        /* Dark Mode Toggle */
-        #darkModeToggle {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        #darkModeToggle:hover {
-            background-color: #444;
-        }
-
-        /* Dark Mode Styling */
-        body.dark-mode {
-            background-color: #2c2c2c;
-            color: white;
-        }
-
-        body.dark-mode .dropdown-content {
-            background-color: #444;
-        }
-
-        body.dark-mode .dropbtn {
-            background-color: #444;
-        }
-
-        body.dark-mode .tooltip .tooltiptext {
-            background-color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Bitwell</h1>
+    <h1>Welcome to Lily's Well</h1>
 
-    <!-- Dark Mode Toggle -->
-    <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-
-    <!-- $Well Button with Tooltip -->
-    <div class="tooltip">
-        <button class="well-button" onclick="openWellUseModal()">Well Use</button>
-        <span class="tooltiptext">Use your $Well tokens here!</span>
+    <!-- Lily's Avatar -->
+    <div class="avatar">
+        <img src="Screenshot 2024-12-16 214942.png" alt="Lily Avatar">
     </div>
 
-    <!-- Back-to-Top Button -->
-    <button id="backToTop" onclick="scrollToTop()">Back to Top</button>
+    <!-- $Well Use Button -->
+    <button class="well-button" onclick="connectPhantomWallet()">Connect Wallet & Open Lily Well</button>
 
-    <!-- Main Menu -->
-    <div class="dropdown">
-        <button class="dropbtn">Menu</button>
-        <div class="dropdown-content">
-            <input type="text" id="searchMenu" onkeyup="filterMenu()" placeholder="Search...">
-            <a href="#" onclick="updateIframe(0)">Rare 78</a>
-            <a href="#" onclick="updateIframe(1)">Bitwell Punks</a>
-            <a href="#" onclick="updateIframe(2)">.well domain</a>
-        </div>
+    <!-- Lily Well Modal -->
+    <div class="lilly-modal" id="lillyModal">
+        <button class="close-btn" onclick="closeLillyModal()">×</button>
+        <iframe src="https://vvaifu.fun/character/675f90265f7093d263c0e899" title="Lily Well"></iframe>
     </div>
 
-    <!-- Script -->
     <script>
-        // Toggle Dark Mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
+        let provider = null;
+
+        // Check if Phantom Wallet is available
+        function isPhantomInstalled() {
+            return window.solana && window.solana.isPhantom;
         }
 
-        // Back-to-Top Functionality
-        window.onscroll = function() {
-            const backToTopButton = document.getElementById("backToTop");
-            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                backToTopButton.style.display = "block";
-            } else {
-                backToTopButton.style.display = "none";
+        // Connect to Phantom Wallet
+        async function connectPhantomWallet() {
+            if (!isPhantomInstalled()) {
+                alert("Phantom Wallet not detected. Please install it to continue.");
+                return;
             }
-        };
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            try {
+                // Connect to Phantom Wallet
+                const resp = await window.solana.connect();
+                provider = window.solana;
+
+                if (resp && resp.publicKey) {
+                    alert(`Connected to wallet: ${resp.publicKey.toString()}`);
+                    openLillyModal();
+                } else {
+                    alert("Failed to connect to wallet. Please try again.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert(`Error connecting to wallet: ${err.message}`);
+            }
         }
 
-        // Filter Dropdown Menu Items
-        function filterMenu() {
-            const input = document.getElementById("searchMenu");
-            const filter = input.value.toUpperCase();
-            const links = document.querySelectorAll(".dropdown-content a");
-            links.forEach(link => {
-                if (link.innerText.toUpperCase().indexOf(filter) > -1) {
-                    link.style.display = "";
-                } else {
-                    link.style.display = "none";
-                }
-            });
+        // Open Lily Well Modal
+        function openLillyModal() {
+            document.getElementById("lillyModal").style.display = "flex";
+        }
+
+        // Close Lily Well Modal
+        function closeLillyModal() {
+            document.getElementById("lillyModal").style.display = "none";
         }
     </script>
 </body>
