@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$Well Spin Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -11,10 +12,16 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background: #f3f4f6;
+            background: url('https://vvaifu.fun/character/675f90265f7093d263c0e899') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
         }
         #app {
             margin-top: 50px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
         }
         canvas {
             margin: 20px auto;
@@ -30,6 +37,11 @@
         button:hover {
             background-color: #007bbf;
         }
+        #timer {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #ff3333;
+        }
     </style>
 </head>
 <body>
@@ -37,21 +49,26 @@
         <h1>$Well Spin Game</h1>
         <button id="connectWallet">Connect Wallet</button>
         <button id="addTokens" disabled>Add $Well Tokens</button>
-        <button id="spinChart" disabled>Spin the Wheel</button>
-
+        <p id="timer"></p>
         <canvas id="pieChart" width="400" height="400"></canvas>
     </div>
 
     <script>
-        let participants = [];
+        const WELL_TOKEN_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // Replace with your actual token address
+        const DESTINATION_WALLET = "YourGameWalletAddress"; // Replace with the game's wallet address
+
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
         let walletAddress = null;
-        const $WELL_CONTRACT = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM";
+        let participants = [];
+        let timerInterval;
+        let countdown = 60; // Timer in seconds
 
         const pieChartCanvas = document.getElementById('pieChart');
         const ctx = pieChartCanvas.getContext('2d');
+        const timerDisplay = document.getElementById('timer');
         let pieChart;
 
-        // Initialize Phantom Wallet Connection
+        // Connect to Phantom Wallet
         async function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
                 try {
@@ -59,12 +76,61 @@
                     walletAddress = response.publicKey.toString();
                     alert(`Connected to wallet: ${walletAddress}`);
                     document.getElementById('addTokens').disabled = false;
-                    document.getElementById('spinChart').disabled = false;
                 } catch (err) {
                     console.error('Wallet connection failed', err);
                 }
             } else {
                 alert('Phantom Wallet not found. Please install it!');
+            }
+        }
+
+        // Transfer $WELL tokens
+        async function transferWellTokens(amount) {
+            try {
+                const fromWallet = window.solana;
+                const transaction = new solanaWeb3.Transaction();
+
+                // Get the source token account
+                const sourceTokenAccount = (
+                    await connection.getParsedTokenAccountsByOwner(
+                        new solanaWeb3.PublicKey(walletAddress),
+                        { mint: new solanaWeb3.PublicKey(WELL_TOKEN_ADDRESS) }
+                    )
+                ).value[0].pubkey;
+
+                // Get the destination token account
+                const destinationTokenAccount = (
+                    await connection.getParsedTokenAccountsByOwner(
+                        new solanaWeb3.PublicKey(DESTINATION_WALLET),
+                        { mint: new solanaWeb3.PublicKey(WELL_TOKEN_ADDRESS) }
+                    )
+                ).value[0]?.pubkey;
+
+                if (!destinationTokenAccount) {
+                    alert('Destination wallet does not have a token account for $Well');
+                    return;
+                }
+
+                // Create token transfer instruction
+                const transferInstruction = solanaWeb3.Token.createTransferInstruction(
+                    solanaWeb3.TOKEN_PROGRAM_ID,
+                    sourceTokenAccount,
+                    destinationTokenAccount,
+                    new solanaWeb3.PublicKey(walletAddress),
+                    [],
+                    amount
+                );
+
+                transaction.add(transferInstruction);
+
+                // Sign and send the transaction
+                const { signature } = await fromWallet.signAndSendTransaction(transaction);
+                await connection.confirmTransaction(signature, 'confirmed');
+
+                alert(`Transferred ${amount} $Well successfully!`);
+            } catch (error) {
+                console.error('Error transferring $Well tokens:', error);
+                alert('Failed to transfer $Well tokens. Please try again.');
             }
         }
 
@@ -76,8 +142,11 @@
                 return;
             }
 
+            await transferWellTokens(tokens);
+
             participants.push({ name: walletAddress, tokens: tokens });
             updateChart();
+            resetTimer();
         }
 
         // Update the Pie Chart
@@ -101,6 +170,23 @@
             });
         }
 
+        // Reset the Timer
+        function resetTimer() {
+            clearInterval(timerInterval);
+            countdown = 60; // Reset to 60 seconds
+            timerDisplay.textContent = `Next spin in: ${countdown}s`;
+
+            timerInterval = setInterval(() => {
+                countdown--;
+                timerDisplay.textContent = `Next spin in: ${countdown}s`;
+
+                if (countdown <= 0) {
+                    clearInterval(timerInterval);
+                    spinChart();
+                }
+            }, 1000);
+        }
+
         // Spin the Chart
         function spinChart() {
             const spinDuration = 5000; // Spin for 5 seconds
@@ -112,6 +198,7 @@
             setTimeout(() => {
                 const winner = calculateWinner(randomAngle);
                 alert(`Winner: ${winner.name}`);
+                resetGame();
             }, spinDuration);
         }
 
@@ -129,10 +216,16 @@
             }
         }
 
+        // Reset the Game
+        function resetGame() {
+            participants = [];
+            updateChart();
+            timerDisplay.textContent = "Waiting for new entries...";
+        }
+
         // Event Listeners
         document.getElementById('connectWallet').addEventListener('click', connectWallet);
         document.getElementById('addTokens').addEventListener('click', addTokens);
-        document.getElementById('spinChart').addEventListener('click', spinChart);
     </script>
 </body>
 </html>
