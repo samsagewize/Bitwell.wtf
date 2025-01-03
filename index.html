@@ -84,45 +84,98 @@
         </div>
         <button id="connectWallet">Connect Wallet</button>
         <button id="enterRound" disabled>Enter Round</button>
+        <p id="timer"></p>
         <p id="winner"></p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3.js/1.8.1/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.69.1/lib/index.umd.min.js"></script>
     <script>
         const wellContract = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM";
         let walletAddress = null;
-        let connectWalletButton = document.getElementById("connectWallet");
-        let enterRoundButton = document.getElementById("enterRound");
+        let entries = [];
+        let timer = 30; // Timer in seconds
+
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("devnet"));
+
+        const connectWalletButton = document.getElementById("connectWallet");
+        const enterRoundButton = document.getElementById("enterRound");
+        const timerElement = document.getElementById("timer");
+        const winnerElement = document.getElementById("winner");
 
         // Connect Wallet
         connectWalletButton.addEventListener("click", async () => {
             try {
                 const provider = window.phantom?.solana;
-                if (!provider?.isPhantom) {
-                    alert("Phantom Wallet not detected. Please install it first.");
+                if (!provider || !provider.isPhantom) {
+                    alert("Phantom Wallet not detected. Please install Phantom Wallet.");
                     return;
                 }
-                const response = await provider.connect();
+                const response = await provider.connect({ onlyIfTrusted: false });
                 walletAddress = response.publicKey.toString();
                 connectWalletButton.textContent = "Wallet Connected";
-                connectWalletButton.disabled = true;
                 enterRoundButton.disabled = false;
-                console.log("Wallet Address:", walletAddress);
+                console.log("Connected Wallet Address:", walletAddress);
             } catch (error) {
-                console.error("Wallet connection failed:", error.message);
+                console.error("Error connecting wallet:", error.message);
                 alert("Failed to connect wallet. Please try again.");
             }
         });
 
         // Enter Round
-        enterRoundButton.addEventListener("click", () => {
+        enterRoundButton.addEventListener("click", async () => {
             if (!walletAddress) {
-                alert("Connect your wallet first.");
+                alert("Please connect your wallet first.");
                 return;
             }
-            alert(`Wallet ${walletAddress} entered the round!`);
+            entries.push(walletAddress);
+
+            try {
+                const provider = window.phantom?.solana;
+                const transaction = new solanaWeb3.Transaction();
+                const instruction = solanaWeb3.SystemProgram.transfer({
+                    fromPubkey: new solanaWeb3.PublicKey(walletAddress),
+                    toPubkey: new solanaWeb3.PublicKey(wellContract),
+                    lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01, // 0.01 SOL equivalent in $WELL
+                });
+                transaction.add(instruction);
+                const { signature } = await provider.signAndSendTransaction(transaction);
+                console.log("Transaction Successful. Signature:", signature);
+            } catch (error) {
+                console.error("Transaction failed:", error.message);
+                alert("Failed to process the transaction. Please try again.");
+                return;
+            }
+
+            enterRoundButton.disabled = true;
+            startTimer();
         });
+
+        // Timer Function
+        function startTimer() {
+            const interval = setInterval(() => {
+                timerElement.textContent = `Time Left: ${timer} seconds`;
+                timer--;
+                if (timer < 0) {
+                    clearInterval(interval);
+                    timerElement.textContent = "Time is up!";
+                    spinWheelAndPickWinner();
+                }
+            }, 1000);
+        }
+
+        // Spin Wheel and Pick Winner
+        function spinWheelAndPickWinner() {
+            if (entries.length === 0) {
+                winnerElement.textContent = "No participants in this round!";
+                return;
+            }
+            const winnerIndex = Math.floor(Math.random() * entries.length);
+            const winner = entries[winnerIndex];
+            winnerElement.textContent = `Winner: ${winner}`;
+            entries = [];
+            timer = 30; // Reset timer for next round
+            enterRoundButton.disabled = false;
+        }
     </script>
 </body>
 </html>
