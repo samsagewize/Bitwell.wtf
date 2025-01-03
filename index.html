@@ -84,7 +84,6 @@
         </div>
         <button id="connectWallet">Connect Wallet</button>
         <button id="enterRound" disabled>Enter Round</button>
-        <p id="timer"></p>
         <p id="winner"></p>
     </div>
 
@@ -92,119 +91,38 @@
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.69.1/lib/index.umd.min.js"></script>
     <script>
         const wellContract = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM";
-        const burnAddress = "11111111111111111111111111111111";
         let walletAddress = null;
-        let spinWheel = document.getElementById("spinWheel");
-        let timerElement = document.getElementById("timer");
-        let winnerElement = document.getElementById("winner");
         let connectWalletButton = document.getElementById("connectWallet");
         let enterRoundButton = document.getElementById("enterRound");
-        let entries = [];
-        let timer = 30; // Timer in seconds
-        let totalWELL = 0; // Total WELL in the pot
-
-        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("devnet"));
 
         // Connect Wallet
         connectWalletButton.addEventListener("click", async () => {
             try {
                 const provider = window.phantom?.solana;
-                if (!provider?.isPhantom) throw new Error("Phantom Wallet not found");
+                if (!provider?.isPhantom) {
+                    alert("Phantom Wallet not detected. Please install it first.");
+                    return;
+                }
                 const response = await provider.connect();
                 walletAddress = response.publicKey.toString();
                 connectWalletButton.textContent = "Wallet Connected";
+                connectWalletButton.disabled = true;
                 enterRoundButton.disabled = false;
+                console.log("Wallet Address:", walletAddress);
             } catch (error) {
                 console.error("Wallet connection failed:", error.message);
-                alert("Failed to connect wallet.");
+                alert("Failed to connect wallet. Please try again.");
             }
         });
 
         // Enter Round
-        enterRoundButton.addEventListener("click", async () => {
+        enterRoundButton.addEventListener("click", () => {
             if (!walletAddress) {
-                alert("Please connect your wallet first.");
+                alert("Connect your wallet first.");
                 return;
             }
-            // Add entry to the list
-            entries.push(walletAddress);
-
-            // Example transfer transaction for $WELL
-            try {
-                const provider = window.phantom?.solana;
-                const transaction = new solanaWeb3.Transaction();
-                const instruction = solanaWeb3.SystemProgram.transfer({
-                    fromPubkey: new solanaWeb3.PublicKey(walletAddress),
-                    toPubkey: new solanaWeb3.PublicKey(wellContract),
-                    lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01 // Adjust $WELL equivalent
-                });
-                transaction.add(instruction);
-                const { signature } = await provider.signAndSendTransaction(transaction);
-                console.log("Transaction sent with signature:", signature);
-                totalWELL += 0.01; // Increment the pot
-            } catch (error) {
-                console.error("Transaction failed:", error.message);
-                alert("Failed to send $WELL.");
-                return;
-            }
-
-            enterRoundButton.disabled = true;
-            startTimer();
+            alert(`Wallet ${walletAddress} entered the round!`);
         });
-
-        // Timer Function
-        function startTimer() {
-            const interval = setInterval(() => {
-                timerElement.textContent = `Time Left: ${timer} seconds`;
-                timer--;
-                if (timer < 0) {
-                    clearInterval(interval);
-                    timerElement.textContent = "Time is up!";
-                    spinWheelAndPickWinner();
-                }
-            }, 1000);
-        }
-
-        // Spin Wheel and Pick Winner
-        async function spinWheelAndPickWinner() {
-            const winnerIndex = Math.floor(Math.random() * entries.length);
-            const winner = entries[winnerIndex];
-            winnerElement.textContent = `Winner: ${winner}`;
-            const fee = totalWELL * 0.00001; // 0.001% fee
-            const prize = totalWELL - fee;
-
-            try {
-                const provider = window.phantom?.solana;
-
-                // Send the prize to the winner
-                const prizeTransaction = new solanaWeb3.Transaction();
-                const prizeInstruction = solanaWeb3.SystemProgram.transfer({
-                    fromPubkey: new solanaWeb3.PublicKey(wellContract),
-                    toPubkey: new solanaWeb3.PublicKey(winner),
-                    lamports: solanaWeb3.LAMPORTS_PER_SOL * prize
-                });
-                prizeTransaction.add(prizeInstruction);
-
-                // Burn the fee
-                const burnInstruction = solanaWeb3.SystemProgram.transfer({
-                    fromPubkey: new solanaWeb3.PublicKey(wellContract),
-                    toPubkey: new solanaWeb3.PublicKey(burnAddress),
-                    lamports: solanaWeb3.LAMPORTS_PER_SOL * fee
-                });
-                prizeTransaction.add(burnInstruction);
-
-                const { signature } = await provider.signAndSendTransaction(prizeTransaction);
-                console.log("Prize and burn transactions sent with signature:", signature);
-            } catch (error) {
-                console.error("Failed to send prize or burn fee:", error.message);
-                alert("Failed to process winner rewards.");
-            }
-
-            entries = [];
-            totalWELL = 0;
-            timer = 30; // Reset timer for next round
-            enterRoundButton.disabled = false;
-        }
     </script>
 </body>
 </html>
