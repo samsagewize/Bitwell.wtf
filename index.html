@@ -1,343 +1,138 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bitwell</title>
+    <title>$Well Spin Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #d6e9f7;
-            position: relative;
+            padding: 0;
+            background: #f3f4f6;
         }
-
-        /* Main Dropdown Menu */
-        .dropdown {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: inline-block;
+        #app {
+            margin-top: 50px;
         }
-
-        .dropdown .dropbtn {
-            background-color: #333;
-            color: white;
+        canvas {
+            margin: 20px auto;
+        }
+        button {
             padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 200px;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #444;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Alternate Menu */
-        .alternate-menu {
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            background-color: #333;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .alternate-menu a {
-            color: white;
-            padding: 8px;
-            text-decoration: none;
-            margin-bottom: 5px;
-        }
-
-        .alternate-menu a:hover {
-            background-color: #444;
-            border-radius: 4px;
-        }
-
-        /* Carousel */
-        .carousel-container {
-            margin-top: 20px;
-            width: 85%;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            z-index: 0; /* Set the z-index of the iframe to 0 */
-        }
-
-        .carousel-controls {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            width: 150px;
-        }
-
-        .carousel-controls button {
-            padding: 10px;
-            background-color: #333;
+            background-color: #36A2EB;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .carousel-controls button:hover {
-            background-color: #444;
+        button:hover {
+            background-color: #007bbf;
         }
-
-        /* $Well Button */
-        .well-button {
-            position: absolute;
-            top: 100px;
-            left: 20px;
-            background-color: #333;
-            color: white;
-            padding: 15px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 10; /* Set the z-index to ensure it appears above the iframe */
-        }
-
-        .well-button:hover {
-            background-color: #444;
-        }
-
-        /* Modal for Lilly Well iframe */
-        .lilly-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 20; /* Ensure the modal appears in front of everything else */
-        }
-
-        .lilly-modal iframe {
-            width: 80%;
-            height: 80%;
-            border-radius: 8px;
-        }
-
-        .lilly-modal .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 30px;
-            color: white;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* $Well Use Modal */
-        .well-use-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 20; /* Ensure the modal appears in front of everything else */
-        }
-
-        .well-use-modal .well-use-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 60%;
-        }
-
-        .well-use-modal .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 30px;
-            color: white;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
     </style>
 </head>
 <body>
-    <h1>Welcome to Bitwell</h1>
+    <div id="app">
+        <h1>$Well Spin Game</h1>
+        <button id="connectWallet">Connect Wallet</button>
+        <button id="addTokens" disabled>Add $Well Tokens</button>
+        <button id="spinChart" disabled>Spin the Wheel</button>
 
-    <!-- $Well Button -->
-    <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
-
-    <!-- $well Button -->
-    <button class="well-button" onclick="openLillyModal()">Open Lilly Well</button>
-
-    <!-- Lilly Well Modal -->
-    <div class="lilly-modal" id="lillyModal">
-        <button class="close-btn" onclick="closeLillyModal()">×</button>
-        <iframe src="https://vvaifu.fun/character/675f90265f7093d263c0e899" title="Lilly Well" id="lillyIframe"></iframe>
+        <canvas id="pieChart" width="400" height="400"></canvas>
     </div>
-
-    <!-- $Well Use Modal -->
-    <div class="well-use-modal" id="wellUseModal">
-        <div class="well-use-content">
-            <button class="close-btn" onclick="closeWellUseModal()">×</button>
-            <h2>Bitwell - $Well Use Raffle</h2>
-            <button id="connectWallet" onclick="connectWallet()">Connect Phantom Wallet</button>
-            <button id="burnTokens" onclick="burnTokens()" disabled>$Well Use</button>
-            <div class="message" id="message"></div>
-            <iframe id="raffleFrame" src=""></iframe>
-        </div>
-    </div>
-
-    <!-- Main Menu -->
-    <div class="dropdown">
-        <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
-        <div class="dropdown-content">
-            <a href="#" onclick="updateIframe(0)">Rare 78</a>
-            <a href="#" onclick="updateIframe(1)">Bitwell Punks</a>
-            <a href="#" onclick="updateIframe(2)">.well domain</a>
-            <a href="#" onclick="updateIframe(3)">Wishes from the Well</a>
-            <a href="#" onclick="updateIframe(4)">OG WISHING WELL</a>
-            <a href="#" onclick="updateIframe(5)">TXT ENCRYPTION WISH</a>
-            <a href="#" onclick="updateIframe(6)">Binary Wishes</a>
-            <a href="#" onclick="updateIframe(7)">Water Wishes</a>
-        </div>
-    </div>
-
-    <!-- Alternate Menu -->
-    <div class="alternate-menu">
-        <a href="https://open.spotify.com/artist/3o7QHIT3xAl7YM7nd9QiTk" target="_blank">Sam Sage Music - Spotify</a>
-    </div>
-
-    <!-- Carousel Container -->
-    <div class="carousel-container">
-        <iframe id="carouselIframe" src="https://magiceden.us/ordinals/marketplace/rare78" title="Carousel Viewer"></iframe>
-        <div class="carousel-controls">
-            <button onclick="prevItem()">Previous</button>
-            <button onclick="nextItem()">Next</button>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.76.0/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.2.0"></script>
 
     <script>
-        let provider = null;
-        let connection = null;
-        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // $Well token address
-        const RAFFLE_WALLET = "<YOUR_RAFFLE_WALLET_ADDRESS_HERE>"; // Replace with your raffle wallet address
+        let participants = [];
+        let walletAddress = null;
+        const $WELL_CONTRACT = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM";
 
+        const pieChartCanvas = document.getElementById('pieChart');
+        const ctx = pieChartCanvas.getContext('2d');
+        let pieChart;
+
+        // Initialize Phantom Wallet Connection
         async function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
                 try {
-                    const resp = await window.solana.connect();
-                    provider = window.solana;
-                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
-                    document.getElementById("message").innerText = "Wallet connected successfully!";
-                    document.getElementById("burnTokens").disabled = false; // Enable button after wallet connects
+                    const response = await window.solana.connect();
+                    walletAddress = response.publicKey.toString();
+                    alert(`Connected to wallet: ${walletAddress}`);
+                    document.getElementById('addTokens').disabled = false;
+                    document.getElementById('spinChart').disabled = false;
                 } catch (err) {
-                    document.getElementById("message").innerText = `Error: ${err.message}`;
+                    console.error('Wallet connection failed', err);
                 }
             } else {
-                document.getElementById("message").innerText = "Phantom wallet not detected. Please install Phantom Wallet.";
+                alert('Phantom Wallet not found. Please install it!');
             }
         }
 
-        async function burnTokens() {
-            try {
-                const userWallet = provider.publicKey;
-                const tokenMintAddress = new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS);
-                const userTokenAccount = await solanaWeb3.Token.getAssociatedTokenAddress(
-                    solanaWeb3.ASSOCIATED_TOKEN_PROGRAM_ID,
-                    solanaWeb3.Token.TOKEN_PROGRAM_ID,
-                    tokenMintAddress,
-                    userWallet
-                );
+        // Add $Well Tokens
+        async function addTokens() {
+            const tokens = parseInt(prompt("Enter the number of $Well tokens to contribute:"));
+            if (isNaN(tokens) || tokens <= 0) {
+                alert('Invalid token amount');
+                return;
+            }
 
-                const transaction = new solanaWeb3.Transaction().add(
-                    solanaWeb3.Token.createBurnInstruction(
-                        solanaWeb3.TOKEN_PROGRAM_ID,
-                        tokenMintAddress,
-                        userTokenAccount,
-                        userWallet,
-                        [],
-                        1 // Burn 1 token
-                    )
-                );
+            participants.push({ name: walletAddress, tokens: tokens });
+            updateChart();
+        }
 
-                const { blockhash } = await connection.getLatestBlockhash();
-                transaction.recentBlockhash = blockhash;
-                transaction.feePayer = userWallet;
+        // Update the Pie Chart
+        function updateChart() {
+            const labels = participants.map(p => p.name);
+            const data = participants.map(p => p.tokens);
 
-                const signedTransaction = await provider.signTransaction(transaction);
-                const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+            if (pieChart) {
+                pieChart.destroy();
+            }
 
-                await connection.confirmTransaction(signature, 'confirmed');
-                document.getElementById("message").innerText = "Tokens burned successfully! You are now entered into the raffle.";
-            } catch (err) {
-                document.getElementById("message").innerText = `Error: ${err.message}`;
+            pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                    }]
+                }
+            });
+        }
+
+        // Spin the Chart
+        function spinChart() {
+            const spinDuration = 5000; // Spin for 5 seconds
+            const randomAngle = Math.random() * 360; // Pick a random ending angle
+
+            pieChartCanvas.style.transition = `transform ${spinDuration / 1000}s ease-out`;
+            pieChartCanvas.style.transform = `rotate(${3600 + randomAngle}deg)`; // Add multiple rotations
+
+            setTimeout(() => {
+                const winner = calculateWinner(randomAngle);
+                alert(`Winner: ${winner.name}`);
+            }, spinDuration);
+        }
+
+        // Calculate Winner
+        function calculateWinner(angle) {
+            const totalTokens = participants.reduce((sum, p) => sum + p.tokens, 0);
+            const weightedAngles = participants.map(p => (p.tokens / totalTokens) * 360);
+
+            let cumulativeAngle = 0;
+            for (let i = 0; i < participants.length; i++) {
+                cumulativeAngle += weightedAngles[i];
+                if (angle <= cumulativeAngle) {
+                    return participants[i];
+                }
             }
         }
 
-        function openLillyModal() {
-            document.getElementById("lillyModal").style.display = "flex";
-        }
-
-        function closeLillyModal() {
-            document.getElementById("lillyModal").style.display = "none";
-        }
-
-        function openWellUseModal() {
-            document.getElementById("wellUseModal").style.display = "flex";
-        }
-
-        function closeWellUseModal() {
-            document.getElementById("wellUseModal").style.display = "none";
-        }
+        // Event Listeners
+        document.getElementById('connectWallet').addEventListener('click', connectWallet);
+        document.getElementById('addTokens').addEventListener('click', addTokens);
+        document.getElementById('spinChart').addEventListener('click', spinChart);
     </script>
 </body>
 </html>
