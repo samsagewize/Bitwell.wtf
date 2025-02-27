@@ -1,69 +1,343 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ethereum to Ordinals Teleburn</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Bitwell</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #d6e9f7;
+            position: relative;
+        }
+
+        /* Main Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: inline-block;
+        }
+
+        .dropdown .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 200px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Alternate Menu */
+        .alternate-menu {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .alternate-menu a {
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        .alternate-menu a:hover {
+            background-color: #444;
+            border-radius: 4px;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            margin-top: 20px;
+            width: 85%;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            z-index: 0; /* Set the z-index of the iframe to 0 */
+        }
+
+        .carousel-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 150px;
+        }
+
+        .carousel-controls button {
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .carousel-controls button:hover {
+            background-color: #444;
+        }
+
+        /* $Well Button */
+        .well-button {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10; /* Set the z-index to ensure it appears above the iframe */
+        }
+
+        .well-button:hover {
+            background-color: #444;
+        }
+
+        /* Modal for Lilly Well iframe */
+        .lilly-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 20; /* Ensure the modal appears in front of everything else */
+        }
+
+        .lilly-modal iframe {
+            width: 80%;
+            height: 80%;
+            border-radius: 8px;
+        }
+
+        .lilly-modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* $Well Use Modal */
+        .well-use-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 20; /* Ensure the modal appears in front of everything else */
+        }
+
+        .well-use-modal .well-use-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 60%;
+        }
+
+        .well-use-modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
-  <h1>Teleburn Ethereum Asset to Ordinals</h1>
-  
-  <!-- Input fields for Asset ID and Bitcoin Address -->
-  <input type="text" id="assetId" placeholder="Enter Asset ID"><br><br>
-  <input type="text" id="bitcoinAddress" placeholder="Enter Bitcoin Address"><br><br>
-  
-  <!-- Button to trigger burning -->
-  <button id="burnButton">Burn Asset</button>
+    <h1>Welcome to Bitwell</h1>
 
-  <!-- Include ethers.js library from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script>
-    // Replace with your deployed contract's address
-    const contractAddress = '0xYourContractAddressHere';
+    <!-- $Well Button -->
+    <button class="well-button" onclick="openWellUseModal()">$Well Use</button>
 
-    // ABI (Application Binary Interface) tells our code how to talk to the contract
-    const contractABI = [ 
-      "function burn(uint256 assetId, string memory bitcoinAddress) public",
-      "event Burned(address indexed from, uint256 assetId, string bitcoinAddress)"
-    ];
+    <!-- $well Button -->
+    <button class="well-button" onclick="openLillyModal()">Open Lilly Well</button>
 
-    async function burnAsset() {
-      // Check if MetaMask is installed
-      if (typeof window.ethereum === 'undefined') {
-        alert('MetaMask is not installed! Please install MetaMask and try again.');
-        return;
-      }
+    <!-- Lilly Well Modal -->
+    <div class="lilly-modal" id="lillyModal">
+        <button class="close-btn" onclick="closeLillyModal()">×</button>
+        <iframe src="https://vvaifu.fun/character/675f90265f7093d263c0e899" title="Lilly Well" id="lillyIframe"></iframe>
+    </div>
 
-      // Request access to the user's Ethereum accounts through MetaMask
-      await ethereum.request({ method: 'eth_requestAccounts' });
+    <!-- $Well Use Modal -->
+    <div class="well-use-modal" id="wellUseModal">
+        <div class="well-use-content">
+            <button class="close-btn" onclick="closeWellUseModal()">×</button>
+            <h2>Bitwell - $Well Use Raffle</h2>
+            <button id="connectWallet" onclick="connectWallet()">Connect Phantom Wallet</button>
+            <button id="burnTokens" onclick="burnTokens()" disabled>$Well Use</button>
+            <div class="message" id="message"></div>
+            <iframe id="raffleFrame" src=""></iframe>
+        </div>
+    </div>
 
-      // Create a provider and signer using ethers.js
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+    <!-- Main Menu -->
+    <div class="dropdown">
+        <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="updateIframe(0)">Rare 78</a>
+            <a href="#" onclick="updateIframe(1)">Bitwell Punks</a>
+            <a href="#" onclick="updateIframe(2)">.well domain</a>
+            <a href="#" onclick="updateIframe(3)">Wishes from the Well</a>
+            <a href="#" onclick="updateIframe(4)">OG WISHING WELL</a>
+            <a href="#" onclick="updateIframe(5)">TXT ENCRYPTION WISH</a>
+            <a href="#" onclick="updateIframe(6)">Binary Wishes</a>
+            <a href="#" onclick="updateIframe(7)">Water Wishes</a>
+        </div>
+    </div>
 
-      // Connect to our deployed Teleburn contract
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    <!-- Alternate Menu -->
+    <div class="alternate-menu">
+        <a href="https://open.spotify.com/artist/3o7QHIT3xAl7YM7nd9QiTk" target="_blank">Sam Sage Music - Spotify</a>
+    </div>
 
-      // Get values from input fields
-      const assetId = document.getElementById('assetId').value;
-      const bitcoinAddress = document.getElementById('bitcoinAddress').value;
+    <!-- Carousel Container -->
+    <div class="carousel-container">
+        <iframe id="carouselIframe" src="https://magiceden.us/ordinals/marketplace/rare78" title="Carousel Viewer"></iframe>
+        <div class="carousel-controls">
+            <button onclick="prevItem()">Previous</button>
+            <button onclick="nextItem()">Next</button>
+        </div>
+    </div>
 
-      try {
-        // Call the burn function on our contract
-        const tx = await contract.burn(assetId, bitcoinAddress);
-        console.log('Transaction sent. Waiting for confirmation...');
-        
-        // Wait for the transaction to be mined
-        await tx.wait();
-        console.log('Asset burned successfully!');
-        alert('Asset burned! Check the console for details.');
-      } catch (error) {
-        console.error('Error burning asset:', error);
-        alert('There was an error burning the asset. See console for details.');
-      }
-    }
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.76.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.2.0"></script>
 
-    // Add click listener to the button
-    document.getElementById('burnButton').addEventListener('click', burnAsset);
-  </script>
+    <script>
+        let provider = null;
+        let connection = null;
+        const TOKEN_MINT_ADDRESS = "EQkPqEXedSJdgkjdhUMeZe8yRws7EGaQoe2RMCrjLmjM"; // $Well token address
+        const RAFFLE_WALLET = "<YOUR_RAFFLE_WALLET_ADDRESS_HERE>"; // Replace with your raffle wallet address
+
+        async function connectWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const resp = await window.solana.connect();
+                    provider = window.solana;
+                    connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+                    document.getElementById("message").innerText = "Wallet connected successfully!";
+                    document.getElementById("burnTokens").disabled = false; // Enable button after wallet connects
+                } catch (err) {
+                    document.getElementById("message").innerText = `Error: ${err.message}`;
+                }
+            } else {
+                document.getElementById("message").innerText = "Phantom wallet not detected. Please install Phantom Wallet.";
+            }
+        }
+
+        async function burnTokens() {
+            try {
+                const userWallet = provider.publicKey;
+                const tokenMintAddress = new solanaWeb3.PublicKey(TOKEN_MINT_ADDRESS);
+                const userTokenAccount = await solanaWeb3.Token.getAssociatedTokenAddress(
+                    solanaWeb3.ASSOCIATED_TOKEN_PROGRAM_ID,
+                    solanaWeb3.Token.TOKEN_PROGRAM_ID,
+                    tokenMintAddress,
+                    userWallet
+                );
+
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.Token.createBurnInstruction(
+                        solanaWeb3.TOKEN_PROGRAM_ID,
+                        tokenMintAddress,
+                        userTokenAccount,
+                        userWallet,
+                        [],
+                        1 // Burn 1 token
+                    )
+                );
+
+                const { blockhash } = await connection.getLatestBlockhash();
+                transaction.recentBlockhash = blockhash;
+                transaction.feePayer = userWallet;
+
+                const signedTransaction = await provider.signTransaction(transaction);
+                const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+                await connection.confirmTransaction(signature, 'confirmed');
+                document.getElementById("message").innerText = "Tokens burned successfully! You are now entered into the raffle.";
+            } catch (err) {
+                document.getElementById("message").innerText = `Error: ${err.message}`;
+            }
+        }
+
+        function openLillyModal() {
+            document.getElementById("lillyModal").style.display = "flex";
+        }
+
+        function closeLillyModal() {
+            document.getElementById("lillyModal").style.display = "none";
+        }
+
+        function openWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "flex";
+        }
+
+        function closeWellUseModal() {
+            document.getElementById("wellUseModal").style.display = "none";
+        }
+    </script>
 </body>
 </html>
