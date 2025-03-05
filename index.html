@@ -219,14 +219,36 @@
             color: #000;
         }
 
+        /* Game button (bottom center) */
+        .game-button {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #00ffff;
+            color: #000;
+            border: 2px solid #000;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        .game-button:hover {
+            background: #ff00ff;
+            color: #fff;
+        }
+
         /* Pop-up styling (shared) */
-        .popup, .draw-popup, .wtf-popup, .wen-popup {
+        .popup, .draw-popup, .wtf-popup, .wen-popup, .game-popup {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 400px;
+            width: 500px;
             padding: 20px;
             background: #000;
             border: 3px solid #00ff00;
@@ -356,6 +378,19 @@
             color: #00ff00;
         }
 
+        /* Game pop-up styling */
+        .game-popup p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .game-result {
+            white-space: pre;
+            font-size: 14px;
+            color: #ffff00;
+            margin-top: 20px;
+        }
+
         .close-button {
             padding: 10px 20px;
             background: #ff0000;
@@ -444,7 +479,7 @@
     <div class="pulse-overlay"></div>
     <div class="wave"></div>
     <div class="hypno-container">
-        <h1>$Hypno on Hype</h1>
+        <h1>$Hypno On Hyper</h1>
         <!-- Replace the src with your own Hypno chibi image URL or local file path -->
         <img src="Screenshot 2025-03-01 134512.png" alt="Hypno Chibi" class="hypno-img">
         <br>
@@ -463,6 +498,9 @@
     <!-- WTF button (center) -->
     <button class="wtf-button" onclick="showWtfPopup()">WTF</button>
 
+    <!-- Game button (bottom center) -->
+    <button class="game-button" onclick="startGame()">Game</button>
+
     <!-- Pop-up content (right) -->
     <div class="popup" id="popup">
         <p>Do you want to learn more about Sam Sage's creation and why is he so f***** stupid?</p>
@@ -474,7 +512,7 @@
 
     <!-- Draw pop-up content (left) -->
     <div class="draw-popup" id="draw-popup">
-        <p>Draw some pixels!</p>
+        <p>Draw!</p>
         <div class="color-picker">
             <button style="background: #ffff00" onclick="setColor('#ffff00')"></button>
             <button style="background: #ff00ff" onclick="setColor('#ff00ff')"></button>
@@ -514,6 +552,17 @@
         <button class="close-button" onclick="closeWenPopup()">Close</button>
     </div>
 
+    <!-- Game pop-up content -->
+    <div class="game-popup" id="game-popup">
+        <p id="game-text">Hypno Quest! Answer Yes or No to begin your journey.</p>
+        <div class="popup-buttons" id="game-buttons">
+            <button onclick="answerGame('yes')">Yes</button>
+            <button onclick="answerGame('no')">No</button>
+        </div>
+        <div class="game-result" id="game-result"></div>
+        <button class="close-button" onclick="closeGamePopup()" id="game-close" style="display: none;">Close</button>
+    </div>
+
     <!-- Congratulations overlay -->
     <div class="congrats" id="congrats">
         CONGRATULATIONS!<br>You beat the game!
@@ -521,6 +570,22 @@
 
     <script>
         let currentColor = '#ffff00'; // Default color: yellow
+        let gameStep = 0;
+        let answers = [];
+
+        // Game questions
+        const questions = [
+            "Do you dare to enter the Hypno Forest?",
+            "Is the sky glowing with strange colors?",
+            "Do you hear whispers in the wind?",
+            "Do you pick up a shiny object on the ground?",
+            "Is there a shadow moving in the trees?",
+            "Do you feel a sudden chill in the air?",
+            "Do you see a path leading to a cave?",
+            "Are you brave enough to enter the cave?",
+            "Do you find a glowing crystal inside?",
+            "Do you take the crystal and run?"
+        ];
 
         // Initialize pixel canvas
         const canvasDiv = document.getElementById('pixel-canvas');
@@ -590,6 +655,54 @@
 
         function updatePollResults() {
             document.getElementById('poll-results').textContent = `Red: ${redVotes} | Blue: ${blueVotes}`;
+        }
+
+        function startGame() {
+            gameStep = 0;
+            answers = [];
+            document.getElementById('game-popup').style.display = 'block';
+            document.getElementById('game-text').textContent = questions[gameStep];
+            document.getElementById('game-buttons').style.display = 'block';
+            document.getElementById('game-result').textContent = '';
+            document.getElementById('game-close').style.display = 'none';
+        }
+
+        function answerGame(choice) {
+            answers.push(choice === 'yes');
+            gameStep++;
+
+            if (gameStep < questions.length) {
+                document.getElementById('game-text').textContent = questions[gameStep];
+            } else {
+                document.getElementById('game-text').textContent = "Your journey is complete! Behold your fate:";
+                document.getElementById('game-buttons').style.display = 'none';
+                document.getElementById('game-close').style.display = 'block';
+                generateGameResult();
+            }
+        }
+
+        function generateGameResult() {
+            let character = answers[0] ? "Brave Wanderer" : "Cautious Traveler";
+            let sky = answers[1] ? "Glowing Sky" : "Dark Sky";
+            let weapon = answers[3] ? "Shiny Sword" : "Rusty Dagger";
+            let enemy = answers[4] ? "Shadow Beast" : "Ghostly Figure";
+            let setting = answers[6] && answers[7] ? "Mystic Cave" : "Haunted Forest";
+            let treasure = answers[8] && answers[9] ? "Glowing Crystal" : "Old Coin";
+
+            const asciiArt = `
+            ${sky === "Glowing Sky" ? "  ***  " : "  ---  "}
+            ${character === "Brave Wanderer" ? "  /|\\  " : "  /|   "}
+            ${character === "Brave Wanderer" ? "  / \\  " : "  /    "}
+            ${weapon === "Shiny Sword" ? "  |>   " : "  -|   "}
+            ${enemy === "Shadow Beast" ? "  @@@  " : "  ~~~  "}
+            ${setting === "Mystic Cave" ? "  ###  " : "  |||  "}
+            ${treasure === "Glowing Crystal" ? "  ***  " : "  ooo  "}
+            `;
+            document.getElementById('game-result').textContent = asciiArt;
+        }
+
+        function closeGamePopup() {
+            document.getElementById('game-popup').style.display = 'none';
         }
 
         function downloadCanvas() {
