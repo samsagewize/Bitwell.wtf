@@ -20,458 +20,67 @@
             position: relative;
         }
 
-        /* Hypnotic swirling background */
-        .swirl {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('https://via.placeholder.com/1500x1500?text=Hypnotic+Swirl') repeat;
-            animation: swirl 15s linear infinite;
-            opacity: 0.3;
-            z-index: -1;
-        }
-
-        @keyframes swirl {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Pulsating overlay */
-        .pulse-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 0, 255, 0.2), transparent);
-            animation: pulse 4s ease-in-out infinite;
-            z-index: 0;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-        }
-
-        /* Hypnotic wave effect */
-        .wave {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
-            animation: wave 10s infinite linear;
-            z-index: -1;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(-100%) skewX(30deg); }
-            100% { transform: translateX(100%) skewX(30deg); }
-        }
-
-        /* Hypno container */
-        .hypno-container {
-            z-index: 1;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Hypno image with rotation */
-        .hypno-img {
-            width: 200px;
-            height: auto;
-            filter: drop-shadow(0 0 15px #ff00ff);
-            animation: spin 10s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Button styling */
-        .hypno-button {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #000;
-            background: #ffccff;
-            border: 3px solid #ff00ff;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .hypno-button:hover {
-            background: #ff00ff;
-            color: #fff;
-            transform: scale(1.1);
-            box-shadow: 0 0 20px #ff00ff;
-        }
-
-        /* Nostalgic CRT effect */
-        .crt::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 2px;
-            z-index: 2;
-            pointer-events: none;
-            animation: flicker 0.15s infinite;
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0.1; }
-            50% { opacity: 0.2; }
-            100% { opacity: 0.1; }
-        }
-
-        h1 {
-            font-size: 48px;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px #ff00ff; }
-            50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
-        }
-
-        /* Copyright footer */
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            font-size: 14px;
-            color: #ffccff;
-            text-shadow: 0 0 5px #ff00ff;
-        }
-
-        /* Pop-up button (right) */
-        .popup-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #00ff00;
-            color: #000;
-            border: 2px solid #000;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px #00ff00;
-        }
-
-        .popup-button:hover {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        /* Draw button (left) */
-        .draw-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #ffff00;
-            color: #000;
-            border: 2px solid #000;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px #ffff00;
-        }
-
-        .draw-button:hover {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        /* WTF button (center) */
-        .wtf-button {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #ff00ff;
-            color: #fff;
-            border: 2px solid #000;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px #ff00ff;
-        }
-
-        .wtf-button:hover {
-            background: #00ff00;
-            color: #000;
-        }
-
-        /* Game button (bottom center) */
-        .game-button {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #00ffff;
-            color: #000;
-            border: 2px solid #000;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px #00ffff;
-        }
-
-        .game-button:hover {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        /* Pop-up styling (shared) */
-        .popup, .draw-popup, .wtf-popup, .wen-popup, .game-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            padding: 20px;
-            background: #000;
-            border: 3px solid #00ff00;
-            box-shadow: 0 0 15px #00ff00;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .popup-buttons {
-            margin-top: 20px;
-        }
-
-        .popup-buttons button {
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 16px;
-            background: #ffccff;
-            color: #000;
-            border: 2px solid #ff00ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .popup-buttons button:hover {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        /* WTF menu styling */
-        .wtf-menu {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-
-        .wtf-menu li {
-            margin: 10px 0;
-        }
-
-        .wtf-menu a {
-            color: #00ff00;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 5px 10px;
-            border: 1px solid #00ff00;
-            display: block;
-            transition: all 0.3s ease;
-        }
-
-        .wtf-menu a:hover {
-            background: #00ff00;
-            color: #000;
-        }
-
-        /* Wen bubble */
-        .wen-button {
-            padding: 5px 15px;
-            margin-left: 10px;
-            font-size: 14px;
-            background: #ffff00;
-            color: #000;
-            border: 2px solid #000;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px #ffff00;
-        }
-
-        .wen-button:hover {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        /* Wen pop-up styling */
-        .wen-popup {
-            width: 500px;
-            background: #000 url('https://via.placeholder.com/500x300?text=Retro+Web+BG') repeat;
-            border: 5px double #ff00ff;
-            color: #ff00ff;
-            text-shadow: 0 0 5px #ff00ff;
-        }
-
-        .wen-popup p {
-            font-size: 24px;
-            margin: 20px 0;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0.5; }
-        }
-
-        .pill-buttons button {
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 18px;
-            font-family: 'Courier New', Courier, monospace;
-            border: 2px solid #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .red-pill {
-            background: #ff0000;
-            color: #fff;
-        }
-
-        .red-pill:hover {
-            background: #ff00ff;
-        }
-
-        .blue-pill {
-            background: #0000ff;
-            color: #fff;
-        }
-
-        .blue-pill:hover {
-            background: #00ffff;
-        }
-
-        .poll-results {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #00ff00;
-        }
-
-        /* Game pop-up styling */
-        .game-popup p {
-            font-size: 18px;
-            margin: 20px 0;
-        }
-
-        .game-result {
-            white-space: pre;
-            font-size: 14px;
-            color: #ffff00;
-            margin-top: 20px;
-        }
-
-        .close-button {
-            padding: 10px 20px;
-            background: #ff0000;
-            color: #fff;
-            border: 2px solid #fff;
-            cursor: pointer;
-        }
-
-        .close-button:hover {
-            background: #ff00ff;
-        }
-
-        /* Congratulations overlay */
-        .congrats {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            color: #ff00ff;
-            font-size: 48px;
-            text-align: center;
-            padding-top: 20%;
-            z-index: 15;
-            text-shadow: 0 0 10px #ff00ff;
-            animation: glow 1s ease-in-out infinite;
-        }
-
-        /* Pixel canvas styling */
-        #pixel-canvas {
-            display: grid;
-            grid-template-columns: repeat(16, 20px);
-            grid-gap: 1px;
-            background: #333;
-            padding: 5px;
-            margin: 20px auto;
-        }
-
-        .pixel {
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border: 1px solid #000;
-            cursor: pointer;
-        }
-
-        .color-picker {
-            margin: 10px 0;
-        }
-
-        .color-picker button {
-            width: 30px;
-            height: 30px;
-            margin: 0 5px;
-            border: 2px solid #fff;
-            cursor: pointer;
-        }
-
-        .action-buttons {
-            margin-top: 20px;
-        }
-
-        .action-buttons button {
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 16px;
-            font-family: 'Courier New', Courier, monospace;
-            cursor: pointer;
-            border: 2px solid #fff;
-        }
-
-        .download-button {
-            background: #00ff00;
-            color: #000;
-        }
-
-        .download-button:hover {
-            background: #ffff00;
-        }
+        .swirl { position: absolute; width: 200%; height: 200%; background: url('https://via.placeholder.com/1500x1500?text=Hypnotic+Swirl') repeat; animation: swirl 15s linear infinite; opacity: 0.3; z-index: -1; }
+        @keyframes swirl { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .pulse-overlay { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255, 0, 255, 0.2), transparent); animation: pulse 4s ease-in-out infinite; z-index: 0; }
+        @keyframes pulse { 0%, 100% { opacity: 0.1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
+        .wave { position: absolute; width: 100%; height: 100%; background: linear-gradient(45deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1)); animation: wave 10s infinite linear; z-index: -1; }
+        @keyframes wave { 0% { transform: translateX(-100%) skewX(30deg); } 100% { transform: translateX(100%) skewX(30deg); } }
+        .hypno-container { z-index: 1; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .hypno-img { width: 200px; height: auto; filter: drop-shadow(0 0 15px #ff00ff); animation: spin 10s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hypno-button { margin-top: 20px; padding: 15px 30px; font-size: 18px; font-family: 'Courier New', Courier, monospace; color: #000; background: #ffccff; border: 3px solid #ff00ff; border-radius: 5px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+        .hypno-button:hover { background: #ff00ff; color: #fff; transform: scale(1.1); box-shadow: 0 0 20px #ff00ff; }
+        .crt::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 2px; z-index: 2; pointer-events: none; animation: flicker 0.15s infinite; }
+        @keyframes flicker { 0% { opacity: 0.1; } 50% { opacity: 0.2; } 100% { opacity: 0.1; } }
+        h1 { font-size: 48px; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; animation: glow 2s ease-in-out infinite; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 10px #ff00ff; } 50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; } }
+        .footer { position: absolute; bottom: 10px; width: 100%; font-size: 14px; color: #ffccff; text-shadow: 0 0 5px #ff00ff; }
+        .popup-button { position: absolute; top: 10px; right: 10px; padding: 10px 20px; font-size: 16px; background: #00ff00; color: #000; border: 2px solid #000; cursor: pointer; font-family: 'Courier New', Courier, monospace; text-transform: uppercase; box-shadow: 0 0 5px #00ff00; }
+        .popup-button:hover { background: #ff00ff; color: #fff; }
+        .draw-button { position: absolute; top: 10px; left: 10px; padding: 10px 20px; font-size: 16px; background: #ffff00; color: #000; border: 2px solid #000; cursor: pointer; font-family: 'Courier New', Courier, monospace; text-transform: uppercase; box-shadow: 0 0 5px #ffff00; }
+        .draw-button:hover { background: #ff00ff; color: #fff; }
+        .wtf-button { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 16px; background: #ff00ff; color: #fff; border: 2px solid #000; cursor: pointer; font-family: 'Courier New', Courier, monospace; text-transform: uppercase; box-shadow: 0 0 5px #ff00ff; }
+        .wtf-button:hover { background: #00ff00; color: #000; }
+        .game-button { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 16px; background: #00ffff; color: #000; border: 2px solid #000; cursor: pointer; font-family: 'Courier New', Courier, monospace; text-transform: uppercase; box-shadow: 0 0 5px #00ffff; }
+        .game-button:hover { background: #ff00ff; color: #fff; }
+        .popup, .draw-popup, .wtf-popup, .wen-popup, .game-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; padding: 20px; background: #000; border: 3px solid #00ff00; box-shadow: 0 0 15px #00ff00; color: #00ff00; font-family: 'Courier New', Courier, monospace; z-index: 10; text-align: center; }
+        .popup-buttons { margin-top: 20px; }
+        .popup-buttons button { padding: 10px 20px; margin: 0 10px; font-size: 16px; background: #ffccff; color: #000; border: 2px solid #ff00ff; cursor: pointer; transition: all 0.3s ease; }
+        .popup-buttons button:hover { background: #ff00ff; color: #fff; }
+        .wtf-menu { list-style: none; padding: 0; margin: 20px 0; }
+        .wtf-menu li { margin: 10px 0; }
+        .wtf-menu a { color: #00ff00; text-decoration: none; font-size: 16px; padding: 5px 10px; border: 1px solid #00ff00; display: block; transition: all 0.3s ease; }
+        .wtf-menu a:hover { background: #00ff00; color: #000; }
+        .wen-button { padding: 5px 15px; margin-left: 10px; font-size: 14px; background: #ffff00; color: #000; border: 2px solid #000; border-radius: 15px; cursor: pointer; font-family: 'Courier New', Courier, monospace; text-transform: uppercase; box-shadow: 0 0 5px #ffff00; }
+        .wen-button:hover { background: #ff00ff; color: #fff; }
+        .wen-popup { width: 500px; background: #000 url('https://via.placeholder.com/500x300?text=Retro+Web+BG') repeat; border: 5px double #ff00ff; color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+        .wen-popup p { font-size: 24px; margin: 20px 0; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+        .pill-buttons button { padding: 15px 30px; margin: 10px; font-size: 18px; font-family: 'Courier New', Courier, monospace; border: 2px solid #fff; cursor: pointer; transition: all 0.3s ease; }
+        .red-pill { background: #ff0000; color: #fff; }
+        .red-pill:hover { background: #ff00ff; }
+        .blue-pill { background: #0000ff; color: #fff; }
+        .blue-pill:hover { background: #00ffff; }
+        .poll-results { margin-top: 20px; font-size: 16px; color: #00ff00; }
+        .game-popup p { font-size: 18px; margin: 20px 0; }
+        .game-result { white-space: pre; font-size: 14px; color: #ffff00; margin-top: 20px; }
+        .progress-bar { width: 80%; height: 20px; background: #333; border: 2px solid #00ff00; margin: 20px auto; }
+        .progress-fill { height: 100%; background: #00ff00; transition: width 0.5s ease; }
+        .mint-button { padding: 10px 20px; margin: 10px; background: #00ff00; color: #000; border: 2px solid #fff; cursor: pointer; }
+        .mint-button:hover { background: #ffff00; }
+        .close-button { padding: 10px 20px; background: #ff0000; color: #fff; border: 2px solid #fff; cursor: pointer; }
+        .close-button:hover { background: #ff00ff; }
+        .congrats { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); color: #ff00ff; font-size: 48px; text-align: center; padding-top: 20%; z-index: 15; text-shadow: 0 0 10px #ff00ff; animation: glow 1s ease-in-out infinite; }
+        #pixel-canvas { display: grid; grid-template-columns: repeat(16, 20px); grid-gap: 1px; background: #333; padding: 5px; margin: 20px auto; }
+        .pixel { width: 20px; height: 20px; background: #fff; border: 1px solid #000; cursor: pointer; }
+        .color-picker { margin: 10px 0; }
+        .color-picker button { width: 30px; height: 30px; margin: 0 5px; border: 2px solid #fff; cursor: pointer; }
+        .action-buttons { margin-top: 20px; }
+        .action-buttons button { padding: 10px 20px; margin: 0 10px; font-size: 16px; font-family: 'Courier New', Courier, monospace; cursor: pointer; border: 2px solid #fff; }
+        .download-button { background: #00ff00; color: #000; }
+        .download-button:hover { background: #ffff00; }
     </style>
 </head>
 <body class="crt">
@@ -479,29 +88,20 @@
     <div class="pulse-overlay"></div>
     <div class="wave"></div>
     <div class="hypno-container">
-        <h1>$Hypno On Hyper</h1>
-        <!-- Replace the src with your own Hypno chibi image URL or local file path -->
+        <h1>$Hypno On Hype</h1>
         <img src="Screenshot 2025-03-01 134512.png" alt="Hypno Chibi" class="hypno-img">
         <br>
         <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
-            <button class="hypno-button">Get Hypno</button>
+            <button class="hypno-button">Get $Hypno</button>
         </a>
     </div>
     <div class="footer">Copyright 2025 Urua Labs</div>
 
-    <!-- Pop-up button (right) -->
     <button class="popup-button" onclick="showPopup()">???</button>
-
-    <!-- Draw button (left) -->
     <button class="draw-button" onclick="showDrawPopup()">Draw Pixels</button>
-
-    <!-- WTF button (center) -->
     <button class="wtf-button" onclick="showWtfPopup()">WTF</button>
-
-    <!-- Game button (bottom center) -->
     <button class="game-button" onclick="startGame()">Game</button>
 
-    <!-- Pop-up content (right) -->
     <div class="popup" id="popup">
         <p>Do you want to learn more about Sam Sage's creation and why is he so f***** stupid?</p>
         <div class="popup-buttons">
@@ -510,9 +110,8 @@
         </div>
     </div>
 
-    <!-- Draw pop-up content (left) -->
     <div class="draw-popup" id="draw-popup">
-        <p>Draw!</p>
+        <p>Draw some pixels!</p>
         <div class="color-picker">
             <button style="background: #ffff00" onclick="setColor('#ffff00')"></button>
             <button style="background: #ff00ff" onclick="setColor('#ff00ff')"></button>
@@ -526,7 +125,6 @@
         </div>
     </div>
 
-    <!-- WTF pop-up content (center) -->
     <div class="wtf-popup" id="wtf-popup">
         <p>WTF Links</p>
         <ul class="wtf-menu">
@@ -539,41 +137,42 @@
         </div>
     </div>
 
-    <!-- Wen pop-up content -->
     <div class="wen-popup" id="wen-popup">
         <p>When you least expect it things happen and fast!</p>
         <div class="pill-buttons">
             <button class="red-pill" onclick="votePill('red')">Red Pill</button>
             <button class="blue-pill" onclick="votePill('blue')">Blue Pill</button>
         </div>
-        <div class="poll-results" id="poll-results">
-            Red: 0 | Blue: 0
-        </div>
+        <div class="poll-results" id="poll-results">Red: 0 | Blue: 0</div>
         <button class="close-button" onclick="closeWenPopup()">Close</button>
     </div>
 
-    <!-- Game pop-up content -->
     <div class="game-popup" id="game-popup">
-        <p id="game-text">Hypno Quest! Answer Yes or No to begin your journey.</p>
+        <p id="game-text">Welcome to the Hypno Quest! Answer Yes or No to begin your journey.</p>
         <div class="popup-buttons" id="game-buttons">
             <button onclick="answerGame('yes')">Yes</button>
             <button onclick="answerGame('no')">No</button>
         </div>
         <div class="game-result" id="game-result"></div>
-        <button class="close-button" onclick="closeGamePopup()" id="game-close" style="display: none;">Close</button>
+        <div class="progress-bar" id="mint-progress">
+            <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mint-count">Minted: 0 / 5000</p>
+        <div class="action-buttons" id="mint-actions" style="display: none;">
+            <button class="mint-button" onclick="mintNFT()">Mint for 0.01 HYPE</button>
+            <button class="close-button" onclick="closeGamePopup()">Close</button>
+        </div>
     </div>
 
-    <!-- Congratulations overlay -->
-    <div class="congrats" id="congrats">
-        CONGRATULATIONS!<br>You beat the game!
-    </div>
+    <div class="congrats" id="congrats">CONGRATULATIONS!<br>You beat the game!</div>
 
     <script>
-        let currentColor = '#ffff00'; // Default color: yellow
+        let currentColor = '#ffff00';
         let gameStep = 0;
         let answers = [];
+        let mintedCount = parseInt(localStorage.getItem('mintedCount')) || 0;
+        const maxMint = 5000;
 
-        // Game questions
         const questions = [
             "Do you dare to enter the Hypno Forest?",
             "Is the sky glowing with strange colors?",
@@ -587,75 +186,38 @@
             "Do you take the crystal and run?"
         ];
 
-        // Initialize pixel canvas
         const canvasDiv = document.getElementById('pixel-canvas');
-        for (let i = 0; i < 256; i++) { // 16x16 grid
+        for (let i = 0; i < 256; i++) {
             const pixel = document.createElement('div');
             pixel.className = 'pixel';
             pixel.addEventListener('click', () => pixel.style.background = currentColor);
             canvasDiv.appendChild(pixel);
         }
 
-        // Poll tracking with localStorage
         let redVotes = parseInt(localStorage.getItem('redVotes')) || 0;
         let blueVotes = parseInt(localStorage.getItem('blueVotes')) || 0;
         updatePollResults();
+        updateMintProgress();
 
-        function setColor(color) {
-            currentColor = color;
-        }
-
-        function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-        }
-
+        function setColor(color) { currentColor = color; }
+        function showPopup() { document.getElementById('popup').style.display = 'block'; }
         function showCongrats() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('congrats').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('congrats').style.display = 'none';
-                window.location.reload();
-            }, 3000);
+            setTimeout(() => { document.getElementById('congrats').style.display = 'none'; window.location.reload(); }, 3000);
         }
-
-        function showDrawPopup() {
-            document.getElementById('draw-popup').style.display = 'block';
-        }
-
-        function closeDrawPopup() {
-            document.getElementById('draw-popup').style.display = 'none';
-        }
-
-        function showWtfPopup() {
-            document.getElementById('wtf-popup').style.display = 'block';
-        }
-
-        function closeWtfPopup() {
-            document.getElementById('wtf-popup').style.display = 'none';
-        }
-
-        function showWenPopup() {
-            document.getElementById('wen-popup').style.display = 'block';
-        }
-
-        function closeWenPopup() {
-            document.getElementById('wen-popup').style.display = 'none';
-        }
-
+        function showDrawPopup() { document.getElementById('draw-popup').style.display = 'block'; }
+        function closeDrawPopup() { document.getElementById('draw-popup').style.display = 'none'; }
+        function showWtfPopup() { document.getElementById('wtf-popup').style.display = 'block'; }
+        function closeWtfPopup() { document.getElementById('wtf-popup').style.display = 'none'; }
+        function showWenPopup() { document.getElementById('wen-popup').style.display = 'block'; }
+        function closeWenPopup() { document.getElementById('wen-popup').style.display = 'none'; }
         function votePill(pill) {
-            if (pill === 'red') {
-                redVotes++;
-                localStorage.setItem('redVotes', redVotes);
-            } else if (pill === 'blue') {
-                blueVotes++;
-                localStorage.setItem('blueVotes', blueVotes);
-            }
+            if (pill === 'red') { redVotes++; localStorage.setItem('redVotes', redVotes); }
+            else if (pill === 'blue') { blueVotes++; localStorage.setItem('blueVotes', blueVotes); }
             updatePollResults();
         }
-
-        function updatePollResults() {
-            document.getElementById('poll-results').textContent = `Red: ${redVotes} | Blue: ${blueVotes}`;
-        }
+        function updatePollResults() { document.getElementById('poll-results').textContent = `Red: ${redVotes} | Blue: ${blueVotes}`; }
 
         function startGame() {
             gameStep = 0;
@@ -664,7 +226,7 @@
             document.getElementById('game-text').textContent = questions[gameStep];
             document.getElementById('game-buttons').style.display = 'block';
             document.getElementById('game-result').textContent = '';
-            document.getElementById('game-close').style.display = 'none';
+            document.getElementById('mint-actions').style.display = 'none';
         }
 
         function answerGame(choice) {
@@ -676,18 +238,20 @@
             } else {
                 document.getElementById('game-text').textContent = "Your journey is complete! Behold your fate:";
                 document.getElementById('game-buttons').style.display = 'none';
-                document.getElementById('game-close').style.display = 'block';
+                document.getElementById('mint-actions').style.display = 'block';
                 generateGameResult();
             }
         }
 
         function generateGameResult() {
+            const randTrait = Math.floor(Math.random() * 1000); // Additional randomization for millions of combos
             let character = answers[0] ? "Brave Wanderer" : "Cautious Traveler";
             let sky = answers[1] ? "Glowing Sky" : "Dark Sky";
             let weapon = answers[3] ? "Shiny Sword" : "Rusty Dagger";
             let enemy = answers[4] ? "Shadow Beast" : "Ghostly Figure";
             let setting = answers[6] && answers[7] ? "Mystic Cave" : "Haunted Forest";
             let treasure = answers[8] && answers[9] ? "Glowing Crystal" : "Old Coin";
+            let trait = randTrait % 2 === 0 ? "Golden Aura" : "Mystic Fog";
 
             const asciiArt = `
             ${sky === "Glowing Sky" ? "  ***  " : "  ---  "}
@@ -697,23 +261,67 @@
             ${enemy === "Shadow Beast" ? "  @@@  " : "  ~~~  "}
             ${setting === "Mystic Cave" ? "  ###  " : "  |||  "}
             ${treasure === "Glowing Crystal" ? "  ***  " : "  ooo  "}
+            ${trait === "Golden Aura" ? "  ***  " : "  ~~~  "}
             `;
             document.getElementById('game-result').textContent = asciiArt;
+
+            // Store art for minting
+            window.currentArt = { ascii: asciiArt, metadata: { character, sky, weapon, enemy, setting, treasure, trait, randTrait } };
         }
 
-        function closeGamePopup() {
-            document.getElementById('game-popup').style.display = 'none';
+        function mintNFT() {
+            if (mintedCount >= maxMint) {
+                alert("Minting limit reached! Only 5,000 NFTs can be minted.");
+                return;
+            }
+
+            // Simulate Hyperliquid minting (replace with actual API call)
+            const artHash = btoa(JSON.stringify(window.currentArt)); // Unique hash for NFT
+            mintedCount++;
+            localStorage.setItem('mintedCount', mintedCount);
+            updateMintProgress();
+
+            // Hyperliquid Minting Prep (Pseudo-code based on docs)
+            // Requires HyperEVM contract deployed at e.g., rpc.hyperliquid.xyz/evm
+            /*
+            const sdk = new HyperliquidSDK(); // Hypothetical SDK from https://github.com/hyperliquid-dex/hyperliquid-python-sdk
+            const nftContractAddress = "YOUR_CONTRACT_ADDRESS";
+            const metadata = {
+                name: `Hypno Quest #${mintedCount}`,
+                description: "A unique journey through Hypno's Lair",
+                image: "data:text/plain;base64," + btoa(window.currentArt.ascii),
+                attributes: Object.entries(window.currentArt.metadata).map(([k, v]) => ({ trait_type: k, value: v }))
+            };
+            const tx = {
+                type: "mint",
+                contract: nftContractAddress,
+                tokenId: mintedCount,
+                metadata: JSON.stringify(metadata),
+                value: "0.01" // 0.01 HYPE (assuming 18 decimals: 0.01 * 10^18 wei)
+            };
+            sdk.sendTransaction(tx, { privateKey: "YOUR_PRIVATE_KEY" })
+                .then(() => alert(`Minted NFT #${mintedCount} for 0.01 HYPE!`))
+                .catch(err => alert("Minting failed: " + err));
+            */
+
+            alert(`Simulated minting NFT #${mintedCount} for 0.01 HYPE! (Replace with Hyperliquid API call)`);
         }
+
+        function updateMintProgress() {
+            const percentage = (mintedCount / maxMint) * 100;
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+            document.getElementById('mint-count').textContent = `Minted: ${mintedCount} / ${maxMint}`;
+        }
+
+        function closeGamePopup() { document.getElementById('game-popup').style.display = 'none'; }
 
         function downloadCanvas() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = 16 * 20;
             canvas.height = 16 * 20;
-
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             const pixels = document.querySelectorAll('.pixel');
             pixels.forEach((pixel, index) => {
                 const x = (index % 16) * 20;
@@ -721,19 +329,11 @@
                 ctx.fillStyle = pixel.style.background || '#ffffff';
                 ctx.fillRect(x, y, 20, 20);
             });
-
             const link = document.createElement('a');
             link.download = 'hypno-pixel-art.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
         }
-
-        // Optional: Add a subtle hypnotic sound effect (uncomment if you add an audio file)
-        /*
-        const audio = new Audio('hypno-sound.mp3');
-        audio.loop = true;
-        audio.play();
-        */
     </script>
 </body>
 </html>
