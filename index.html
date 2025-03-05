@@ -3,191 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bitwell</title>
+    <title>Hypno's Lair</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #d6e9f7;
-            position: relative;
+            background: radial-gradient(circle, #1a0033, #000000);
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffccff;
+            text-align: center;
         }
 
-        /* Main Dropdown Menu */
-        .dropdown {
+        /* Hypnotic swirling background */
+        .swirl {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            display: inline-block;
+            width: 200%;
+            height: 200%;
+            background: url('https://via.placeholder.com/1500x1500?text=Hypnotic+Swirl') repeat;
+            animation: swirl 20s linear infinite;
+            opacity: 0.2;
+            z-index: -1;
         }
 
-        .dropdown .dropbtn {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
+        @keyframes swirl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 200px;
+        /* Hypno container */
+        .hypno-container {
             z-index: 1;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
-        .dropdown-content a:hover {
-            background-color: #444;
+        /* Hypno image */
+        .hypno-img {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 0 10px #ff00ff);
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Alternate Menu */
-        .alternate-menu {
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            background-color: #333;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .alternate-menu a {
-            color: white;
-            padding: 8px;
-            text-decoration: none;
-            margin-bottom: 5px;
-        }
-
-        .alternate-menu a:hover {
-            background-color: #444;
-            border-radius: 4px;
-        }
-
-        /* Carousel */
-        .carousel-container {
+        /* Button styling */
+        .hypno-button {
             margin-top: 20px;
-            width: 85%;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        .carousel-controls {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            width: 150px;
-        }
-
-        .carousel-controls button {
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #000;
+            background: #ffccff;
+            border: 3px solid #ff00ff;
             border-radius: 5px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .carousel-controls button:hover {
-            background-color: #444;
+        .hypno-button:hover {
+            background: #ff00ff;
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #ff00ff;
+        }
+
+        /* Nostalgic CRT effect */
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 2px;
+            z-index: 2;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 0.1; }
+        }
+
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #ff00ff; }
+            50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
         }
     </style>
 </head>
-<body>
-    <h1>Welcome to Bitwell</h1>
-
-    <!-- Main Menu -->
-    <div class="dropdown">
-        <button class="dropbtn">SAM SAGE EXPERIMENTS</button>
-        <div class="dropdown-content">
-            <a href="#" onclick="updateIframe(0)">Rare 78</a>
-            <a href="#" onclick="updateIframe(1)">Bitwell Punks</a>
-            <a href="#" onclick="updateIframe(2)">.well domain</a>
-            <a href="#" onclick="updateIframe(3)">Wishes from the Well</a>
-            <a href="#" onclick="updateIframe(4)">OG WISHING WELL</a>
-            <a href="#" onclick="updateIframe(5)">TXT ENCRYPTION WISH</a>
-            <a href="#" onclick="updateIframe(6)">Binary Wishes</a>
-            <a href="#" onclick="updateIframe(7)">Water Wishes</a>
-        </div>
-    </div>
-
-    <!-- Alternate Menu -->
-    <div class="alternate-menu">
-        <a href="https://open.spotify.com/artist/3o7QHIT3xAl7YM7nd9QiTk" target="_blank">Sam Sage Music - Spotify</a>
-    </div>
-
-    <!-- Carousel Container -->
-    <div class="carousel-container">
-        <iframe id="carouselIframe" src="https://magiceden.us/ordinals/marketplace/rare78" title="Carousel Viewer"></iframe>
-        <div class="carousel-controls">
-            <button onclick="prevItem()">Previous</button>
-            <button onclick="nextItem()">Next</button>
-        </div>
+<body class="crt">
+    <div class="swirl"></div>
+    <div class="hypno-container">
+        <h1>Welcome to Hypno's Lair</h1>
+        <!-- Replace the src with your own Hypno chibi image URL or local file path -->
+        <img src="Screenshot 2025-03-01 134512.png" class="hypno-img">
+        <br>
+        <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
+            <button class="hypno-button">Get Hypno</button>
+        </a>
     </div>
 
     <script>
-        const links = [
-            "https://magiceden.us/ordinals/marketplace/rare78",
-            "https://magiceden.us/ordinals/marketplace/bwp",
-            "https://idclub.io/market/domain/well",
-            "https://magiceden.us/ordinals/marketplace/wfw",
-            "https://magiceden.us/ordinals/marketplace/ogww",
-            "https://magiceden.us/ordinals/marketplace/txtww",
-            "https://magiceden.us/ordinals/marketplace/bw",
-            "https://magiceden.us/ordinals/marketplace/ww",
-        ];
-
-        let currentIndex = 0;
-
-        function updateIframe(index) {
-            const iframe = document.getElementById("carouselIframe");
-            iframe.src = links[index];
-        }
-
-        function prevItem() {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = links.length - 1;
-            }
-            updateIframe(currentIndex);
-        }
-
-        function nextItem() {
-            if (currentIndex < links.length - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
-            updateIframe(currentIndex);
-        }
+        // Optional: Add a subtle hypnotic sound effect (uncomment if you add an audio file)
+        /*
+        const audio = new Audio('hypno-sound.mp3');
+        audio.loop = true;
+        audio.play();
+        */
     </script>
 </body>
 </html>
