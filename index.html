@@ -155,7 +155,7 @@
             text-shadow: 0 0 5px #ff00ff;
         }
 
-        /* Pop-up styling */
+        /* Pop-up button (right) */
         .popup-button {
             position: absolute;
             top: 10px;
@@ -176,7 +176,29 @@
             color: #fff;
         }
 
-        .popup {
+        /* Draw button (left) */
+        .draw-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #ffff00;
+            color: #000;
+            border: 2px solid #000;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px #ffff00;
+        }
+
+        .draw-button:hover {
+            background: #ff00ff;
+            color: #fff;
+        }
+
+        /* Pop-up styling (shared) */
+        .popup, .draw-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -230,6 +252,49 @@
             text-shadow: 0 0 10px #ff00ff;
             animation: glow 1s ease-in-out infinite;
         }
+
+        /* Pixel canvas styling */
+        #pixel-canvas {
+            display: grid;
+            grid-template-columns: repeat(16, 20px);
+            grid-gap: 1px;
+            background: #333;
+            padding: 5px;
+            margin: 20px auto;
+        }
+
+        .pixel {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .color-picker {
+            margin: 10px 0;
+        }
+
+        .color-picker button {
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        .close-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff0000;
+            color: #fff;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background: #ff00ff;
+        }
     </style>
 </head>
 <body class="crt">
@@ -239,18 +304,21 @@
     <div class="hypno-container">
         <h1>$Hypno on Hype</h1>
         <!-- Replace the src with your own Hypno chibi image URL or local file path -->
-        <img src="Screenshot 2025-03-01 134512.png" alt="Hypno Chibi" class="hypno-img">
+        <img src="Screenshot 2025-03-01 134512.png" class="hypno-img">
         <br>
         <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
-            <button class="hypno-button">Get $Hypno</button>
+            <button class="hypno-button">Get Hypno</button>
         </a>
     </div>
     <div class="footer">Copyright 2025 Urua Labs</div>
 
-    <!-- Pop-up button -->
+    <!-- Pop-up button (right) -->
     <button class="popup-button" onclick="showPopup()">???</button>
 
-    <!-- Pop-up content -->
+    <!-- Draw button (left) -->
+    <button class="draw-button" onclick="showDrawPopup()">Draw Pixels</button>
+
+    <!-- Pop-up content (right) -->
     <div class="popup" id="popup">
         <p>Do you want to learn more about Sam Sage's creation and why is he so f***** stupid?</p>
         <div class="popup-buttons">
@@ -259,12 +327,40 @@
         </div>
     </div>
 
+    <!-- Draw pop-up content (left) -->
+    <div class="draw-popup" id="draw-popup">
+        <p>Draw some pixels!</p>
+        <div class="color-picker">
+            <button style="background: #ffff00" onclick="setColor('#ffff00')"></button>
+            <button style="background: #ff00ff" onclick="setColor('#ff00ff')"></button>
+            <button style="background: #ff0000" onclick="setColor('#ff0000')"></button>
+            <button style="background: #000000" onclick="setColor('#000000')"></button>
+        </div>
+        <div id="pixel-canvas"></div>
+        <button class="close-button" onclick="closeDrawPopup()">Close</button>
+    </div>
+
     <!-- Congratulations overlay -->
     <div class="congrats" id="congrats">
         CONGRATULATIONS!<br>You beat the game!
     </div>
 
     <script>
+        let currentColor = '#ffff00'; // Default color: yellow
+
+        // Initialize pixel canvas
+        const canvas = document.getElementById('pixel-canvas');
+        for (let i = 0; i < 256; i++) { // 16x16 grid
+            const pixel = document.createElement('div');
+            pixel.className = 'pixel';
+            pixel.addEventListener('click', () => pixel.style.background = currentColor);
+            canvas.appendChild(pixel);
+        }
+
+        function setColor(color) {
+            currentColor = color;
+        }
+
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
         }
@@ -274,9 +370,16 @@
             document.getElementById('congrats').style.display = 'block';
             setTimeout(() => {
                 document.getElementById('congrats').style.display = 'none';
-                // Since this is a single-page site, "back to homepage" just refreshes
                 window.location.reload();
-            }, 3000); // Shows congrats for 3 seconds
+            }, 3000);
+        }
+
+        function showDrawPopup() {
+            document.getElementById('draw-popup').style.display = 'block';
+        }
+
+        function closeDrawPopup() {
+            document.getElementById('draw-popup').style.display = 'none';
         }
 
         // Optional: Add a subtle hypnotic sound effect (uncomment if you add an audio file)
