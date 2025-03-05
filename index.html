@@ -17,6 +17,7 @@
             font-family: 'Courier New', Courier, monospace;
             color: #ffccff;
             text-align: center;
+            position: relative;
         }
 
         /* Hypnotic swirling background */
@@ -25,14 +26,44 @@
             width: 200%;
             height: 200%;
             background: url('https://via.placeholder.com/1500x1500?text=Hypnotic+Swirl') repeat;
-            animation: swirl 20s linear infinite;
-            opacity: 0.2;
+            animation: swirl 15s linear infinite;
+            opacity: 0.3;
             z-index: -1;
         }
 
         @keyframes swirl {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Pulsating overlay */
+        .pulse-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.2), transparent);
+            animation: pulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+        }
+
+        /* Hypnotic wave effect */
+        .wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+            animation: wave 10s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(-100%) skewX(30deg); }
+            100% { transform: translateX(100%) skewX(30deg); }
         }
 
         /* Hypno container */
@@ -46,11 +77,17 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* Hypno image */
+        /* Hypno image with rotation */
         .hypno-img {
             width: 200px;
             height: auto;
-            filter: drop-shadow(0 0 10px #ff00ff);
+            filter: drop-shadow(0 0 15px #ff00ff);
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Button styling */
@@ -107,19 +144,32 @@
             0%, 100% { text-shadow: 0 0 10px #ff00ff; }
             50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
         }
+
+        /* Copyright footer */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            font-size: 14px;
+            color: #ffccff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
     </style>
 </head>
 <body class="crt">
     <div class="swirl"></div>
+    <div class="pulse-overlay"></div>
+    <div class="wave"></div>
     <div class="hypno-container">
-        <h1>Welcome to Hypno's Lair</h1>
+        <h1>$Hypno's Lair</h1>
         <!-- Replace the src with your own Hypno chibi image URL or local file path -->
-        <img src="Screenshot 2025-03-01 134512.png" class="hypno-img">
+        <img src="Screenshot 2025-03-01 134512.png" alt="Hypno Chibi" class="hypno-img">
         <br>
         <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
-            <button class="hypno-button">Get Hypno</button>
+            <button class="hypno-button">Get $Hypno</button>
         </a>
     </div>
+    <div class="footer">Copyright 2025 Urua Labs</div>
 
     <script>
         // Optional: Add a subtle hypnotic sound effect (uncomment if you add an audio file)
