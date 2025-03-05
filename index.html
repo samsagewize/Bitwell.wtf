@@ -220,7 +220,7 @@
         }
 
         /* Pop-up styling (shared) */
-        .popup, .draw-popup, .wtf-popup {
+        .popup, .draw-popup, .wtf-popup, .wen-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -281,6 +281,79 @@
         .wtf-menu a:hover {
             background: #00ff00;
             color: #000;
+        }
+
+        /* Wen bubble */
+        .wen-button {
+            padding: 5px 15px;
+            margin-left: 10px;
+            font-size: 14px;
+            background: #ffff00;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px #ffff00;
+        }
+
+        .wen-button:hover {
+            background: #ff00ff;
+            color: #fff;
+        }
+
+        /* Wen pop-up styling */
+        .wen-popup {
+            width: 500px;
+            background: #000 url('https://via.placeholder.com/500x300?text=Retro+Web+BG') repeat;
+            border: 5px double #ff00ff;
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .wen-popup p {
+            font-size: 24px;
+            margin: 20px 0;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        .pill-buttons button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .red-pill {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .red-pill:hover {
+            background: #ff00ff;
+        }
+
+        .blue-pill {
+            background: #0000ff;
+            color: #fff;
+        }
+
+        .blue-pill:hover {
+            background: #00ffff;
+        }
+
+        .poll-results {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #00ff00;
         }
 
         .close-button {
@@ -376,7 +449,7 @@
         <img src="Screenshot 2025-03-01 134512.png" alt="Hypno Chibi" class="hypno-img">
         <br>
         <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
-            <button class="hypno-button">Get $Hypno</button>
+            <button class="hypno-button">Get Hypno</button>
         </a>
     </div>
     <div class="footer">Copyright 2025 Urua Labs</div>
@@ -417,12 +490,28 @@
 
     <!-- WTF pop-up content (center) -->
     <div class="wtf-popup" id="wtf-popup">
-        <p>WTF</p>
+        <p>WTF Links</p>
         <ul class="wtf-menu">
             <li><a href="https://pump.fun/coin/weArMCzqbGAcFTkd2mnTLgsbpDsoA2id5d26tATnkHW" target="_blank">Gucci On Solana</a></li>
             <li><a href="https://magiceden.io/ordinals/marketplace/rare78" target="_blank">Rare 78</a></li>
         </ul>
-        <button class="close-button" onclick="closeWtfPopup()">Close</button>
+        <div class="action-buttons">
+            <button class="close-button" onclick="closeWtfPopup()">Close</button>
+            <button class="wen-button" onclick="showWenPopup()">Wen?</button>
+        </div>
+    </div>
+
+    <!-- Wen pop-up content -->
+    <div class="wen-popup" id="wen-popup">
+        <p>When you least expect it things happen and fast!</p>
+        <div class="pill-buttons">
+            <button class="red-pill" onclick="votePill('red')">Red Pill</button>
+            <button class="blue-pill" onclick="votePill('blue')">Blue Pill</button>
+        </div>
+        <div class="poll-results" id="poll-results">
+            Red: 0 | Blue: 0
+        </div>
+        <button class="close-button" onclick="closeWenPopup()">Close</button>
     </div>
 
     <!-- Congratulations overlay -->
@@ -441,6 +530,11 @@
             pixel.addEventListener('click', () => pixel.style.background = currentColor);
             canvasDiv.appendChild(pixel);
         }
+
+        // Poll tracking with localStorage
+        let redVotes = parseInt(localStorage.getItem('redVotes')) || 0;
+        let blueVotes = parseInt(localStorage.getItem('blueVotes')) || 0;
+        updatePollResults();
 
         function setColor(color) {
             currentColor = color;
@@ -473,6 +567,29 @@
 
         function closeWtfPopup() {
             document.getElementById('wtf-popup').style.display = 'none';
+        }
+
+        function showWenPopup() {
+            document.getElementById('wen-popup').style.display = 'block';
+        }
+
+        function closeWenPopup() {
+            document.getElementById('wen-popup').style.display = 'none';
+        }
+
+        function votePill(pill) {
+            if (pill === 'red') {
+                redVotes++;
+                localStorage.setItem('redVotes', redVotes);
+            } else if (pill === 'blue') {
+                blueVotes++;
+                localStorage.setItem('blueVotes', blueVotes);
+            }
+            updatePollResults();
+        }
+
+        function updatePollResults() {
+            document.getElementById('poll-results').textContent = `Red: ${redVotes} | Blue: ${blueVotes}`;
         }
 
         function downloadCanvas() {
