@@ -197,8 +197,30 @@
             color: #fff;
         }
 
+        /* WTF button (center) */
+        .wtf-button {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #ff00ff;
+            color: #fff;
+            border: 2px solid #000;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px #ff00ff;
+        }
+
+        .wtf-button:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
         /* Pop-up styling (shared) */
-        .popup, .draw-popup {
+        .popup, .draw-popup, .wtf-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -233,6 +255,44 @@
         .popup-buttons button:hover {
             background: #ff00ff;
             color: #fff;
+        }
+
+        /* WTF menu styling */
+        .wtf-menu {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .wtf-menu li {
+            margin: 10px 0;
+        }
+
+        .wtf-menu a {
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border: 1px solid #00ff00;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .wtf-menu a:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .close-button {
+            padding: 10px 20px;
+            background: #ff0000;
+            color: #fff;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background: #ff00ff;
         }
 
         /* Congratulations overlay */
@@ -283,17 +343,26 @@
             cursor: pointer;
         }
 
-        .close-button {
+        .action-buttons {
             margin-top: 20px;
-            padding: 10px 20px;
-            background: #ff0000;
-            color: #fff;
-            border: 2px solid #fff;
-            cursor: pointer;
         }
 
-        .close-button:hover {
-            background: #ff00ff;
+        .action-buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .download-button {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .download-button:hover {
+            background: #ffff00;
         }
     </style>
 </head>
@@ -304,10 +373,10 @@
     <div class="hypno-container">
         <h1>$Hypno on Hype</h1>
         <!-- Replace the src with your own Hypno chibi image URL or local file path -->
-        <img src="Screenshot 2025-03-01 134512.png" class="hypno-img">
+        <img src="https://via.placeholder.com/200x200?text=Hypno+Chibi" alt="Hypno Chibi" class="hypno-img">
         <br>
         <a href="https://liquidlaunch.app/token/0x7a2a9d1eb6bd71553da6d4a62aa0592aebb013fa" target="_blank">
-            <button class="hypno-button">Get Hypno</button>
+            <button class="hypno-button">Get $Hypno</button>
         </a>
     </div>
     <div class="footer">Copyright 2025 Urua Labs</div>
@@ -317,6 +386,9 @@
 
     <!-- Draw button (left) -->
     <button class="draw-button" onclick="showDrawPopup()">Draw Pixels</button>
+
+    <!-- WTF button (center) -->
+    <button class="wtf-button" onclick="showWtfPopup()">WTF</button>
 
     <!-- Pop-up content (right) -->
     <div class="popup" id="popup">
@@ -337,7 +409,20 @@
             <button style="background: #000000" onclick="setColor('#000000')"></button>
         </div>
         <div id="pixel-canvas"></div>
-        <button class="close-button" onclick="closeDrawPopup()">Close</button>
+        <div class="action-buttons">
+            <button class="download-button" onclick="downloadCanvas()">Download</button>
+            <button class="close-button" onclick="closeDrawPopup()">Close</button>
+        </div>
+    </div>
+
+    <!-- WTF pop-up content (center) -->
+    <div class="wtf-popup" id="wtf-popup">
+        <p>WTF</p>
+        <ul class="wtf-menu">
+            <li><a href="https://pump.fun/coin/weArMCzqbGAcFTkd2mnTLgsbpDsoA2id5d26tATnkHW" target="_blank">Gucci On Solana</a></li>
+            <li><a href="https://magiceden.io/ordinals/marketplace/rare78" target="_blank">Rare 78</a></li>
+        </ul>
+        <button class="close-button" onclick="closeWtfPopup()">Close</button>
     </div>
 
     <!-- Congratulations overlay -->
@@ -349,12 +434,12 @@
         let currentColor = '#ffff00'; // Default color: yellow
 
         // Initialize pixel canvas
-        const canvas = document.getElementById('pixel-canvas');
+        const canvasDiv = document.getElementById('pixel-canvas');
         for (let i = 0; i < 256; i++) { // 16x16 grid
             const pixel = document.createElement('div');
             pixel.className = 'pixel';
             pixel.addEventListener('click', () => pixel.style.background = currentColor);
-            canvas.appendChild(pixel);
+            canvasDiv.appendChild(pixel);
         }
 
         function setColor(color) {
@@ -380,6 +465,37 @@
 
         function closeDrawPopup() {
             document.getElementById('draw-popup').style.display = 'none';
+        }
+
+        function showWtfPopup() {
+            document.getElementById('wtf-popup').style.display = 'block';
+        }
+
+        function closeWtfPopup() {
+            document.getElementById('wtf-popup').style.display = 'none';
+        }
+
+        function downloadCanvas() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 16 * 20;
+            canvas.height = 16 * 20;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const pixels = document.querySelectorAll('.pixel');
+            pixels.forEach((pixel, index) => {
+                const x = (index % 16) * 20;
+                const y = Math.floor(index / 16) * 20;
+                ctx.fillStyle = pixel.style.background || '#ffffff';
+                ctx.fillRect(x, y, 20, 20);
+            });
+
+            const link = document.createElement('a');
+            link.download = 'hypno-pixel-art.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         }
 
         // Optional: Add a subtle hypnotic sound effect (uncomment if you add an audio file)
