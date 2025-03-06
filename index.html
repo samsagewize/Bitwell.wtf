@@ -472,6 +472,21 @@
         .download-button:hover {
             background: #ffff00;
         }
+  }
+    .plastic-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+      backdrop-filter: blur(2px); /* Slight blur for texture */
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+      pointer-events: none; /* Allows clicks to pass through */
+      /* Optional: Add a subtle texture with a background image */
+      background-image: url('https://www.transparenttextures.com/patterns/crumpled-paper.png');
+      opacity: 0.8;
+    }
     </style>
 </head>
 <body class="crt">
